@@ -1,5 +1,4 @@
-export { useValidation } from './useValidation'
-export type { UseValidation } from './useValidation'
+export { useValidation, type UseValidation } from './useValidation'
 
 export { createValidation } from './createValidation'
 

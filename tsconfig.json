@@ -6,6 +6,7 @@
     "target": "ES2019",
     "module": "ES2020",
     "useDefineForClassFields": true,
+    "isolatedModules": true,
     "allowJs": false,
     "checkJs": false,
     "lib": ["ES2020", "DOM"],
@@ -22,5 +23,10 @@
     }
   },
   "include": ["packages/*/src", "packages/*/__tests__", "test-dts"],
-  "exclude": ["**/dist", "**/publish", "packages/examples", "packages/vue2-examples"]
+  "exclude": [
+    "**/dist",
+    "**/publish",
+    "packages/examples",
+    "packages/vue2-examples"
+  ]
 }

@@ -1,18 +1,9 @@
-import {
-  ComputedRef,
-  Ref,
-  UnwrapRef,
-  unref,
-  reactive,
-  isVue2,
-  set
-} from 'vue-demi'
+import { ComputedRef, Ref, UnwrapRef, unref, reactive, isVue2 } from 'vue-demi'
 
 import { Form } from './Form'
 import { FieldRule, RuleInformation } from './rules'
 import { VALIDATION_CONFIG } from './ValidationConfig'
 import * as nShared from '@compose-validation/shared'
-import { isArray } from '.pnpm/@vue+shared@3.2.26/node_modules/@vue/shared'
 
 export const isField = <T>(x: unknown): x is Field<T> =>
   nShared.isRecord(x) ? '$value' in x : false

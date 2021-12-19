@@ -297,7 +297,6 @@ describe('transformFormData', () => {
         $uid: expect.any(Number),
         $value: '',
         $errors: [],
-
         $hasError: false,
         $hasErrors: [false, false],
         $validating: false,

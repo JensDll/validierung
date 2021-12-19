@@ -1,35 +1,32 @@
 {
   "private": true,
-  "workspaces": [
-    "./packages/*"
-  ],
   "type": "module",
   "scripts": {
     "build": "node --experimental-loader esbuild-node-loader scripts/build.ts",
-    "dev": "node --experimental-loader esbuild-node-loader scripts/dev.ts --targets shared",
-    "vue3": "npm run dev --workspace=vue3-examples",
-    "lint": "npm exec -- eslint --rule=\"no-console: [\"error\", { allow: [\"warn\", \"error\"] }]\" --max-warnings 0 --fix-dry-run \"./packages/*/src/**/*.{ts,js}\"",
+    "dev": "node --experimental-loader esbuild-node-loader scripts/dev.ts --targets shared core",
+    "lint": "pnpm exec eslint --rule=\"no-console: [\"error\", { allow: [\"warn\", \"error\"] }]\" --max-warnings 0 --fix-dry-run \"./packages/*/src/**/*.{ts,js}\"",
     "test:2": "vue-demi-switch 2 vue2 && jest --runInBand",
     "test:3": "vue-demi-switch 3 && jest --runInBand",
-    "test-dts": "npm run build && npm exec -- tsd",
-    "test-dts-only": "npm exec -- tsd",
-    "test-all": "npm run test-dts && npm test",
+    "test:dts": "pnpm run build && npm exec tsd",
+    "test:dts-only": "pnpm exec tsd",
+    "test:all": "pnpm run test-dts && pnpm run test:2 && pnpm run test:3",
     "postinstall": "husky install"
   },
-  "types": "publish/dist/compose-validation.d.ts",
+  "types": "publish/dist/index.d.ts",
   "tsd": {
     "directory": "test-dts"
   },
   "dependencies": {
-    "@rollup/plugin-alias": "3.1.8",
     "@types/fs-extra": "9.0.13",
     "@types/jest": "27.0.3",
-    "@types/node": "17.0.0",
+    "@types/node": "17.0.1",
     "@types/yargs": "17.0.7",
     "@typescript-eslint/eslint-plugin": "5.7.0",
     "@typescript-eslint/parser": "5.7.0",
     "@vue/composition-api": "1.4.2",
+    "esbuild": "0.14.5",
     "esbuild-node-loader": "0.6.3",
+    "esbuild-register": "3.2.1",
     "eslint": "8.5.0",
     "execa": "6.0.0",
     "fs-extra": "10.0.0",
@@ -38,13 +35,12 @@
     "prettier": "2.5.1",
     "rollup": "2.61.1",
     "rollup-plugin-dts": "4.0.1",
-    "rollup-plugin-typescript2": "0.31.1",
+    "rollup-plugin-esbuild": "^4.7.2",
     "ts-jest": "27.1.2",
     "tsd": "0.19.0",
-    "yargs": "17.3.0",
     "typescript": "4.5.4",
-    "vue2": "npm:vue@2",
     "vue": "3.2.26",
-    "vue-demi": "latest"
+    "vue2": "npm:vue@^2.6.14",
+    "yargs": "17.3.0"
   }
 }

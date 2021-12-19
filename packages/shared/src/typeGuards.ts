@@ -1,4 +1,4 @@
-import { Key } from './types'
+import type { Key } from './types'
 
 export const isDefined = <T>(x: T | null | undefined): x is T =>
   x !== null && x !== undefined

@@ -3,6 +3,7 @@
     "target": "ESNext",
     "module": "ESNext",
     "useDefineForClassFields": true,
+    "isolatedModules": true,
     "allowJs": false,
     "checkJs": false,
     "downlevelIteration": true,
