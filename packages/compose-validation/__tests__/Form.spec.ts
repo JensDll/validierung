@@ -232,7 +232,7 @@ describe('validation', () => {
 
     expect(field.validating.value).toBe(true)
     expect(field.errors.value).toStrictEqual([])
-    expect(field.hasErrors).toStrictEqual([false])
+    expect(field.hasErrors.value).toStrictEqual([false])
     expect(rule).toBeCalledTimes(1)
     expect(rule).toBeCalledWith('foo')
 
@@ -240,7 +240,7 @@ describe('validation', () => {
 
     expect(field.validating.value).toBe(false)
     expect(field.errors.value).toStrictEqual(['Error message'])
-    expect(field.hasErrors).toStrictEqual([true])
+    expect(field.hasErrors.value).toStrictEqual([true])
   })
 
   it('should only call keyed rule when all fields are touched', () => {
@@ -418,7 +418,7 @@ describe('validation', () => {
 
       expect(field.rulesValidating.value).toBe(0)
       expect(form.rulesValidating.value).toBe(0)
-      expect(field.hasErrors).toStrictEqual([false, false])
+      expect(field.hasErrors.value).toStrictEqual([false, false])
 
       const promise2 = form.validate(1)
 
@@ -429,7 +429,7 @@ describe('validation', () => {
 
       expect(field.rulesValidating.value).toBe(0)
       expect(form.rulesValidating.value).toBe(0)
-      expect(field.hasErrors).toStrictEqual([true, true])
+      expect(field.hasErrors.value).toStrictEqual([true, true])
       expect(field.errors.value.sort()).toStrictEqual(['rule1', 'rule2'])
     }
   )

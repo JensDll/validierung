@@ -1,3 +1,5 @@
+import { set as vueSet, isVue3 } from 'vue-demi'
+
 import { Key } from './types'
 
 export function set(obj: any, keys: readonly Key[], value: any) {
@@ -5,22 +7,25 @@ export function set(obj: any, keys: readonly Key[], value: any) {
     return
   }
 
-  let o = obj as Record<Key, unknown>
   for (let i = 0; i < keys.length - 1; i++) {
     const key = keys[i]
     const nextKey = keys[i + 1]
-    const value = o[key]
+    const value = obj[key]
 
     if (value === undefined) {
       if (Number.isNaN(+nextKey)) {
-        o[key] = {}
+        obj[key] = {}
       } else {
-        o[key] = []
+        obj[key] = []
       }
     }
 
-    o = o[key] as any
+    obj = obj[key] as any
   }
 
-  o[keys[keys.length - 1]] = value
+  if (isVue3) {
+    obj[keys[keys.length - 1]] = value
+  } else {
+    vueSet(obj, keys[keys.length - 1], value)
+  }
 }

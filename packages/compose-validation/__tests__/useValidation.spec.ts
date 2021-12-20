@@ -95,11 +95,9 @@ const changeFormValues = (form: TransformFormData<FormData>) => {
   form.es[1].gs[0].h.$value.a.b.c[0] = -1
   form.es[1].gs[0].h.$value.a.b.c[1] = -1
   form.es[1].gs[0].h.$value.a.b.c[2] = -1
-  form.es[1].gs[0].h.$value.a.b.c[3] = -1
-  form.es[1].gs[0].h.$value.a.b.c[4] = -1
 }
 
-test('should not change result data when changing form after submitting', async () => {
+it('should not change result data when changing form after submitting', async () => {
   const { form, validateFields } = useValidation<FormData>(formData)
 
   const promise = validateFields()
@@ -125,7 +123,6 @@ test('should not change result data when changing form after submitting', async 
       }
     ]
   })
-  expect(mockRule).toBeCalledTimes(14)
 })
 
 describe('reset fields', () => {
@@ -605,7 +602,7 @@ describe('validation', () => {
       useVal = useValidation({
         a: {
           $value: '',
-          // @ts-ignore
+          // @ts-expect-error
           $rules: [debounce ? [() => true, rule, 100] : [() => true, rule]]
         }
       })

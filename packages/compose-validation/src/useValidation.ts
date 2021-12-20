@@ -1,4 +1,4 @@
-import { reactive, Ref, ComputedRef } from 'vue-demi'
+import { Ref, ComputedRef, isVue2 } from 'vue-demi'
 
 import * as nShared from '@compose-validation/shared'
 import { ValidationError } from './ValidationError'
@@ -49,7 +49,7 @@ export function useValidation<FormData extends object>(
 
   transformFormData(form, formData)
 
-  const transformedFormData: any = reactive(formData)
+  const transformedFormData: any = nShared.vue2Reactive(formData)
 
   return {
     form: transformedFormData,
@@ -90,8 +90,11 @@ export function useValidation<FormData extends object>(
       if (lastKey !== undefined) {
         const box = { [lastKey]: value }
         transformFormData(form, box)
-        const transformedValue = box[lastKey]
+        let transformedValue: any = box[lastKey]
         const valueAtPath = nShared.path(path, transformedFormData)
+        if (isVue2) {
+          transformedValue = nShared.vue2Reactive(transformedValue)
+        }
         if (Array.isArray(valueAtPath)) {
           valueAtPath.push(transformedValue)
         } else {

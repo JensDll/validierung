@@ -1,7 +1,7 @@
 import { expectType } from 'tsd'
 
-import { MaybeRef } from 'shared'
-import { ResultFormData } from 'vue3-form-validation'
+import { MaybeRef } from '@compose-validation/shared'
+import { ResultFormData } from 'compose-validation'
 
 expectType<
   ResultFormData<{

@@ -16,7 +16,7 @@ export type {
 export type { SimpleRule, KeyedRule } from './rules'
 
 export type {
-  CustomValidationBehaviorFunctions,
+  ValidationBehaviorFunctions,
   ValidationBehavior,
   ValidationBehaviorFunction,
   ValidationBehaviorString,

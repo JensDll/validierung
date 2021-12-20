@@ -1,11 +1,12 @@
 import {
-  reactive,
   computed,
   ref,
   watch,
   WatchStopHandle,
+  isVue3,
+  set,
   Ref,
-  isVue3
+  ComputedRef
 } from 'vue-demi'
 
 import { Form, Validator, ValidatorParameters } from './Form'
@@ -36,11 +37,15 @@ export class FormField {
   touched = ref(false)
   dirty = ref(false)
   modelValue: Ref<any>
-  rawErrors: (string | null)[]
-  errors = computed(() => this.rawErrors.filter(nShared.isDefined))
-  validating = computed(() => this.rulesValidating.value > 0)
-  hasError = computed(() => this.errors.value.length > 0)
-  hasErrors: boolean[]
+  rawErrors: Ref<(string | null)[]>
+  errors: ComputedRef<string[]> = computed(() =>
+    this.rawErrors.value.filter(nShared.isDefined)
+  )
+  validating: ComputedRef<boolean> = computed(
+    () => this.rulesValidating.value > 0
+  )
+  hasError: ComputedRef<boolean> = computed(() => this.errors.value.length > 0)
+  hasErrors: Ref<boolean[]>
 
   constructor(
     form: Form,
@@ -53,14 +58,14 @@ export class FormField {
     this.uid = uid
     this.name = name
     this.modelValue = ref(modelValue)
-    this.rawErrors = reactive(ruleInfos.map(() => null))
-    this.hasErrors = reactive(ruleInfos.map(() => false))
+    this.rawErrors = ref(ruleInfos.map(() => null))
+    this.hasErrors = ref(ruleInfos.map(() => false))
     this.initialModelValue = nShared.deepCopy(this.modelValue.value)
 
     this.ruleInfos = ruleInfos.map((info, ruleNumber) => {
       let validator: Validator
       const validatorNotDebounced: Validator = (modelValues, force, submit) => {
-        if (this.shouldValidate(ruleNumber, force, submit) === true) {
+        if (this.shouldValidate(ruleNumber, force, submit)) {
           return this.validate(ruleNumber, modelValues)
         }
       }
@@ -83,7 +88,7 @@ export class FormField {
         )
 
         validator = (modelValues, force, submit) => {
-          if (this.shouldValidate(ruleNumber, force, submit) === true) {
+          if (this.shouldValidate(ruleNumber, force, submit)) {
             debounceInvokedTimes++
             this.rulesValidating.value++
             this.form.rulesValidating.value++
@@ -153,14 +158,12 @@ export class FormField {
         this.form.rulesValidating.value--
         this.setError(ruleNumber, error)
       } else {
-        /**
-         * This branch is reached in one of two cases:
-         * 1. While this rule was validating the same async rule was invoked again.
-         * 2. While this rule was validating the field was reset.
-         *
-         * In both cases, no error is to be set but the promise should still reject
-         * if the rule returns a string.
-         */
+        // This branch is reached in one of two cases:
+        // 1. While this rule was validating the same async rule was invoked again.
+        // 2. While this rule was validating the field was reset.
+        //
+        // In both cases, no error is to be set but the promise should still reject
+        // if the rule returns a string.
         if (typeof error === 'string') {
           throw error
         }
@@ -179,8 +182,9 @@ export class FormField {
     this.rulesValidating.value = 0
     this.form.rulesValidating.value = 0
 
-    for (let i = 0; i < this.ruleInfos.length; i++) {
-      this.rawErrors[i] = null
+    for (let i = 0; i < this.ruleInfos.length; ++i) {
+      this.rawErrors.value[i] = null
+      this.hasErrors.value[i] = false
       this.ruleInfos[i].cancelDebounce()
       for (const shouldSetError of this.ruleInfos[i].buffer.nodesForwards()) {
         shouldSetError.value = false
@@ -192,7 +196,7 @@ export class FormField {
 
   dispose() {
     if (isVue3) {
-      // @ts-ignore
+      // @ts-ignore Stop is only available in Vue3
       this.errors.effect.stop()
       // @ts-ignore
       this.validating.effect.stop()
@@ -204,7 +208,7 @@ export class FormField {
 
   shouldValidate(ruleNumber: number, force: boolean, submit: boolean) {
     return this.ruleInfos[ruleNumber].validationBehavior({
-      hasError: this.rawErrors[ruleNumber] !== null,
+      hasError: this.rawErrors.value[ruleNumber] !== null,
       touched: this.touched.value,
       dirty: this.dirty.value,
       force,
@@ -215,12 +219,22 @@ export class FormField {
 
   private setError(ruleNumber: any, error: unknown) {
     if (typeof error === 'string') {
-      this.rawErrors[ruleNumber] = error
-      this.hasErrors[ruleNumber] = true
+      if (isVue3) {
+        this.rawErrors.value[ruleNumber] = error
+        this.hasErrors.value[ruleNumber] = true
+      } else {
+        set(this.rawErrors.value, ruleNumber, error)
+        set(this.hasErrors.value, ruleNumber, true)
+      }
       throw error
     } else {
-      this.rawErrors[ruleNumber] = null
-      this.hasErrors[ruleNumber] = false
+      if (isVue3) {
+        this.rawErrors.value[ruleNumber] = null
+        this.hasErrors.value[ruleNumber] = false
+      } else {
+        set(this.rawErrors.value, ruleNumber, null)
+        set(this.hasErrors.value, ruleNumber, false)
+      }
     }
   }
 

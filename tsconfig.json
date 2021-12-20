@@ -1,10 +1,7 @@
 {
   "compilerOptions": {
-    "declaration": true,
-    "declarationMap": true,
-    "outDir": "dist",
     "target": "ES2019",
-    "module": "ES2020",
+    "module": "ESNext",
     "useDefineForClassFields": true,
     "isolatedModules": true,
     "allowJs": false,
@@ -22,11 +19,6 @@
       "@compose-validation/*": ["packages/*/src"]
     }
   },
-  "include": ["packages/*/src", "packages/*/__tests__", "test-dts"],
-  "exclude": [
-    "**/dist",
-    "**/publish",
-    "packages/examples",
-    "packages/vue2-examples"
-  ]
+  "include": ["packages/*/src", "packages/*/__tests__", "test-dts", "scripts"],
+  "exclude": ["**/dist", "**/publish"]
 }

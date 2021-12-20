@@ -12,11 +12,15 @@
     "test:all": "pnpm run test-dts && pnpm run test:2 && pnpm run test:3",
     "postinstall": "husky install"
   },
-  "types": "publish/dist/index.d.ts",
   "tsd": {
     "directory": "test-dts"
   },
   "dependencies": {
+    "compose-validation": "workspace:*",
+    "@compose-validation/shared": "workspace:*",
+    "@compose-validation/jest-helper": "workspace:*",
+    "@rollup/plugin-alias": "^3.1.8",
+    "@rollup/plugin-node-resolve": "13.1.1",
     "@types/fs-extra": "9.0.13",
     "@types/jest": "27.0.3",
     "@types/node": "17.0.1",
@@ -24,7 +28,7 @@
     "@typescript-eslint/eslint-plugin": "5.7.0",
     "@typescript-eslint/parser": "5.7.0",
     "@vue/composition-api": "1.4.2",
-    "esbuild": "0.14.5",
+    "esbuild": "0.14.6",
     "esbuild-node-loader": "0.6.3",
     "esbuild-register": "3.2.1",
     "eslint": "8.5.0",
@@ -35,7 +39,7 @@
     "prettier": "2.5.1",
     "rollup": "2.61.1",
     "rollup-plugin-dts": "4.0.1",
-    "rollup-plugin-esbuild": "^4.7.2",
+    "rollup-plugin-esbuild": "4.7.2",
     "ts-jest": "27.1.2",
     "tsd": "0.19.0",
     "typescript": "4.5.4",

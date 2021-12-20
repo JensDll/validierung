@@ -1,6 +1,16 @@
 {
   "private": true,
-  "name": "jest-helper",
-  "type": "module",
+  "name": "@compose-validation/jest-helper",
+  "license": "MIT",
+  "author": {
+    "name": "Jens Döllmann",
+    "email": "jens@doellmann.com",
+    "url": "<https://github.com/JensDll>"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JensDll/compose-validation",
+    "directory": "packages/jest-helper"
+  },
   "sideEffects": false
 }

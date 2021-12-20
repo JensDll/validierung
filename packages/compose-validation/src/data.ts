@@ -1,4 +1,4 @@
-import { ComputedRef, Ref, UnwrapRef, unref, reactive, isVue2 } from 'vue-demi'
+import { ComputedRef, Ref, UnwrapRef, unref } from 'vue-demi'
 
 import { Form } from './Form'
 import { FieldRule, RuleInformation } from './rules'
@@ -104,14 +104,14 @@ export function registerField(
   }
 }
 
-export function transformFormData(form: Form, formData: object) {
+export function transformFormData(form: Form, formData: any) {
   for (const { key, value, parent } of nShared.deepIterator(
     formData,
     isField
   )) {
     if (isField(value)) {
       const transformedField = registerField(form, key, value)
-      parent[key] = isVue2 ? reactive(transformedField) : transformedField
+      parent[key] = transformedField
     }
   }
 }
@@ -132,7 +132,7 @@ export function getResultFormData(
       const unpackedValue = isTransformedField(value)
         ? value.$value
         : unref(value)
-      if (predicate({ key, value: unpackedValue, path }) === true) {
+      if (predicate({ key, value: unpackedValue, path })) {
         nShared.set(result, path, nShared.deepCopy(unpackedValue))
       }
     }

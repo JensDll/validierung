@@ -1,6 +1,6 @@
-export type ValidationBehaviorString = keyof CustomValidationBehaviorFunctions
+export type ValidationBehaviorString = keyof ValidationBehaviorFunctions
 
-export interface CustomValidationBehaviorFunctions {}
+export interface ValidationBehaviorFunctions {}
 
 export type ValidationBehaviorInfo<T = any> = {
   /**

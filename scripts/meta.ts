@@ -1,20 +1,43 @@
-import type { ModuleFormat } from 'rollup'
+import { ModuleFormat } from 'rollup'
+
+export type PackageOutput = {
+  format: ModuleFormat
+  fileName: string
+}
 
 export type Package = {
   name: string
-  outputFormats: ModuleFormat[]
+  output: PackageOutput[]
   external: string[]
 }
 
 export const packages: Package[] = [
   {
     name: 'shared',
-    outputFormats: ['esm', 'cjs'],
+    output: [
+      {
+        format: 'esm',
+        fileName: 'index.mjs'
+      },
+      {
+        format: 'cjs',
+        fileName: 'index.cjs'
+      }
+    ],
     external: ['vue-demi']
   },
   {
-    name: 'core',
-    outputFormats: ['esm', 'cjs'],
-    external: ['vue-demi', '@compose-validation/shared']
+    name: 'compose-validation',
+    output: [
+      {
+        format: 'esm',
+        fileName: 'index.mjs'
+      },
+      {
+        format: 'cjs',
+        fileName: 'index.cjs'
+      }
+    ],
+    external: ['vue-demi']
   }
 ]

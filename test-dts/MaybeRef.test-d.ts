@@ -1,7 +1,7 @@
 import { expectType } from 'tsd'
 import { Ref } from 'vue'
 
-import { MaybeRef } from 'shared'
+import { MaybeRef } from '@compose-validation/shared'
 
 expectType<number | Ref<number>>({} as MaybeRef<number>)
 

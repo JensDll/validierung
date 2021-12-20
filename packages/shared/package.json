@@ -1,20 +1,12 @@
 {
+  "private": true,
   "name": "@compose-validation/shared",
-  "version": "0.0.0",
+  "license": "MIT",
   "author": {
     "name": "Jens Döllmann",
     "email": "jens@doellmann.com",
     "url": "<https://github.com/JensDll>"
   },
-  "sideEffects": false,
-  "type": "module",
-  "main": "dist/index.cjs.js",
-  "types": "dist/index.d.ts",
-  "exports": {
-    "import": "./dist/index.esm.js",
-    "require": "./dist/index.cjs.js"
-  },
-  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/JensDll/compose-validation",
@@ -27,6 +19,17 @@
     "utils",
     "vue-use"
   ],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "module": "dist/index.mjs",
+  "main": "dist/index.cjs",
+  "types": "dist/index.d.ts",
   "dependencies": {
     "vue-demi": "*"
   },

@@ -1,7 +1,6 @@
-import { reactive } from 'vue-demi'
 import { MockedObject } from 'ts-jest/dist/utils/testing'
 
-import { Tuple } from '@compose-validation/shared'
+import { Tuple, vue2Reactive } from '@compose-validation/shared'
 import { makeMocks } from '@compose-validation/jest-helper'
 import {
   Field,
@@ -63,7 +62,7 @@ beforeEach(() => {
   }
   form = new Form() as any
   transformFormData(form, formData)
-  transformedFormData = reactive(formData) as any
+  transformedFormData = vue2Reactive(formData) as any
 })
 
 describe('mapFieldRules', () => {
@@ -279,7 +278,7 @@ describe('mapFieldRules', () => {
 })
 
 describe('transformFormData', () => {
-  it.only('should transform every field', () => {
+  it('should transform every field', () => {
     expect(transformedFormData).toStrictEqual({
       a: {
         $uid: expect.any(Number),
