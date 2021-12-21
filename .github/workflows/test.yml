@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  test-vue-2:
+  vue-2:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -27,12 +27,12 @@ jobs:
           cache: 'pnpm'
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install && env
 
       - name: Run tests
         run: pnpm run test:2
 
-  test-vue-3:
+  vue-3:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -55,7 +55,7 @@ jobs:
       - name: Run tests
         run: pnpm run test:3
 
-  test-dts:
+  dts:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
