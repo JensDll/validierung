@@ -22,5 +22,10 @@ function linkVue3() {
   )
 }
 
-await Promise.all(linkVue3())
-await Promise.all(linkVue2())
+if (process.env.CI !== 'true') {
+  await run('husky', ['install'])
+  await Promise.all(linkVue3())
+  await Promise.all(linkVue2())
+} else {
+  console.log('Skipping postinstall in CI')
+}
