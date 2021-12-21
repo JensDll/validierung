@@ -1,8 +1,11 @@
+function hasVuePeerDependency(pkg) {
+  return pkg.peerDependencies && pkg.peerDependencies.vue
+}
+
 function readPackage(pkg, context) {
-  if (pkg.name === '@vue/composition-api') {
-    pkg.peerDependencies.vue2 = pkg.peerDependencies.vue
+  if (hasVuePeerDependency(pkg)) {
+    context.log(`Deleting vue peer dependency for ${pkg.name}`)
     delete pkg.peerDependencies.vue
-    context.log(`Patch peer dependency in ${pkg.name} (rename vue to vue2)`)
   }
 
   return pkg

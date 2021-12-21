@@ -20,5 +20,5 @@
     }
   },
   "include": ["packages/*/src", "packages/*/__tests__", "test-dts", "scripts"],
-  "exclude": ["**/dist", "**/publish"]
+  "exclude": ["**/dist", "**/publish", "examples"]
 }
