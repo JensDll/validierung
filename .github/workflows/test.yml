@@ -9,40 +9,74 @@ on:
       - main
 
 jobs:
-  test:
+  test-vue-2:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+
       - name: Install pnpm
         uses: pnpm/action-setup@v2.0.1
         with:
           version: 6.x.x
+
       - name: Set node version to 16
         uses: actions/setup-node@v2
         with:
           node-version: 16
           cache: 'pnpm'
+
       - name: Install dependencies
         run: pnpm install
+
+      - name: Run tests
+        run: pnpm run test:2
+
+  test-vue-3:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.x.x
+
+      - name: Set node version to 16
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run tests
+        run: pnpm run test:3
+
+  test-dts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.x.x
+
+      - name: Set node version to 16
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
       - name: Build the project
         run: pnpm run build
-      - name: Echo debug information
-        env:
-          STEPS_CONTEXT: ${{ toJSON(steps) }}
-        run: |
-          pwd
-          echo "==================================="
-          ls -la
-          echo "==================================="
-          echo "Node version: $(node --version)"
-          echo "==================================="
-          echo "Pnpm version: $(pnpm --version)"
-          echo "==================================="
-          env
-      - name: Unit tests for Vue 2
-        run: pnpm run test:2
-      - name: Unit tests for Vue 3
-        run: pnpm run test:3
-      - name: Testing type definitions
+
+      - name: Run tests
         run: pnpm run test:dts-only
