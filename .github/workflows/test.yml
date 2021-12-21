@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -40,21 +40,9 @@ jobs:
           echo "Pnpm version: $(pnpm --version)"
           echo "==================================="
           env
-
-  test-unit:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Echo debug information
-        env:
-          STEPS_CONTEXT: ${{ toJSON(steps) }}
-        run: |
-          pwd
-          echo "==================================="
-          ls -la
-          echo "==================================="
-          echo "Node version: $(node --version)"
-          echo "==================================="
-          echo "Pnpm version: $(pnpm --version)"
-          echo "==================================="
-          env
+      - name: Unit tests for Vue 2
+        run: pnpm run test:2
+      - name: Unit tests for Vue 3
+        run: pnpm run test:3
+      - name: Testing type definitions
+        run: pnpm run test:dts-only
