@@ -8,6 +8,6 @@
   },
   "dependencies": {
     "@vitejs/plugin-vue": "2.0.1",
-    "vue-tsc": "0.29.8"
+    "vue-tsc": "0.30.0"
   }
 }
