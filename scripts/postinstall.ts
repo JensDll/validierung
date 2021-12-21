@@ -25,3 +25,4 @@ function linkVue3() {
 await run('husky', ['install'])
 await Promise.all(linkVue3())
 await Promise.all(linkVue2())
+await run('vue-demi-switch', ['3', 'vue3'])

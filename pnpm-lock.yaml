@@ -46,7 +46,7 @@ importers:
       '@types/yargs': 17.0.7
       '@typescript-eslint/eslint-plugin': 5.8.0_836011a006f4f5d67178564baf2b6d34
       '@typescript-eslint/parser': 5.8.0_eslint@8.5.0+typescript@4.5.4
-      '@vue/composition-api': 1.4.2_vue@2.6.14
+      '@vue/composition-api': 1.4.2
       compose-validation: link:packages/compose-validation
       esbuild: 0.14.7
       esbuild-node-loader: 0.6.3_typescript@4.5.4
@@ -96,11 +96,11 @@ importers:
     devDependencies:
       vue: link:../../../../../vue3
 
-  node_modules/.pnpm/@vue+composition-api@1.4.2_vue@2.6.14/node_modules/@vue/composition-api:
+  node_modules/.pnpm/vue-template-compiler@2.6.14/node_modules/vue-template-compiler:
     specifiers:
-      vue: ^2.6.14
+      vue: file:../..
     devDependencies:
-      vue: link:../../../../../vue2
+      vue: link:../../../../vue2
 
   packages/compose-validation:
     specifiers:
@@ -1384,13 +1384,10 @@ packages:
       prettier: 2.5.1
     dev: false
 
-  /@vue/composition-api/1.4.2_vue@2.6.14:
+  /@vue/composition-api/1.4.2:
     resolution: {integrity: sha512-EqybqmMq835GISvlQXdDaV8dsbunpdmhClrnAqUJZLyxxV9pQXQYRtNDf+0e+fEwMfimLIsv7YmbKCbqxGRqXg==}
-    peerDependencies:
-      vue2: '>= 2.5 < 3'
     dependencies:
       tslib: 2.3.1
-      vue2: /vue/2.6.14
     dev: false
 
   /@vue/reactivity-transform/3.2.26:
@@ -5743,7 +5740,7 @@ packages:
       '@vue/composition-api':
         optional: true
     dependencies:
-      '@vue/composition-api': 1.4.2_vue@2.6.14
+      '@vue/composition-api': 1.4.2
     dev: false
 
   /vue-template-compiler/2.6.14:
