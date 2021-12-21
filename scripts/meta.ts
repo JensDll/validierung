@@ -41,3 +41,6 @@ export const packages: Package[] = [
     external: ['vue-demi']
   }
 ]
+
+export const vue2Dependents = ['@vue/composition-api', 'vue-template-compiler']
+export const vue3Dependents = ['@vue/server-renderer', '@vitejs/plugin-vue']
