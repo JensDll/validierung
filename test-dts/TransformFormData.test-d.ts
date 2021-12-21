@@ -1,5 +1,5 @@
 import { expectType } from 'tsd'
-import { Ref } from 'vue'
+import { Ref } from 'vue-demi'
 
 import { MaybeRef } from '@compose-validation/shared'
 import { TransformFormData, TransformedField, Field } from 'compose-validation'

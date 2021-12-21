@@ -46,13 +46,13 @@ it('should make nested object reactive', () => {
           ds: [
             {
               e: {
-                f: 2
+                f: 1
               }
             }
           ]
         },
         {
-          g: 3
+          g: 1
         },
         'foo',
         'bar'

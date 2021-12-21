@@ -23,7 +23,9 @@ for (const { name, external, output } of packages) {
       nodeResolve({
         resolveOnly: ['@compose-validation/shared']
       }),
-      esbuild()
+      esbuild({
+        target: 'ES2019'
+      })
     ]
   }
 

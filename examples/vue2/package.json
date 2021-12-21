@@ -2,7 +2,7 @@
   "name": "vue2-examples",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
+    "dev": "vue-demi-switch 2 vue2 && vite",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview --port 5050"
   },

@@ -1,6 +1,8 @@
 import type { Ref } from 'vue-demi'
 
-export type Key = string | number
+export type Key = string | number | symbol
+
+export type AnyRecord = Record<Key, any>
 
 export type DeepIndex<T, Ks extends readonly Key[], R = unknown> = Ks extends [
   infer First,

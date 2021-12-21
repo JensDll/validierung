@@ -2,7 +2,7 @@
   "name": "vue3-examples",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
+    "dev": "vue-demi-switch 3 vue3' && vite",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview --port 5050"
   },

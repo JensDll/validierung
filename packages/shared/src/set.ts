@@ -13,7 +13,7 @@ export function set(obj: any, keys: readonly Key[], value: any) {
     const value = obj[key]
 
     if (value === undefined) {
-      if (Number.isNaN(+nextKey)) {
+      if (typeof nextKey !== 'symbol' && Number.isNaN(+nextKey)) {
         obj[key] = {}
       } else {
         obj[key] = []

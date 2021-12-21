@@ -1,4 +1,4 @@
-import { Ref, ComputedRef, isVue2 } from 'vue-demi'
+import { Ref, ComputedRef, isVue2, isVue3, del } from 'vue-demi'
 
 import * as nShared from '@compose-validation/shared'
 import { ValidationError } from './ValidationError'
@@ -61,13 +61,13 @@ export function useValidation<FormData extends object>(
     async validateFields({ names, predicate } = {}) {
       form.submitting.value = true
 
-      const resultFormData = getResultFormData(
+      const resultFormData: ResultFormData<FormData> = getResultFormData(
         transformedFormData,
         predicate
-      ) as ResultFormData<FormData>
+      )
 
       try {
-        await promiseCancel.race(form.validateAll(names as any))
+        await promiseCancel.race(form.validateAll(names))
       } finally {
         form.submitting.value = false
       }
@@ -91,10 +91,13 @@ export function useValidation<FormData extends object>(
         const box = { [lastKey]: value }
         transformFormData(form, box)
         let transformedValue: any = box[lastKey]
+
         const valueAtPath = nShared.path(path, transformedFormData)
+
         if (isVue2) {
           transformedValue = nShared.vue2Reactive(transformedValue)
         }
+
         if (Array.isArray(valueAtPath)) {
           valueAtPath.push(transformedValue)
         } else {
@@ -106,19 +109,27 @@ export function useValidation<FormData extends object>(
     remove(path) {
       const lastKey = path.pop()
 
-      if (lastKey !== undefined) {
-        if (path.length === 0) {
-          disposeForm(form, transformedFormData[lastKey])
-          delete transformedFormData[lastKey]
+      if (lastKey === undefined) {
+        return
+      }
+
+      if (path.length === 0) {
+        disposeForm(form, transformedFormData[lastKey])
+
+        isVue3
+          ? delete transformedFormData[lastKey]
+          : del(transformedFormData, lastKey)
+      } else {
+        const valueAtPath = nShared.path(path, transformedFormData)
+
+        if (Array.isArray(valueAtPath)) {
+          const deletedFormData = valueAtPath.splice(+lastKey, 1)
+
+          disposeForm(form, deletedFormData)
         } else {
-          const valueAtPath = nShared.path(path, transformedFormData)
-          if (Array.isArray(valueAtPath)) {
-            const deletedFormData = valueAtPath.splice(+lastKey, 1)
-            disposeForm(form, deletedFormData)
-          } else {
-            disposeForm(form, valueAtPath[lastKey])
-            delete valueAtPath[lastKey]
-          }
+          disposeForm(form, valueAtPath[lastKey])
+
+          isVue3 ? delete valueAtPath[lastKey] : del(valueAtPath, lastKey)
         }
       }
     }
@@ -164,8 +175,6 @@ export type UseValidation<FormData extends object> = {
     names?: FieldNames<FormData>[]
     /**
      * Filter which values to keep in the resulting form data.
-     *
-     * @remarks
      * Used like `Array.prototype.filter`.
      *
      * @default
@@ -175,12 +184,10 @@ export type UseValidation<FormData extends object> = {
      */
     predicate?: (
       value: Omit<nShared.DeepIteratorResult, 'isLeaf' | 'parent'>
-    ) => unknown
+    ) => boolean
   }): Promise<ResultFormData<FormData>>
   /**
    * Reset all fields to their default value or pass an object to set specific values.
-   *
-   * @remarks
    * It will not create any new fields not present in the form data initially.
    *
    * @param formData - Form data to set specific values. It has the same structure as the object passed to `useValidation`

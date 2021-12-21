@@ -120,7 +120,7 @@ export function getResultFormData(
   transformedFormData: any,
   predicate: (
     value: Omit<nShared.DeepIteratorResult, 'isLeaf' | 'parent'>
-  ) => unknown = () => true
+  ) => boolean = () => true
 ): any {
   const result = {}
 

@@ -1,10 +1,82 @@
-<script setup lang="ts">
+<script lang="ts">
 import { useValidation } from 'compose-validation'
-console.log(useValidation({}))
+import { defineComponent, ref, watch } from '@vue/composition-api'
+
+export default defineComponent({
+  setup() {
+    const a = ref('')
+    const useVal = useValidation({
+      name: {
+        $value: a,
+        $rules: [
+          [
+            'change',
+            (name: string) => {
+              if (!name) {
+                return 'Name'
+              }
+            }
+          ]
+        ]
+      },
+      a: {
+        b: {
+          cs: [
+            {
+              d: {
+                $value: [],
+                $rules: [
+                  [
+                    'change',
+                    (x: any[]) => {
+                      if (!x.length) {
+                        return 'bla'
+                      }
+                    }
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    })
+
+    async function handleSubmit() {
+      try {
+        const formData = await useVal.validateFields()
+        console.log(JSON.stringify(formData, null, 2))
+      } catch (e) {
+        console.log(e)
+      }
+    }
+
+    return { ...useVal, handleSubmit }
+  }
+})
 </script>
 
 <template>
-  <h1>Hello Vue 2</h1>
+  <form @submit.prevent="handleSubmit">
+    <div>
+      <label>Name</label>
+      <input
+        type="text"
+        v-model="form.name.$value"
+        @blur="form.name.$validate()"
+      />
+    </div>
+    <div>
+      <select v-model="form.a.b.cs[0].d.$value" multiple>
+        <option :value="value" v-for="value in ['a', 'b', 'c']" :key="value">
+          {{ value }}
+        </option>
+      </select>
+    </div>
+    <button type="submit">Submit</button>
+    <pre>{{ errors }}</pre>
+    <pre>{{ form }}</pre>
+  </form>
 </template>
 
 <style></style>

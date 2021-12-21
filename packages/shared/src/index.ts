@@ -9,4 +9,11 @@ export { debounce, type Debounced } from './debounce'
 export { isArray, isDefined, isObject, isRecord } from './typeGuards'
 export { LinkedList } from './LinkedList'
 export { PromiseCancel, CancelError } from './PromiseCancel'
-export type { Key, MaybeRef, DeepIndex, Tuple, Optional } from './types'
+export type {
+  Key,
+  MaybeRef,
+  AnyRecord,
+  DeepIndex,
+  Tuple,
+  Optional
+} from './types'
