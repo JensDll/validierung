@@ -31,6 +31,7 @@ importers:
       ts-jest: 27.1.2
       tsd: 0.19.0
       typescript: 4.5.4
+      vite: 2.7.4
       vue2: npm:vue@2.6.14
       vue3: npm:vue@3.2.26
       yargs: 17.3.0
@@ -62,6 +63,7 @@ importers:
       ts-jest: 27.1.2_8f16229fe3b792bd830586f826fe71df
       tsd: 0.19.0
       typescript: 4.5.4
+      vite: 2.7.4
       vue2: /vue/2.6.14
       vue3: /vue/3.2.26
       yargs: 17.3.0
@@ -70,14 +72,12 @@ importers:
     specifiers:
       '@vitejs/plugin-legacy': 1.6.4
       unplugin-vue2-script-setup: 0.8.3
-      vite: 2.7.4
       vite-plugin-vue2: 1.9.0
       vue-template-compiler: 2.6.14
       vue-tsc: 0.29.8
     dependencies:
       '@vitejs/plugin-legacy': 1.6.4_vite@2.7.4
       unplugin-vue2-script-setup: 0.8.3_rollup@2.61.1+vite@2.7.4
-      vite: 2.7.4
       vite-plugin-vue2: 1.9.0_777ec8b4d8d65c15b4abef359eed3816
       vue-template-compiler: 2.6.14
       vue-tsc: 0.29.8_typescript@4.5.4
@@ -85,11 +85,9 @@ importers:
   examples/vue3:
     specifiers:
       '@vitejs/plugin-vue': 2.0.1
-      vite: 2.7.4
       vue-tsc: 0.29.8
     dependencies:
       '@vitejs/plugin-vue': 2.0.1_vite@2.7.4
-      vite: 2.7.4
       vue-tsc: 0.29.8_typescript@4.5.4
 
   node_modules/.pnpm/@vitejs+plugin-vue@2.0.1_vite@2.7.4/node_modules/@vitejs/plugin-vue:
@@ -1190,7 +1188,7 @@ packages:
     dependencies:
       upath: 2.0.1
       vscode-jsonrpc: 8.0.0-next.4
-      vscode-uri: 3.0.2
+      vscode-uri: 3.0.3
     dev: false
 
   /@volar/source-map/0.29.8:
@@ -2109,8 +2107,8 @@ packages:
     resolution: {integrity: sha512-WHVocJYavUwVgVViC0ORikPHQquXwVh939TaelZ4WDqpWgTX/FsGhl/+P4qBUAGcRvtOgDgC+xftNWWp2RUTAQ==}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001291
-      electron-to-chromium: 1.4.25
+      caniuse-lite: 1.0.30001292
+      electron-to-chromium: 1.4.26
     dev: false
 
   /browserslist/4.19.1:
@@ -2118,8 +2116,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001291
-      electron-to-chromium: 1.4.25
+      caniuse-lite: 1.0.30001292
+      electron-to-chromium: 1.4.26
       escalade: 3.1.1
       node-releases: 2.0.1
       picocolors: 1.0.0
@@ -2178,8 +2176,8 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /caniuse-lite/1.0.30001291:
-    resolution: {integrity: sha512-roMV5V0HNGgJ88s42eE70sstqGW/gwFndosYrikHthw98N5tLnOTxFqMLQjZVRxTWFlJ4rn+MsgXrR7MDPY4jA==}
+  /caniuse-lite/1.0.30001292:
+    resolution: {integrity: sha512-jnT4Tq0Q4ma+6nncYQVe7d73kmDmE9C3OGTx3MvW7lBM/eY1S1DZTMBON7dqV481RhNiS5OxD7k9JQvmDOTirw==}
     dev: false
 
   /chalk/1.1.3:
@@ -2489,8 +2487,8 @@ packages:
       domhandler: 4.3.0
     dev: false
 
-  /electron-to-chromium/1.4.25:
-    resolution: {integrity: sha512-bTwub9Y/76EiNmfaiJih+hAy6xn7Ns95S4KvI2NuKNOz8TEEKKQUu44xuy0PYMudjM9zdjKRS1bitsUvHTfuUg==}
+  /electron-to-chromium/1.4.26:
+    resolution: {integrity: sha512-cA1YwlRzO6TGp7yd3+KAqh9Tt6Z4CuuKqsAJP6uF/H5MQryjAGDhMhnY5cEXo8MaRCczpzSBhMPdqRIodkbZYw==}
     dev: false
 
   /emittery/0.8.1:
@@ -5624,7 +5622,7 @@ packages:
       vscode-languageserver-textdocument: 1.0.3
       vscode-languageserver-types: 3.16.0
       vscode-nls: 5.0.0
-      vscode-uri: 3.0.2
+      vscode-uri: 3.0.3
     dev: false
 
   /vscode-html-languageservice/4.2.1:
@@ -5633,7 +5631,7 @@ packages:
       vscode-languageserver-textdocument: 1.0.3
       vscode-languageserver-types: 3.16.0
       vscode-nls: 5.0.0
-      vscode-uri: 3.0.2
+      vscode-uri: 3.0.3
     dev: false
 
   /vscode-json-languageservice/4.1.10:
@@ -5643,7 +5641,7 @@ packages:
       vscode-languageserver-textdocument: 1.0.3
       vscode-languageserver-types: 3.16.0
       vscode-nls: 5.0.0
-      vscode-uri: 3.0.2
+      vscode-uri: 3.0.3
     dev: false
 
   /vscode-jsonrpc/8.0.0-next.4:
@@ -5707,8 +5705,8 @@ packages:
     resolution: {integrity: sha512-8TEXQxlldWAuIODdukIb+TR5s+9Ds40eSJrw+1iDDA9IFORPjMELarNQE3myz5XIkWWpdprmJjm1/SxMlWOC8A==}
     dev: false
 
-  /vscode-uri/3.0.2:
-    resolution: {integrity: sha512-jkjy6pjU1fxUvI51P+gCsxg1u2n8LSt0W6KrCNQceaziKzff74GoWmjVG46KieVzybO1sttPQmYfrwSHey7GUA==}
+  /vscode-uri/3.0.3:
+    resolution: {integrity: sha512-EcswR2S8bpR7fD0YPeS7r2xXExrScVMxg4MedACaWHEtx9ftCF/qHG1xGkolzTPcEmjTavCQgbVzHUIdTMzFGA==}
     dev: false
 
   /vscode-vue-languageservice/0.29.8:

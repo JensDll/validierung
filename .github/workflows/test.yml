@@ -42,6 +42,7 @@ jobs:
           env
 
   test-unit:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Echo debug information
