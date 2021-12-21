@@ -12,7 +12,7 @@
     "test:dts": "pnpm run build && npm exec tsd",
     "test:dts-only": "pnpm exec tsd",
     "test:all": "pnpm run test:dts && pnpm run test:2 && pnpm run test:3",
-    "postinstall": "husky install && node --experimental-loader esbuild-node-loader scripts/pnpm-link-vue.ts && vue-demi-switch 3 vue3"
+    "postinstall": "node --experimental-loader esbuild-node-loader scripts/check-ci.ts && husky install && node --experimental-loader esbuild-node-loader scripts/pnpm-link-vue.ts && vue-demi-switch 3 vue3"
   },
   "types": "test-dts/index.d.ts",
   "tsd": {

@@ -21,6 +21,6 @@ function linkVue3() {
     })
   )
 }
-console.log(process.env)
+
 await Promise.all(linkVue3())
 await Promise.all(linkVue2())
