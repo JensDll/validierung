@@ -170,7 +170,7 @@ export class Form {
 
   /**
    * Should only be called from `validateAll`. `Force` and `submit`
-   * will default to `false` and `true` plus it will not use debounced validators.
+   * will default to `false` and `true`, and it will not use debounced validators.
    *
    * @param keys The keys of the rules to validate
    */

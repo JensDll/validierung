@@ -41,7 +41,7 @@ export default defineComponent({
         }
       }
     })
-
+    console.log(useVal.form)
     async function handleSubmit() {
       try {
         const formData = await useVal.validateFields()

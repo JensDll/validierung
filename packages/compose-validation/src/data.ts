@@ -132,6 +132,7 @@ export function getResultFormData(
       const unpackedValue = isTransformedField(value)
         ? value.$value
         : unref(value)
+
       if (predicate({ key, value: unpackedValue, path })) {
         nShared.set(result, path, nShared.deepCopy(unpackedValue))
       }
