@@ -3,16 +3,16 @@
   "type": "module",
   "scripts": {
     "build": "node --experimental-loader esbuild-node-loader scripts/build.ts",
-    "dev": "node --experimental-loader esbuild-node-loader scripts/dev.ts --targets shared core",
-    "examples:2": "pnpm run dev --filter \"vue2-examples\"",
-    "examples:3": "pnpm run dev --filter \"vue3-examples\"",
+    "build:watch": "node --experimental-loader esbuild-node-loader scripts/dev.ts --targets shared core",
     "lint": "pnpm exec eslint --rule=\"no-console: [\"error\", { allow: [\"warn\", \"error\"] }]\" --max-warnings 0 --fix-dry-run \"./packages/*/src/**/*.{ts,js}\"",
     "test:2": "vue-demi-switch 2 vue2 && jest --runInBand",
     "test:3": "vue-demi-switch 3 vue3 && jest --runInBand",
     "test:dts": "pnpm run build && npm exec tsd",
     "test:dts-only": "pnpm exec tsd",
     "test:all": "pnpm run test:dts && pnpm run test:2 && pnpm run test:3",
-    "postinstall": "node --experimental-loader esbuild-node-loader scripts/postinstall.ts"
+    "vue:2": "pnpm run dev:local --filter \"vue2-examples\"",
+    "vue:3": "pnpm run dev:local --filter \"vue3-examples\"",
+    "postinstall": "husky install && vue-demi-switch 3 vue3"
   },
   "types": "test-dts/index.d.ts",
   "tsd": {
@@ -30,7 +30,6 @@
     "@types/yargs": "17.0.7",
     "@typescript-eslint/eslint-plugin": "5.8.0",
     "@typescript-eslint/parser": "5.8.0",
-    "@vue/composition-api": "1.4.2",
     "esbuild": "0.14.7",
     "esbuild-node-loader": "0.6.3",
     "esbuild-register": "3.2.1",
@@ -46,9 +45,16 @@
     "ts-jest": "27.1.2",
     "tsd": "0.19.0",
     "typescript": "4.5.4",
-    "vite": "2.7.5",
     "vue2": "npm:vue@2.6.14",
     "vue3": "npm:vue@3.2.26",
     "yargs": "17.3.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "@vue/composition-api": "1.4.2",
+      "typescript": "4.5.4",
+      "vite": "2.7.6",
+      "vue-demi": "0.12.1"
+    }
   }
 }

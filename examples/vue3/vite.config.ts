@@ -7,7 +7,6 @@ export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      vue: 'vue3',
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   }

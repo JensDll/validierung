@@ -1,11 +1,12 @@
-import { createValidation } from 'compose-validation'
+import { createValidation } from 'validierung'
 
 export const validation = createValidation({
-  defaultValidationBehavior: 'lazy',
+  defaultValidationBehavior: 'lazier',
   validationBehavior: {
-    change(info) {
-      return !info.force
-    },
-    lazy(info) {}
+    change: ({ force }) => !force,
+    lazy: ({ touched }) => touched,
+    lazier: ({ force, touched, submit, hasError }) =>
+      force || submit || (touched && hasError),
+    submit: ({ submit, hasError }) => submit || hasError
   }
 })

@@ -1,40 +1,58 @@
 <script lang="ts">
-import { useValidation } from 'validierung'
-import { defineComponent } from 'vue3'
+import { Field, useValidation } from 'validierung'
+import { defineComponent, ref, watch } from 'vue'
+
+type FormData = {
+  name: Field<string>
+  email: Field<string>
+  password: Field<string>
+  confirmPassword: Field<string>
+}
 
 export default defineComponent({
   setup() {
-    const { form } = useValidation({
+    const { form } = useValidation<FormData>({
       name: {
-        $value: '',
-        $rules: [
-          [
-            'change',
-            (name: string) => {
-              console.log(name)
-            }
-          ]
-        ]
+        $value: ''
+      },
+      email: {
+        $value: ''
+      },
+      password: {
+        $value: ''
+      },
+      confirmPassword: {
+        $value: ''
       }
     })
 
-    console.log(form.name)
+    console.log(form)
 
-    return { form }
+    return {
+      form
+    }
   }
 })
 </script>
 
 <template>
-  <form>
-    <div>
-      <label>Name</label>
-      <input
-        type="text"
-        v-model="form.name.$value"
-        @blur="form.name.$validate()"
-      />
-    </div>
+  <form action="">
+    <label>
+      Name
+      <input type="text" v-model="form.name.$value" />
+    </label>
+    <label>
+      Email
+      <input type="text" v-model="form.email.$value" />
+    </label>
+    <label>
+      Password
+      <input type="text" v-model="form.password.$value" />
+    </label>
+    <label>
+      Confirm
+      <input type="text" v-model="form.confirmPassword.$value" />
+    </label>
   </form>
 </template>
 

@@ -1,81 +1,66 @@
 <script lang="ts">
-import { useValidation } from 'validierung'
+import { Field, useValidation } from 'validierung'
 import { defineComponent, ref, watch } from '@vue/composition-api'
+
+type FormData = {
+  name: Field<string>
+  email: Field<string>
+  password: Field<string>
+  confirmPassword: Field<string>
+}
 
 export default defineComponent({
   setup() {
-    const a = ref('')
-    const useVal = useValidation({
+    const { form } = useValidation<FormData>({
       name: {
-        $value: a,
+        $value: '',
         $rules: [
           [
             'change',
-            (name: string) => {
-              if (!name) {
-                return 'Name'
-              }
+            name => {
+              console.log(name)
             }
           ]
         ]
       },
-      a: {
-        b: {
-          cs: [
-            {
-              d: {
-                $value: [],
-                $rules: [
-                  [
-                    'change',
-                    (x: any[]) => {
-                      if (!x.length) {
-                        return 'bla'
-                      }
-                    }
-                  ]
-                ]
-              }
-            }
-          ]
-        }
+      email: {
+        $value: ''
+      },
+      password: {
+        $value: ''
+      },
+      confirmPassword: {
+        $value: ''
       }
     })
-    console.log(useVal.form)
-    async function handleSubmit() {
-      try {
-        const formData = await useVal.validateFields()
-        console.log(JSON.stringify(formData, null, 2))
-      } catch (e) {
-        console.log(e)
-      }
-    }
 
-    return { ...useVal, handleSubmit }
+    console.log(form)
+
+    return {
+      form
+    }
   }
 })
 </script>
 
 <template>
-  <form @submit.prevent="handleSubmit">
-    <div>
-      <label>Name</label>
-      <input
-        type="text"
-        v-model="form.name.$value"
-        @blur="form.name.$validate()"
-      />
-    </div>
-    <div>
-      <select v-model="form.a.b.cs[0].d.$value" multiple>
-        <option :value="value" v-for="value in ['a', 'b', 'c']" :key="value">
-          {{ value }}
-        </option>
-      </select>
-    </div>
-    <button type="submit">Submit</button>
-    <pre>{{ errors }}</pre>
-    <pre>{{ form }}</pre>
+  <form action="">
+    <label>
+      Name
+      <input type="text" v-model="form.name.$value" />
+    </label>
+    <label>
+      Email
+      <input type="text" v-model="form.email.$value" />
+    </label>
+    <label>
+      Password
+      <input type="text" v-model="form.password.$value" />
+    </label>
+    <label>
+      Confirm
+      <input type="text" v-model="form.confirmPassword.$value" />
+    </label>
   </form>
 </template>
 

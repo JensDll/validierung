@@ -1,4 +1,4 @@
-import Vue from 'vue2'
+import Vue from 'vue'
 import VueCompositionAPI from '@vue/composition-api'
 
 import { validation } from './modules/validation'
@@ -13,9 +13,11 @@ const app = new Vue({
 
 app.$mount('#app')
 
-declare module 'compose-validation' {
+declare module 'validierung' {
   interface ValidationBehaviorFunctions {
     change: any
     lazy: any
+    lazier: any
+    submit: any
   }
 }
