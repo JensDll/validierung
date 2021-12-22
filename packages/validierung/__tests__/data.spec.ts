@@ -1,7 +1,7 @@
 import { MockedObject } from 'ts-jest/dist/utils/testing'
 
-import { Tuple, vue2Reactive } from '@compose-validation/shared'
-import { makeMocks } from '@compose-validation/jest-helper'
+import { Tuple, vue2Reactive } from '@validierung/shared'
+import { makeMocks } from '@validierung/jest-helper'
 import {
   Field,
   getResultFormData,

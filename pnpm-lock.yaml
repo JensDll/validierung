@@ -4,8 +4,6 @@ importers:
 
   .:
     specifiers:
-      '@compose-validation/jest-helper': workspace:*
-      '@compose-validation/shared': workspace:*
       '@rollup/plugin-alias': ^3.1.8
       '@rollup/plugin-node-resolve': 13.1.1
       '@types/fs-extra': 9.0.13
@@ -14,8 +12,9 @@ importers:
       '@types/yargs': 17.0.7
       '@typescript-eslint/eslint-plugin': 5.8.0
       '@typescript-eslint/parser': 5.8.0
+      '@validierung/jest-helper': workspace:*
+      '@validierung/shared': workspace:*
       '@vue/composition-api': 1.4.2
-      compose-validation: workspace:*
       esbuild: 0.14.7
       esbuild-node-loader: 0.6.3
       esbuild-register: 3.2.1
@@ -31,13 +30,12 @@ importers:
       ts-jest: 27.1.2
       tsd: 0.19.0
       typescript: 4.5.4
+      validierung: workspace:*
       vite: 2.7.5
       vue2: npm:vue@2.6.14
       vue3: npm:vue@3.2.26
       yargs: 17.3.0
     dependencies:
-      '@compose-validation/jest-helper': link:packages/jest-helper
-      '@compose-validation/shared': link:packages/shared
       '@rollup/plugin-alias': 3.1.8_rollup@2.61.1
       '@rollup/plugin-node-resolve': 13.1.1_rollup@2.61.1
       '@types/fs-extra': 9.0.13
@@ -46,8 +44,9 @@ importers:
       '@types/yargs': 17.0.7
       '@typescript-eslint/eslint-plugin': 5.8.0_836011a006f4f5d67178564baf2b6d34
       '@typescript-eslint/parser': 5.8.0_eslint@8.5.0+typescript@4.5.4
+      '@validierung/jest-helper': link:packages/jest-helper
+      '@validierung/shared': link:packages/shared
       '@vue/composition-api': 1.4.2
-      compose-validation: link:packages/compose-validation
       esbuild: 0.14.7
       esbuild-node-loader: 0.6.3_typescript@4.5.4
       esbuild-register: 3.2.1_esbuild@0.14.7
@@ -63,6 +62,7 @@ importers:
       ts-jest: 27.1.2_39c65d9f083bc37ba74be8ea716b9f17
       tsd: 0.19.0
       typescript: 4.5.4
+      validierung: link:packages/validierung
       vite: 2.7.5
       vue2: /vue/2.6.14
       vue3: /vue/3.2.26
@@ -92,22 +92,22 @@ importers:
     devDependencies:
       vue: link:../../../../vue@3.2.26/node_modules/vue
 
-  node_modules/.pnpm/vue-template-compiler@2.6.14/node_modules/vue-template-compiler:
+  node_modules/.pnpm/@vue+composition-api@1.4.2/node_modules/@vue/composition-api:
     specifiers:
-      vue: file:../..
+      vue: ^2.6.14
     devDependencies:
-      vue: link:../../../vue@2.6.14/node_modules/vue
-
-  packages/compose-validation:
-    specifiers:
-      vue-demi: '*'
-    dependencies:
-      vue-demi: 0.12.1_@vue+composition-api@1.4.2
+      vue: link:../../../../vue@2.6.14/node_modules/vue
 
   packages/jest-helper:
     specifiers: {}
 
   packages/shared:
+    specifiers:
+      vue-demi: '*'
+    dependencies:
+      vue-demi: 0.12.1_@vue+composition-api@1.4.2
+
+  packages/validierung:
     specifiers:
       vue-demi: '*'
     dependencies:
@@ -1297,7 +1297,7 @@ packages:
       lru-cache: 4.1.5
       merge-source-map: 1.1.0
       postcss: 7.0.39
-      postcss-selector-parser: 6.0.7
+      postcss-selector-parser: 6.0.8
       source-map: 0.6.1
       vue-template-es2015-compiler: 1.9.1
     optionalDependencies:
@@ -4478,8 +4478,8 @@ packages:
       irregular-plurals: 3.3.0
     dev: false
 
-  /postcss-selector-parser/6.0.7:
-    resolution: {integrity: sha512-U+b/Deoi4I/UmE6KOVPpnhS7I7AYdKbhGcat+qTQ27gycvaACvNEw11ba6RrkwVmDVRW7sigWgLj4/KbbJjeDA==}
+  /postcss-selector-parser/6.0.8:
+    resolution: {integrity: sha512-D5PG53d209Z1Uhcc0qAZ5U3t5HagH3cxu+WLZ22jt3gLUpXM4eXXfiO14jiDWST3NNooX/E8wISfOhZ9eIjGTQ==}
     engines: {node: '>=4'}
     dependencies:
       cssesc: 3.0.0

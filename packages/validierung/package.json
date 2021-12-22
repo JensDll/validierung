@@ -1,5 +1,5 @@
 {
-  "name": "compose-validation",
+  "name": "validierung",
   "version": "0.0.0",
   "description": "Vue Composition Function for Form Validation",
   "license": "MIT",
@@ -10,8 +10,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/JensDll/compose-validation",
-    "directory": "packages/compose-validation"
+    "url": "https://github.com/JensDll/validierung",
+    "directory": "packages/validierung"
   },
   "keywords": [
     "vue",

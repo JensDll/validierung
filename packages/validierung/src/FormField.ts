@@ -12,7 +12,7 @@ import {
 import { Form, Validator, ValidatorParameters } from './Form'
 import { ValidationBehaviorFunction } from './validationBehavior'
 import { SimpleRule, RuleInformation, unpackRule } from './rules'
-import * as nShared from '@compose-validation/shared'
+import * as nShared from '@validierung/shared'
 
 type MappedRuleInformation = {
   buffer: nShared.LinkedList<boolean>

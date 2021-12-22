@@ -1,6 +1,6 @@
 import { ref, nextTick } from 'vue-demi'
 
-import { makePromise } from '@compose-validation/jest-helper'
+import { makePromise } from '@validierung/jest-helper'
 import { Form } from '../src/Form'
 import { FormField } from '../src/FormField'
 import { ValidationBehaviorInfo } from '../src/validationBehavior'

@@ -27,7 +27,7 @@ export const packages: Package[] = [
     external: ['vue-demi']
   },
   {
-    name: 'compose-validation',
+    name: 'validierung',
     output: [
       {
         format: 'esm',

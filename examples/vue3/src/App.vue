@@ -1,5 +1,5 @@
 <script lang="ts">
-import { useValidation } from 'compose-validation'
+import { useValidation } from 'validierung'
 import { defineComponent } from 'vue3'
 
 export default defineComponent({

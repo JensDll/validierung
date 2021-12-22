@@ -1,4 +1,4 @@
-import { makePromise } from '@compose-validation/jest-helper'
+import { makePromise } from '@validierung/jest-helper'
 import { PromiseCancel } from '../src/PromiseCancel'
 
 let promiseCancel: PromiseCancel<string>

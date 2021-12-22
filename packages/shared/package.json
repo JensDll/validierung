@@ -1,24 +1,11 @@
 {
   "private": true,
-  "name": "@compose-validation/shared",
-  "license": "MIT",
-  "author": {
-    "name": "Jens Döllmann",
-    "email": "jens@doellmann.com",
-    "url": "<https://github.com/JensDll>"
-  },
+  "name": "@validierung/shared",
   "repository": {
     "type": "git",
-    "url": "https://github.com/JensDll/compose-validation",
+    "url": "https://github.com/JensDll/validierung",
     "directory": "packages/shared"
   },
-  "keywords": [
-    "vue",
-    "form",
-    "validation",
-    "utils",
-    "vue-use"
-  ],
   "sideEffects": false,
   "exports": {
     ".": {

@@ -3,7 +3,7 @@ import { ComputedRef, Ref, UnwrapRef, unref } from 'vue-demi'
 import { Form } from './Form'
 import { FieldRule, RuleInformation } from './rules'
 import { VALIDATION_CONFIG } from './ValidationConfig'
-import * as nShared from '@compose-validation/shared'
+import * as nShared from '@validierung/shared'
 
 export const isField = <T>(x: unknown): x is Field<T> =>
   nShared.isRecord(x) ? '$value' in x : false

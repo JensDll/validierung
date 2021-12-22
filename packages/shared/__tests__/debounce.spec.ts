@@ -1,4 +1,4 @@
-import { makeMocks, makePromise } from '@compose-validation/jest-helper'
+import { makeMocks, makePromise } from '@validierung/jest-helper'
 import { debounce } from '../src/debounce'
 import { Tuple } from '../src/types'
 

@@ -1,7 +1,7 @@
 import { expectType } from 'tsd'
 
-import { MaybeRef } from '@compose-validation/shared'
-import { ResultFormData } from 'compose-validation'
+import { MaybeRef } from '@validierung/shared'
+import { ResultFormData } from 'validierung'
 
 expectType<
   ResultFormData<{

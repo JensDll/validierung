@@ -18,7 +18,9 @@
     "baseUrl": ".",
     "rootDir": ".",
     "paths": {
-      "@compose-validation/*": ["packages/*/src"]
+      "@validierung/shared": ["packages/shared/src"],
+      "@validierung/jest-helper": ["packages/jest-helper/src"],
+      "validierung": ["packages/validierung/src"]
     },
     "jsx": "preserve"
   },
