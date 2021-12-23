@@ -1,10 +1,10 @@
 export const ValidationConfig = jest.fn<any, any>().mockImplementation(() => {
-  const { ValidationConfig } = jest.requireActual('../ValidationConfig')
+  const { ValidationConfig } = jest.requireActual('../validationConfig')
 
   class MockValidationConfig extends ValidationConfig {
     constructor() {
       super()
-      this.validationBehavior.set('lazy', () => true)
+      this.validationBehavior.set('mock', () => true)
     }
   }
 

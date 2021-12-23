@@ -1,5 +1,5 @@
 export const Form = jest.fn<any, any>().mockImplementation(() => {
-  const { Form } = jest.requireActual('../Form')
+  const { Form } = jest.requireActual('../form')
 
   class MockForm extends Form {
     dispose = jest.fn(uid => super.dispose(uid))

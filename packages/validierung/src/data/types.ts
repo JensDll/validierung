@@ -11,10 +11,7 @@ export const isTransformedField = (
 ): value is TransformedField<unknown> =>
   nShared.isRecord(value) ? '$uid' in value && '$value' in value : false
 
-export type Field<
-  TValue,
-  TExtra extends Record<string, unknown> = Record<string, never>
-> = {
+export type Field<TValue, TExtra extends object = Record<string, never>> = {
   /**
    * The field's default value.
    */
@@ -42,7 +39,7 @@ export type ValidateOptions = {
 
 export type TransformedField<
   TValue,
-  TExtra extends Record<string, unknown> = Record<string, never>
+  TExtra extends object = Record<string, never>
 > = {
   /**
    * The unique id of this field.
@@ -90,38 +87,22 @@ export type TransformedField<
   $validate(options?: ValidateOptions): Promise<void>
 } & (TExtra extends Record<string, never> ? unknown : UnwrapRef<TExtra>)
 
-export type OnlyField<T> = T extends { $value: infer TValue }
-  ? { $value: TValue }
-  : never
-
 /**
  * Unwrap the `$value` property of all fields in `FormData`.
  */
 export type ResultFormData<FormData> = FormData extends any
   ? {
-      [K in keyof FormData]: Exclude<FormData[K], undefined> extends {
-        $value: infer TValue
-      }
-        ? UnwrapRef<Exclude<TValue, Ref>>
-        : Exclude<FormData[K], undefined> extends object
-        ? ResultFormData<FormData[K]>
-        : FormData[K]
+      [K in keyof FormData]: ResultFormDataImpl<FormData[K]>
     }
   : never
 
-type FieldNamesImpl<FormData, K> = nShared.OnlyObject<FormData> extends never
-  ? never
-  : FormData extends { $value: any }
-  ? K
-  : FormData extends (infer TArray)[]
-  ? FieldNamesImpl<TArray, K>
-  : {
-      [K in keyof FormData]-?: nShared.OnlyObject<FormData[K]> extends {
-        $value: any
-      }
-        ? K
-        : FieldNamesImpl<nShared.OnlyObject<FormData[K]>, K>
-    }[keyof FormData]
+type ResultFormDataImpl<T> = T extends {
+  $value: infer V
+}
+  ? UnwrapRef<Exclude<V, Ref>>
+  : T extends object
+  ? ResultFormData<T>
+  : T
 
 /**
  * Receive the name of every field in `FormData` as a union of strings.
@@ -131,20 +112,36 @@ export type FieldNames<FormData extends object> = FieldNamesImpl<
   never
 >
 
+type FieldNamesImpl<FormData, K> =
+  nShared.ExcludePrimitives<FormData> extends never
+    ? never
+    : FormData extends { $value: any }
+    ? K
+    : FormData extends readonly (infer TArray)[]
+    ? FieldNamesImpl<TArray, K>
+    : {
+        [K in keyof FormData]-?: nShared.ExcludePrimitives<
+          FormData[K]
+        > extends {
+          $value: any
+        }
+          ? K
+          : FieldNamesImpl<nShared.ExcludePrimitives<FormData[K]>, K>
+      }[keyof FormData]
+
 /**
  * Transforms every field in `FormData` into transformed fields.
  */
 export type TransformFormData<FormData> = FormData extends any
   ? {
-      [K in keyof FormData]: Exclude<FormData[K], undefined> extends {
-        $value: infer TValue
-      }
-        ? TransformedField<
-            UnwrapRef<Exclude<TValue, Ref>>,
-            Omit<Exclude<FormData[K], undefined>, '$value' | '$rules'>
-          >
-        : Exclude<FormData[K], undefined> extends object
-        ? TransformFormData<FormData[K]>
-        : FormData[K]
+      [K in keyof FormData]: TransformFormDataImpl<FormData[K]>
     }
   : never
+
+type TransformFormDataImpl<T> = T extends {
+  $value: infer V
+}
+  ? TransformedField<UnwrapRef<Exclude<V, Ref>>, Omit<T, '$value' | '$rules'>>
+  : T extends object
+  ? TransformFormData<T>
+  : T

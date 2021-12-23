@@ -4,24 +4,25 @@ import * as nShared from '@validierung/shared'
 import { isTransformedField } from './types'
 
 function getResultFormDataImpl(
-  formData: nShared.AnyRecord,
-  resultFormData: nShared.AnyRecord,
+  formData: nShared.AnyObject,
+  resultFormData: nShared.AnyObject,
   path: string[],
   predicate: ValidateFieldsPredicate
 ) {
+  let arrayIndexOffset = 0
+
   for (const [key, value] of Object.entries(formData)) {
+    const nextKey = nShared.isArray(formData) ? +key - arrayIndexOffset : key
+
     const isTransformedFieldResult = isTransformedField(value)
     const unpackedValue = isTransformedFieldResult
       ? nShared.deepCopy(value.$value)
       : unref(value)
 
     if (predicate({ key, value: unpackedValue, path })) {
-      if (nShared.isArray(resultFormData)) {
-        resultFormData.push(unpackedValue)
-      } else {
-        resultFormData[key] = unpackedValue
-      }
+      resultFormData[nextKey] = unpackedValue
     } else {
+      ++arrayIndexOffset
       continue
     }
 
@@ -30,10 +31,10 @@ function getResultFormDataImpl(
     }
 
     if (nShared.isObject(value)) {
-      resultFormData[key] = nShared.isArray(value) ? [] : {}
+      resultFormData[nextKey] = nShared.isArray(value) ? [] : {}
       getResultFormDataImpl(
         value,
-        resultFormData[key],
+        resultFormData[nextKey],
         [...path, key],
         predicate
       )
@@ -42,10 +43,10 @@ function getResultFormDataImpl(
 }
 
 export function getResultFormData(
-  transformedFormData: nShared.AnyRecord,
+  transformedFormData: nShared.AnyObject,
   predicate: ValidateFieldsPredicate = () => true
 ): any {
-  const resultFormData = {}
+  const resultFormData = nShared.isArray(transformedFormData) ? [] : {}
   getResultFormDataImpl(transformedFormData, resultFormData, [], predicate)
   return resultFormData
 }

@@ -4,8 +4,8 @@ import { isTransformedField } from './types'
 
 export function resetFields(
   form: Form,
-  data: nShared.AnyRecord,
-  transformedFormData: nShared.AnyRecord
+  data: nShared.AnyObject,
+  transformedFormData: nShared.AnyObject
 ) {
   Object.entries(data).forEach(([key, value]) => {
     const transformedValue = transformedFormData[key]

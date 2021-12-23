@@ -192,8 +192,6 @@ export type UseValidation<FormData extends object> = {
   resetFields(formData?: Partial<ResultFormData<FormData>>): void
   /**
    * Adds a new property to the form data.
-   *
-   * @remarks
    * Fields with a `$value` are transformed.
    *
    * @param path - A path of `string` and `numbers`

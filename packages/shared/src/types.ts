@@ -3,17 +3,19 @@ import type { Ref } from 'vue-demi'
 export const isDefined = <T>(x: T | null | undefined): x is T =>
   x !== null && x !== undefined
 
-export const isRecord = (x: unknown): x is AnyRecord =>
+export const isRecord = (x: unknown): x is AnyObject =>
   typeof x === 'object' && x !== null && !Array.isArray(x)
 
 export const isArray = (x: unknown): x is any[] => Array.isArray(x)
 
-export const isObject = (x: unknown): x is AnyRecord =>
+export const isObject = (x: unknown): x is AnyObject =>
   typeof x === 'object' && x !== null
 
 export type Key = string | number | symbol
 
-export type AnyRecord = Record<Key, any>
+export type AnyObject = Record<Key, any>
+
+export type AnyFunction = (...args: any[]) => any
 
 export type DeepIndex<T, Ks extends readonly Key[], R = unknown> = Ks extends [
   infer First,
@@ -41,4 +43,8 @@ export type Optional<T, K extends keyof T> = Partial<Pick<T, K>> &
 
 export type MaybeRef<T> = T extends Ref<infer V> ? T | V : Ref<T> | T
 
-export type OnlyObject<T> = T extends object ? T : never
+export type ExcludePrimitives<T> = T extends AnyFunction
+  ? never
+  : T extends object
+  ? T
+  : never
