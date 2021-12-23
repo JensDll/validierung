@@ -10,8 +10,6 @@ export { uid } from './uid'
 
 export { vue2Reactive } from './vue2Reactive'
 
-export { deepIterator, type DeepIteratorResult } from './deepIterator'
-
 export { debounce, type Debounced } from './debounce'
 
 export { LinkedList } from './linkedList'

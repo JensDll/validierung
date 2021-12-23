@@ -99,14 +99,16 @@ export function registerField(
   }
 }
 
-export function transformFormData(form: Form, formData: any) {
-  for (const { key, value, parent } of nShared.deepIterator(
-    formData,
-    isField
-  )) {
+export function transformFormData(form: Form, formData: nShared.AnyObject) {
+  for (const [key, value] of Object.entries(formData)) {
     if (isField(value)) {
       const transformedField = registerField(form, key, value)
-      parent[key] = transformedField
+      formData[key] = transformedField
+      continue
+    }
+
+    if (nShared.isObject(value)) {
+      transformFormData(form, value)
     }
   }
 }

@@ -1,4 +1,4 @@
-import { reactive, isVue2 } from 'vue-demi'
+import { reactive, isVue2, ref, computed } from 'vue-demi'
 
 import { vue2Reactive } from '../src/vue2Reactive'
 
@@ -18,14 +18,7 @@ jest.mock('vue-demi', () => {
 })
 
 it('should make simple object reactive', () => {
-  const obj = {
-    a: {
-      b: {
-        c: 1
-      }
-    }
-  }
-
+  const obj = { a: { b: { c: 1 } } }
   const result = vue2Reactive(obj)
 
   expect(mockReactive).toBeCalledTimes(1)
@@ -45,61 +38,32 @@ it('should make nested object reactive', () => {
       bs: [
         {
           c: 1,
-          ds: [
-            {
-              e: {
-                f: 1
-              }
-            }
-          ]
+          ds: [{ e: { f: 1 } }]
         },
-        {
-          g: 1
-        },
+        { g: 1 },
         'foo',
         'bar'
       ]
     }
-  } as const
-
+  }
   const result = vue2Reactive(obj)
 
   if (isVue2) {
     expect(mockReactive).toBeCalledTimes(4)
-    expect(mockReactive).nthCalledWith(1, {
-      e: {
-        f: 1
-      }
-    })
+    expect(mockReactive).nthCalledWith(1, { e: { f: 1 } })
     expect(mockReactive).nthCalledWith(2, {
       c: 1,
-      ds: [
-        {
-          e: {
-            f: 1
-          }
-        }
-      ]
+      ds: [{ e: { f: 1 } }]
     })
-    expect(mockReactive).nthCalledWith(3, {
-      g: 1
-    })
+    expect(mockReactive).nthCalledWith(3, { g: 1 })
     expect(mockReactive).nthCalledWith(4, {
       a: {
         bs: [
           {
             c: 1,
-            ds: [
-              {
-                e: {
-                  f: 1
-                }
-              }
-            ]
+            ds: [{ e: { f: 1 } }]
           },
-          {
-            g: 1
-          },
+          { g: 1 },
           'foo',
           'bar'
         ]
@@ -112,17 +76,9 @@ it('should make nested object reactive', () => {
         bs: [
           {
             c: 1,
-            ds: [
-              {
-                e: {
-                  f: 1
-                }
-              }
-            ]
+            ds: [{ e: { f: 1 } }]
           },
-          {
-            g: 1
-          },
+          { g: 1 },
           'foo',
           'bar'
         ]
@@ -130,5 +86,15 @@ it('should make nested object reactive', () => {
     })
   }
 
+  expect(obj).toStrictEqual(result)
+})
+
+it('should not call reactive on ref and computed as first child in array', () => {
+  const obj = {
+    a: [ref(1), computed(() => 1)]
+  }
+  const result = vue2Reactive(obj)
+
+  expect(mockReactive).toBeCalledTimes(1)
   expect(obj).toStrictEqual(result)
 })

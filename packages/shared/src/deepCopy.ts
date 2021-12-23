@@ -1,19 +1,24 @@
-import { deepIterator } from './deepIterator'
-import { set } from './set'
-import { isObject, isArray } from './types'
+import { isObject, isArray, AnyObject } from './types'
 
-export function deepCopy<T>(toClone: T): T {
-  if (!isObject(toClone)) {
-    return toClone
-  }
-
-  const copy = isArray(toClone) ? [] : {}
-
-  for (const { value, path, isLeaf } of deepIterator(toClone as any)) {
-    if (isLeaf) {
-      set(copy, path, value)
+function deepCopyImpl(toCopy: AnyObject, copy: AnyObject) {
+  for (const [key, value] of Object.entries(toCopy)) {
+    if (isObject(value)) {
+      copy[key] = isArray(value) ? [] : {}
+      deepCopyImpl(value, copy[key])
+    } else {
+      copy[key] = value
     }
   }
+}
+
+export function deepCopy<T>(toCopy: T): T {
+  if (!isObject(toCopy)) {
+    return toCopy
+  }
+
+  const copy = isArray(toCopy) ? [] : {}
+
+  deepCopyImpl(toCopy, copy)
 
   return copy as T
 }
