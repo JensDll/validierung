@@ -24,7 +24,7 @@ type FormData = {
   }[]
 }
 
-jest.mock('../src/Form')
+jest.mock('../src/form')
 
 let formData: FormData
 let mockRule: jest.Mock

@@ -8,7 +8,7 @@ import {
 } from '../../src/data'
 import { Form } from '../../src/form'
 
-jest.mock('../../src/Form')
+jest.mock('../../src/form')
 
 function setup<T extends object>(
   formData: T,

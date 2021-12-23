@@ -5,7 +5,7 @@ import { resetFields } from '../../src/data/resetFields'
 import { transformFormData } from '../../src/data/transformFormData'
 import { Form } from '../../src/form'
 
-jest.mock('../../src/Form')
+jest.mock('../../src/form')
 
 it.only('should reset fields to passed values and not trigger validation', done => {
   const form = new Form() as MockedObject<Form>
