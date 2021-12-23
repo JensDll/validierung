@@ -1,18 +1,22 @@
 <script lang="ts">
 import { Field, useValidation } from 'validierung'
-import { defineComponent } from '@vue/composition-api'
+import { defineComponent, ref } from '@vue/composition-api'
+
+import PreFormData from '~/components/form/PreFormData.vue'
 
 type FormData = {
   name: Field<string>
   email: Field<string>
   password: Field<string>
   confirmPassword: Field<string>
-  a: { b: { cs: number[] } }
 }
 
 export default defineComponent({
+  components: {
+    PreFormData
+  },
   setup() {
-    const { form, validateFields } = useValidation<FormData>({
+    const val = useValidation<FormData>({
       name: {
         $value: '',
         $rules: [['change', name => {}]]
@@ -25,25 +29,18 @@ export default defineComponent({
       },
       confirmPassword: {
         $value: ''
-      },
-      a: { b: { cs: [1, 2, 3] } }
+      }
     })
 
     async function handleSubmit() {
       try {
-        const formData = await validateFields({
-          predicate(data) {
-            console.log(JSON.stringify(data.value))
-            return true
-          }
-        })
-
+        const formData = await val.validateFields()
         console.log(JSON.stringify(formData, null, 2))
       } catch {}
     }
 
     return {
-      form,
+      ...val,
       handleSubmit
     }
   }
@@ -51,25 +48,28 @@ export default defineComponent({
 </script>
 
 <template>
-  <form @submit.prevent="handleSubmit">
-    <label>
-      Name
-      <input type="text" v-model="form.name.$value" />
-    </label>
-    <label>
-      Email
-      <input type="text" v-model="form.email.$value" />
-    </label>
-    <label>
-      Password
-      <input type="text" v-model="form.password.$value" />
-    </label>
-    <label>
-      Confirm
-      <input type="text" v-model="form.confirmPassword.$value" />
-    </label>
-    <button type="submit">Signup</button>
-  </form>
+  <div>
+    <form @submit.prevent="handleSubmit">
+      <label>
+        Name
+        <input type="text" v-model="form.name.$value" />
+      </label>
+      <label>
+        Email
+        <input type="text" v-model="form.email.$value" />
+      </label>
+      <label>
+        Password
+        <input type="text" v-model="form.password.$value" />
+      </label>
+      <label>
+        Confirm
+        <input type="text" v-model="form.confirmPassword.$value" />
+      </label>
+      <button type="submit">Signup</button>
+    </form>
+    <PreFormData :val="{ form, validating, submitting, errors, hasError }" />
+  </div>
 </template>
 
 <style></style>

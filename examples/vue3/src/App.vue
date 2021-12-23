@@ -45,4 +45,14 @@ const { form } = useValidation<FormData>({
   </form>
 </template>
 
-<style></style>
+<style lang="postcss">
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  display: grid;
+  height: 100vh;
+  justify-items: center;
+}
+</style>

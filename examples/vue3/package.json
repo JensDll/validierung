@@ -6,7 +6,11 @@
     "dev:local": "vue-demi-switch 3 vue3 && vite"
   },
   "dependencies": {
+    "@tailwindcss/forms": "0.4.0",
     "@vitejs/plugin-vue": "2.0.1",
+    "autoprefixer": "10.4.0",
+    "postcss": "8.4.5",
+    "tailwindcss": "3.0.7",
     "typescript": "4.5.4",
     "validierung": "latest",
     "vite": "2.7.6",
