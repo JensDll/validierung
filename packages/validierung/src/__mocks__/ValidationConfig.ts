@@ -11,4 +11,4 @@ export const ValidationConfig = jest.fn<any, any>().mockImplementation(() => {
   return new MockValidationConfig()
 })
 
-export const VALIDATION_CONFIG = new ValidationConfig()
+export const validationConfig = new ValidationConfig()

@@ -1,18 +1,16 @@
 import { Plugin } from 'vue-demi'
 
-import { VALIDATION_CONFIG } from './ValidationConfig'
+import { validationConfig } from './validationConfig'
 import {
   ValidationBehaviorFunction,
   ValidationBehaviorString
 } from './validationBehavior'
 
-export type ConfigurationValidationBehavior = {
-  [K in ValidationBehaviorString]: ValidationBehaviorFunction
-}
-
-export type Configuration = {
+type Configuration = {
   defaultValidationBehavior: ValidationBehaviorString
-  validationBehavior: ConfigurationValidationBehavior
+  validationBehavior: {
+    [K in ValidationBehaviorString]: ValidationBehaviorFunction
+  }
 }
 
 /**
@@ -26,20 +24,20 @@ export function createValidation(configuration: Configuration): Plugin {
       for (const [key, validationBehavior] of Object.entries(
         configuration.validationBehavior ?? {}
       ) as [ValidationBehaviorString, ValidationBehaviorFunction][]) {
-        VALIDATION_CONFIG.validationBehavior.set(key, validationBehavior)
+        validationConfig.validationBehavior.set(key, validationBehavior)
       }
 
       if (
-        VALIDATION_CONFIG.validationBehavior.has(
+        validationConfig.validationBehavior.has(
           configuration.defaultValidationBehavior
         )
       ) {
-        VALIDATION_CONFIG.defaultValidationBehavior =
+        validationConfig.defaultValidationBehavior =
           configuration.defaultValidationBehavior
       } else {
         console.warn(
           `[useValidation] Default validation behavior '${configuration.defaultValidationBehavior}' is not valid. Valid values are`,
-          VALIDATION_CONFIG.validationBehavior.keys()
+          validationConfig.validationBehavior.keys()
         )
       }
     }

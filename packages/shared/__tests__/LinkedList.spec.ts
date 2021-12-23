@@ -1,4 +1,4 @@
-import { LinkedList } from '../src/LinkedList'
+import { LinkedList } from '../src/linkedList'
 
 let linkedList: LinkedList<number>
 

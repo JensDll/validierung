@@ -19,7 +19,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@': path.resolve(baseDir, 'src')
+      '~': path.resolve(baseDir, 'src')
     }
   }
 })

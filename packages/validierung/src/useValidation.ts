@@ -1,8 +1,8 @@
 import { Ref, ComputedRef, isVue2, isVue3, del } from 'vue-demi'
 
 import * as nShared from '@validierung/shared'
-import { ValidationError } from './ValidationError'
-import { Form } from './Form'
+import { ValidationError } from './validationError'
+import { Form } from './form'
 import {
   disposeForm,
   FieldNames,
@@ -10,13 +10,12 @@ import {
   resetFields,
   ResultFormData,
   TransformFormData,
-  transformFormData
+  transformFormData,
+  ValidateFieldsPredicate
 } from './data'
 
 /**
  * Vue composition function for form validation.
- *
- * @remarks
  * For type inference in `useValidation` make sure to define the structure of your
  * form data upfront and pass it as the generic parameter `FormData`.
  *
@@ -175,16 +174,14 @@ export type UseValidation<FormData extends object> = {
     names?: FieldNames<FormData>[]
     /**
      * Filter which values to keep in the resulting form data.
-     * Used like `Array.prototype.filter`.
+     * Used like `Array.prototype.filter` but for objects.
      *
      * @default
      * ```
      * () => true // meaning keep all
      * ```
      */
-    predicate?: (
-      value: Omit<nShared.DeepIteratorResult, 'isLeaf' | 'parent'>
-    ) => boolean
+    predicate?: ValidateFieldsPredicate
   }): Promise<ResultFormData<FormData>>
   /**
    * Reset all fields to their default value or pass an object to set specific values.

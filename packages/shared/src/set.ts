@@ -1,8 +1,8 @@
 import { set as vueSet, isVue3 } from 'vue-demi'
 
-import { Key } from './types'
+import { Key, AnyRecord } from './types'
 
-export function set(obj: any, keys: readonly Key[], value: any) {
+export function set(obj: AnyRecord, keys: readonly Key[], value: any) {
   if (keys.length === 0) {
     return
   }
@@ -20,7 +20,7 @@ export function set(obj: any, keys: readonly Key[], value: any) {
       }
     }
 
-    obj = obj[key] as any
+    obj = obj[key]
   }
 
   if (isVue3) {

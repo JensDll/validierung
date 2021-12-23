@@ -26,19 +26,25 @@ describe('isTransformedField', () => {
 
 describe('isSimpleRule', () => {
   it('rule with key -> false', () => {
-    isSimpleRule({
+    const keyedRule = {
       key: ''
-    })
+    }
+
+    expect(isSimpleRule(keyedRule)).toBe(false)
   })
 
   it('rule with key -> false', () => {
-    isSimpleRule({
+    const keyedRule = {
       key: '',
       rule: () => {}
-    })
+    }
+
+    expect(isSimpleRule(keyedRule)).toBe(false)
   })
 
   it('rule without key -> true', () => {
-    isSimpleRule(() => {})
+    const simpleRule = () => {}
+
+    expect(isSimpleRule(simpleRule)).toBe(true)
   })
 })

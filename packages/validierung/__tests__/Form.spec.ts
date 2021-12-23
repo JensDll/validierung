@@ -1,8 +1,8 @@
 import { ref, nextTick } from 'vue-demi'
 
 import { makePromise } from '@validierung/jest-helper'
-import { Form } from '../src/Form'
-import { FormField } from '../src/FormField'
+import { Form } from '../src/form'
+import { FormField } from '../src/formField'
 import { ValidationBehaviorInfo } from '../src/validationBehavior'
 
 let form: Form

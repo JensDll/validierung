@@ -3,7 +3,7 @@ import {
   ValidationBehaviorString
 } from './validationBehavior'
 
-export class ValidationConfig {
+class ValidationConfig {
   defaultValidationBehavior: ValidationBehaviorString | null = null
   validationBehavior: Map<string, ValidationBehaviorFunction> = new Map()
 
@@ -15,4 +15,4 @@ export class ValidationConfig {
   }
 }
 
-export const VALIDATION_CONFIG = new ValidationConfig()
+export const validationConfig = new ValidationConfig()

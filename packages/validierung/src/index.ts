@@ -2,7 +2,7 @@ export { useValidation, type UseValidation } from './useValidation'
 
 export { createValidation } from './createValidation'
 
-export { ValidationError } from './ValidationError'
+export { ValidationError } from './validationError'
 
 export type {
   Field,
@@ -10,7 +10,9 @@ export type {
   FieldNames,
   ResultFormData,
   TransformFormData,
-  ValidateOptions
+  ValidateOptions,
+  ValidateFieldsPredicateParameter,
+  ValidateFieldsPredicate
 } from './data'
 
 export type { SimpleRule, KeyedRule } from './rules'

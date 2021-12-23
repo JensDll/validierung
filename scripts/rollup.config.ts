@@ -22,7 +22,7 @@ for (const { name, external, output } of packages) {
     external,
     plugins: [
       nodeResolve({
-        resolveOnly: ['@compose-validation/shared']
+        resolveOnly: ['@validierung/shared']
       }),
       esbuild({
         target: 'ES2019'
@@ -41,7 +41,7 @@ for (const { name, external, output } of packages) {
       alias({
         entries: [
           {
-            find: '@compose-validation/shared',
+            find: '@validierung/shared',
             replacement: path.resolve(rootDir, 'packages', 'shared')
           }
         ]

@@ -25,3 +25,21 @@ expectType<'a' | 'c' | 'e'>(
     }[]
   }>
 )
+
+expectType<'a'>(
+  {} as FieldNames<{
+    a: Field<string> | number
+  }>
+)
+
+expectType<'a'>(
+  {} as FieldNames<{
+    a: Field<string> | number[]
+  }>
+)
+
+expectType<'a' | 'b'>(
+  {} as FieldNames<{
+    a: Field<string> | number | { b: Field<string> }[]
+  }>
+)

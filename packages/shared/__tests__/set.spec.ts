@@ -47,60 +47,58 @@ it('should not overwrite existing properties', () => {
   })
 })
 
-describe('arrays', () => {
-  it('should create nested properties in arrays', () => {
-    const obj: any[] = []
+it('should create nested properties in arrays', () => {
+  const obj: any[] = []
 
-    set(obj, [0, 'a'], 1)
-    set(obj, [1, 'a'], 1)
+  set(obj, [0, 'a'], 1)
+  set(obj, [1, 'a'], 1)
 
-    expect(obj).toStrictEqual([{ a: 1 }, { a: 1 }])
+  expect(obj).toStrictEqual([{ a: 1 }, { a: 1 }])
+})
+
+it('should create arrays if the path contains a number', () => {
+  const obj = {}
+
+  set(obj, ['as', 0], 1)
+  set(obj, ['as', 1, 'a'], 1)
+  set(obj, ['as', 2, 'bs', 0], 1)
+
+  expect(obj).toStrictEqual({
+    as: [
+      1,
+      {
+        a: 1
+      },
+      {
+        bs: [1]
+      }
+    ]
+  })
+})
+
+it('should keep existing arrays', () => {
+  const obj = {}
+
+  set(obj, ['a', 0, 'a', 0], 1)
+  set(obj, ['a', 0, 'a', 1], 2)
+  set(obj, ['a', 0, 'a', 2], 3)
+  set(obj, ['a', 0, 'a', 3], 4)
+
+  set(obj, ['b', 0, 'b', 0], 1)
+  set(obj, ['b', 0, 'b', 1], 2)
+  set(obj, ['b', 0, 'b', 2], 3)
+  set(obj, ['b', 0, 'b', 3], 4)
+
+  expect(obj).toStrictEqual({
+    a: [{ a: [1, 2, 3, 4] }],
+    b: [{ b: [1, 2, 3, 4] }]
   })
 
-  it('should create arrays if the path contains a number', () => {
-    const obj = {}
+  set(obj, ['b'], [])
 
-    set(obj, ['as', 0], 1)
-    set(obj, ['as', 1, 'a'], 1)
-    set(obj, ['as', 2, 'bs', 0], 1)
-
-    expect(obj).toStrictEqual({
-      as: [
-        1,
-        {
-          a: 1
-        },
-        {
-          bs: [1]
-        }
-      ]
-    })
-  })
-
-  it('should keep existing arrays', () => {
-    const obj = {}
-
-    set(obj, ['a', 0, 'a', 0], 1)
-    set(obj, ['a', 0, 'a', 1], 2)
-    set(obj, ['a', 0, 'a', 2], 3)
-    set(obj, ['a', 0, 'a', 3], 4)
-
-    set(obj, ['b', 0, 'b', 0], 1)
-    set(obj, ['b', 0, 'b', 1], 2)
-    set(obj, ['b', 0, 'b', 2], 3)
-    set(obj, ['b', 0, 'b', 3], 4)
-
-    expect(obj).toStrictEqual({
-      a: [{ a: [1, 2, 3, 4] }],
-      b: [{ b: [1, 2, 3, 4] }]
-    })
-
-    set(obj, ['b'], [])
-
-    expect(obj).toStrictEqual({
-      a: [{ a: [1, 2, 3, 4] }],
-      b: []
-    })
+  expect(obj).toStrictEqual({
+    a: [{ a: [1, 2, 3, 4] }],
+    b: []
   })
 })
 

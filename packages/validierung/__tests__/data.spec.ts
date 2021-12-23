@@ -11,7 +11,7 @@ import {
   disposeForm,
   mapFieldRules
 } from '../src/data'
-import { Form } from '../src/Form'
+import { Form } from '../src/form'
 import { RuleInformation } from '../src/rules'
 
 type FormData = {

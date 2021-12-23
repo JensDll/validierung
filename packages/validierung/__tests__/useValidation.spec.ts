@@ -3,7 +3,7 @@ import { ref, Ref } from 'vue-demi'
 import { makeMocks, makePromise } from '@validierung/jest-helper'
 import { useValidation, UseValidation } from '../src/useValidation'
 import { Field, TransformFormData } from '../src/data'
-import { ValidationError } from '../src/ValidationError'
+import { ValidationError } from '../src/validationError'
 
 type FormData = {
   a: Field<string>

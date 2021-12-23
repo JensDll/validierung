@@ -28,13 +28,9 @@ it('should make simple object reactive', () => {
 
   const result = vue2Reactive(obj)
 
-  if (isVue2) {
-    expect(mockReactive).toBeCalledTimes(1)
-  } else {
-    expect(mockReactive).toBeCalledTimes(1)
-  }
-
-  expect(obj).toStrictEqual(result)
+  expect(mockReactive).toBeCalledTimes(1)
+  expect(mockReactive.mock.calls[0][0]).toStrictEqual(obj)
+  expect(result).toStrictEqual(obj)
 })
 
 it('should make nested object reactive', () => {
@@ -70,6 +66,7 @@ it('should make nested object reactive', () => {
     expect(mockReactive.mock.calls[3][0]).toStrictEqual(obj)
   } else {
     expect(mockReactive).toBeCalledTimes(1)
+    expect(mockReactive.mock.calls[0][0]).toStrictEqual(obj)
   }
 
   expect(obj).toStrictEqual(result)

@@ -1,5 +1,5 @@
 import { makePromise } from '@validierung/jest-helper'
-import { PromiseCancel } from '../src/PromiseCancel'
+import { PromiseCancel } from '../src/promiseCancel'
 
 let promiseCancel: PromiseCancel<string>
 
@@ -21,25 +21,22 @@ it('should resolve directly after cancelResolve', done => {
   const p1 = makePromise(50, 'p1')
   const p2 = makePromise(100, 'p2')
 
-  promiseCancel.race(p1, p2).then(a => {
-    expect(a).toBe('cancel')
+  promiseCancel.race(p1, p2).then(result => {
+    expect(result).toBe('cancelled')
     done()
   })
 
-  promiseCancel.cancelResolve('cancel')
+  promiseCancel.cancelResolve('cancelled')
 })
 
 it('should reject directly after cancelReject', done => {
   const p1 = makePromise(50, 'p1')
   const p2 = makePromise(100, 'p2')
 
-  promiseCancel
-    .race(p1, p2)
+  promiseCancel.race(p1, p2).catch(reason => {
+    expect(reason).toBe('cancelled')
+    done()
+  })
 
-    .catch(a => {
-      expect(a).toBe('cancel')
-      done()
-    })
-
-  promiseCancel.cancelReject('cancel')
+  promiseCancel.cancelReject('cancelled')
 })

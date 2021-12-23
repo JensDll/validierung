@@ -2,15 +2,15 @@ type DebounceOptions = {
   wait: number
 }
 
-export type Debounced<TArgs extends unknown[]> = {
-  (...args: [...TArgs]): void
+export type Debounced<Args extends unknown[]> = {
+  (...args: [...Args]): void
   cancel(): void
 }
 
-export function debounce<TArgs extends unknown[]>(
-  target: (...args: [...TArgs]) => void,
+export function debounce<Args extends unknown[]>(
+  target: (...args: [...Args]) => void,
   { wait }: DebounceOptions
-): Debounced<TArgs>
+): Debounced<Args>
 
 export function debounce(
   target: (...args: any[]) => void,

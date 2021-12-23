@@ -9,7 +9,7 @@ import {
   ComputedRef
 } from 'vue-demi'
 
-import { Form, Validator, ValidatorParameters } from './Form'
+import { Form, Validator, ValidatorParameters } from './form'
 import { ValidationBehaviorFunction } from './validationBehavior'
 import { SimpleRule, RuleInformation, unpackRule } from './rules'
 import * as nShared from '@validierung/shared'
@@ -51,7 +51,7 @@ export class FormField {
     form: Form,
     uid: number,
     name: string,
-    modelValue: any,
+    modelValue: unknown,
     ruleInfos: RuleInformation[]
   ) {
     this.form = form

@@ -1,6 +1,5 @@
-<script lang="ts">
+<script setup lang="ts">
 import { Field, useValidation } from 'validierung'
-import { defineComponent, ref, watch } from 'vue'
 
 type FormData = {
   name: Field<string>
@@ -9,28 +8,18 @@ type FormData = {
   confirmPassword: Field<string>
 }
 
-export default defineComponent({
-  setup() {
-    const { form } = useValidation<FormData>({
-      name: {
-        $value: ''
-      },
-      email: {
-        $value: ''
-      },
-      password: {
-        $value: ''
-      },
-      confirmPassword: {
-        $value: ''
-      }
-    })
-
-    console.log(form)
-
-    return {
-      form
-    }
+const { form } = useValidation<FormData>({
+  name: {
+    $value: ''
+  },
+  email: {
+    $value: ''
+  },
+  password: {
+    $value: ''
+  },
+  confirmPassword: {
+    $value: ''
   }
 })
 </script>

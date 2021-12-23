@@ -1,6 +1,7 @@
 import { isRef } from 'vue-demi'
-import { LinkedList } from './LinkedList'
-import { isObject } from './typeGuards'
+
+import { LinkedList } from './linkedList'
+import { isObject } from './types'
 
 export type DeepIteratorResult = {
   key: string

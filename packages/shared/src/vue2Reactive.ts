@@ -1,6 +1,6 @@
 import { reactive, isVue2, UnwrapRef, isRef } from 'vue-demi'
 
-import { isObject, isArray, isRecord } from './typeGuards'
+import { isObject, isArray, isRecord } from './types'
 
 function vue2ReactiveImpl(obj: any): void {
   if (isObject(obj)) {

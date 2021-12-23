@@ -1,6 +1,6 @@
 import { path } from '../src/path'
 
-type TestObject = {
+let obj: {
   a: number
   b: {
     c: number
@@ -18,10 +18,8 @@ type TestObject = {
   }[]
 }
 
-let foo: TestObject
-
 beforeEach(() => {
-  foo = {
+  obj = {
     a: 1,
     b: {
       c: 2,
@@ -50,26 +48,26 @@ beforeEach(() => {
 })
 
 it('should work for nested paths', () => {
-  expect(path(['a'], foo)).toBe(1)
-  expect(path(['b', 'c'], foo)).toBe(2)
-  expect(path(['b', 'ds', 0, 'e'], foo)).toBe(3)
-  expect(path(['b', 'ds', 0, 'f'], foo)).toBe(4)
-  expect(path(['b', 'ds', 0, 'gs', 0, 'h'], foo)).toBe(5)
-  expect(path(['b', 'ds', 0, 'gs', 1, 'h'], foo)).toBe(6)
-  expect(path(['is', 0, 'j'], foo)).toBe(7)
-  expect(path(['is', 0, 'k'], foo)).toBe(8)
+  expect(path(['a'], obj)).toBe(1)
+  expect(path(['b', 'c'], obj)).toBe(2)
+  expect(path(['b', 'ds', 0, 'e'], obj)).toBe(3)
+  expect(path(['b', 'ds', 0, 'f'], obj)).toBe(4)
+  expect(path(['b', 'ds', 0, 'gs', 0, 'h'], obj)).toBe(5)
+  expect(path(['b', 'ds', 0, 'gs', 1, 'h'], obj)).toBe(6)
+  expect(path(['is', 0, 'j'], obj)).toBe(7)
+  expect(path(['is', 0, 'k'], obj)).toBe(8)
 })
 
-it("should be undefined for path's that don't exist", () => {
-  expect(path([], foo)).toBe(undefined)
-  expect(path(['x'], foo)).toBe(undefined)
-  expect(path(['a', 'x'], foo)).toBe(undefined)
-  expect(path(['b', 'x'], foo)).toBe(undefined)
-  expect(path(['b', 'ds', 1], foo)).toBe(undefined)
-  expect(path(['b', 'ds', 0, 'x'], foo)).toBe(undefined)
-  expect(path(['b', 'ds', 0, 'gs', 10], foo)).toBe(undefined)
-  expect(path(['b', 'ds', 0, 'gs', 20], foo)).toBe(undefined)
-  expect(path(['b', 'ds', 0, 'gs', 0, 'x'], foo)).toBe(undefined)
-  expect(path(['b', 'ds', 0, 'gs', 1, 'x'], foo)).toBe(undefined)
-  expect(path(['is', 0, 'x'], foo)).toBe(undefined)
+it("should be undefined for paths that don't exist", () => {
+  expect(path([], obj)).toBe(undefined)
+  expect(path(['x'], obj)).toBe(undefined)
+  expect(path(['a', 'x'], obj)).toBe(undefined)
+  expect(path(['b', 'x'], obj)).toBe(undefined)
+  expect(path(['b', 'ds', 1], obj)).toBe(undefined)
+  expect(path(['b', 'ds', 0, 'x'], obj)).toBe(undefined)
+  expect(path(['b', 'ds', 0, 'gs', 10], obj)).toBe(undefined)
+  expect(path(['b', 'ds', 0, 'gs', 20], obj)).toBe(undefined)
+  expect(path(['b', 'ds', 0, 'gs', 0, 'x'], obj)).toBe(undefined)
+  expect(path(['b', 'ds', 0, 'gs', 1, 'x'], obj)).toBe(undefined)
+  expect(path(['is', 0, 'x'], obj)).toBe(undefined)
 })

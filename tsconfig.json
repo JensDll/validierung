@@ -2,11 +2,10 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
-    "useDefineForClassFields": true,
     "isolatedModules": true,
     "allowJs": false,
     "checkJs": false,
-    "lib": ["ESNext", "DOM", "DOM.Iterable", "ScriptHost"],
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "downlevelIteration": true,
     "strict": true,
     "moduleResolution": "node",
@@ -21,19 +20,8 @@
       "@validierung/shared": ["packages/shared/src"],
       "@validierung/jest-helper": ["packages/jest-helper/src"],
       "validierung": ["packages/validierung/src"]
-    },
-    "jsx": "preserve"
+    }
   },
-  "include": [
-    "packages/*/src",
-    "packages/*/__tests__",
-    "test-dts",
-    "scripts",
-    "examples/*/vite.config.*",
-    "examples/*/env.d.ts",
-    "examples/*/src/**/*",
-    "examples/*/src/**/*.vue"
-  ],
-
-  "exclude": ["**/dist", "**/publish"]
+  "include": ["packages/*/src", "packages/*/__tests__", "test-dts", "scripts"],
+  "exclude": ["**/dist", "**/publish", "examples"]
 }

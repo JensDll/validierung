@@ -1,7 +1,7 @@
 import { computed, ref, shallowReactive } from 'vue-demi'
 
-import { FormField } from './FormField'
-import { ValidationError } from './ValidationError'
+import { FormField } from './formField'
+import { ValidationError } from './validationError'
 import { isSimpleRule, RuleInformation } from './rules'
 import * as nShared from '@validierung/shared'
 

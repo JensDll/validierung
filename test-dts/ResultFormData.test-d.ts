@@ -1,7 +1,7 @@
 import { expectType } from 'tsd'
 
 import { MaybeRef } from '@validierung/shared'
-import { ResultFormData } from 'validierung'
+import { ResultFormData, Field } from 'validierung'
 
 expectType<
   ResultFormData<{
@@ -60,3 +60,9 @@ expectType<
     }
   }
 )
+
+expectType<
+  ResultFormData<{
+    a: Field<string> | number
+  }>
+>({} as { a: number | string })
