@@ -51,7 +51,7 @@ importers:
       '@types/node': 17.0.4
       '@types/yargs': 17.0.8
       '@typescript-eslint/eslint-plugin': 5.8.0_836011a006f4f5d67178564baf2b6d34
-      '@typescript-eslint/parser': 5.8.0_eslint@8.5.0+typescript@4.5.4
+      '@typescript-eslint/parser': 5.8.0_typescript@4.5.4
       '@validierung/jest-helper': link:packages/jest-helper
       '@validierung/shared': link:packages/shared
       esbuild: 0.14.8
@@ -1083,7 +1083,7 @@ packages:
         optional: true
     dependencies:
       '@typescript-eslint/experimental-utils': 5.8.0_eslint@8.5.0+typescript@4.5.4
-      '@typescript-eslint/parser': 5.8.0_eslint@8.5.0+typescript@4.5.4
+      '@typescript-eslint/parser': 5.8.0_typescript@4.5.4
       '@typescript-eslint/scope-manager': 5.8.0
       debug: 4.3.3
       eslint: 8.5.0
@@ -1115,11 +1115,10 @@ packages:
       - typescript
     dev: false
 
-  /@typescript-eslint/parser/5.8.0_eslint@8.5.0+typescript@4.5.4:
+  /@typescript-eslint/parser/5.8.0_typescript@4.5.4:
     resolution: {integrity: sha512-Gleacp/ZhRtJRYs5/T8KQR3pAQjQI89Dn/k+OzyCKOsLiZH2/Vh60cFBTnFsHNI6WAD+lNUo/xGZ4NeA5u0Ipw==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
-      eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
       typescript: '*'
     peerDependenciesMeta:
       typescript:
