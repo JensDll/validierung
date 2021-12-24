@@ -1,6 +1,6 @@
 <script lang="ts">
 import { Field, useValidation } from 'validierung'
-import { defineComponent, ref } from '@vue/composition-api'
+import { defineComponent, ref } from 'vue'
 
 import PreFormData from '~/components/form/PreFormData.vue'
 import AppButton from '~/components/app/AppButton.vue'

@@ -1,48 +1,13 @@
-<script setup lang="ts">
-import { Field, useValidation } from 'validierung'
+<script lang="ts">
+import { defineComponent } from 'vue'
 
-type FormData = {
-  name: Field<string>
-  email: Field<string>
-  password: Field<string>
-  confirmPassword: Field<string>
-}
-
-const { form } = useValidation<FormData>({
-  name: {
-    $value: ''
-  },
-  email: {
-    $value: ''
-  },
-  password: {
-    $value: ''
-  },
-  confirmPassword: {
-    $value: ''
-  }
-})
+export default defineComponent({})
 </script>
 
 <template>
-  <form action="">
-    <label>
-      Name
-      <input type="text" v-model="form.name.$value" />
-    </label>
-    <label>
-      Email
-      <input type="text" v-model="form.email.$value" />
-    </label>
-    <label>
-      Password
-      <input type="text" v-model="form.password.$value" />
-    </label>
-    <label>
-      Confirm
-      <input type="text" v-model="form.confirmPassword.$value" />
-    </label>
-  </form>
+  <div class="container py-12 px-8">
+    <router-view></router-view>
+  </div>
 </template>
 
 <style lang="postcss">
