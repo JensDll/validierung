@@ -5,7 +5,7 @@ export default defineComponent({})
 </script>
 
 <template>
-  <div class="container py-12 px-8">
+  <div class="container py-12 px-8 mx-auto">
     <router-view></router-view>
   </div>
 </template>
@@ -14,10 +14,4 @@ export default defineComponent({})
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-body {
-  display: grid;
-  height: 100vh;
-  justify-items: center;
-}
 </style>

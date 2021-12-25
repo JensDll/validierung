@@ -1,11 +1,27 @@
 {
-  "vue init": {
-    "prefix": "vue init",
+  "vue setup": {
+    "prefix": "vue setup",
     "scope": "vue",
     "body": [
-      "<script setup lang=\"ts\">$0</script>",
+      "<script setup lang=\"ts\">$1</script>",
       "",
       "<template></template>",
+      "",
+      "<style lang=\"postcss\" scoped></style>"
+    ],
+    "description": "Vue base script setup"
+  },
+  "vue define": {
+    "prefix": "vue define",
+    "scope": "vue",
+    "body": [
+      "<script lang=\"ts\">",
+      "import { defineComponent } from 'vue'",
+      "",
+      "export default defineComponent({$1})",
+      "</script>",
+      "",
+      "<template>$2</template>",
       "",
       "<style lang=\"postcss\" scoped></style>"
     ],

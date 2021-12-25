@@ -183,8 +183,13 @@ export class FormField {
     this.form.rulesValidating.value = 0
 
     for (let i = 0; i < this.ruleInfos.length; ++i) {
-      this.rawErrors.value[i] = null
-      this.hasErrors.value[i] = false
+      if (isVue3) {
+        this.rawErrors.value[i] = null
+        this.hasErrors.value[i] = false
+      } else {
+        set(this.rawErrors.value, i, null)
+        set(this.hasErrors.value, i, false)
+      }
       this.ruleInfos[i].cancelDebounce()
       for (const shouldSetError of this.ruleInfos[i].buffer.nodesForwards()) {
         shouldSetError.value = false

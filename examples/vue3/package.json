@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "dev:local": "vue-demi-switch 3 vue3 && VITE_LOCAL=true vite"
+    "dev:local": "vue-demi-switch 3 vue3 && cross-env VITE_LOCAL=true vite"
   },
   "dependencies": {
     "@tailwindcss/forms": "0.4.0",

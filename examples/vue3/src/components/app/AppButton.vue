@@ -18,9 +18,15 @@ export default defineComponent({
 <template>
   <button
     :type="htmlType"
-    class="block px-14 py-6"
     :class="[
-      { default: '', primary: 'bg-indigo-500 text-white', danger: '' }[type]
+      'py-1 px-4 rounded border-2 bg-gray-50 transition-colors',
+      {
+        default: 'border-gray-300 font-semibold hover:bg-gray-100 ',
+        primary:
+          'bg-blue-600 border-blue-600 text-white hover:bg-blue-500 hover:border-blue-500',
+        danger:
+          'bg-red-500 border-red-500 text-white hover:bg-red-400 hover:border-red-400'
+      }[type]
     ]"
   >
     <slot></slot>
