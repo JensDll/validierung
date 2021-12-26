@@ -5,13 +5,9 @@ export default defineComponent({})
 </script>
 
 <template>
-  <div class="container py-12 px-8 mx-auto">
+  <main class="">
     <router-view></router-view>
-  </div>
+  </main>
 </template>
 
-<style lang="postcss">
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-</style>
+<style lang="postcss" scoped></style>

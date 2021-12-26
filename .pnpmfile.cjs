@@ -4,8 +4,8 @@ function hasVuePeerDependency(pkg) {
 
 function readPackage(pkg, context) {
   if (hasVuePeerDependency(pkg)) {
-    context.log(`Deleting vue peer dependency for ${pkg.name}`)
-    delete pkg.peerDependencies.vue
+    // Maybe vue peer dependencies warnings
+    // can be fixed here
   }
 
   return pkg

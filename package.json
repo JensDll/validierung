@@ -30,7 +30,6 @@
     "@typescript-eslint/parser": "5.8.0",
     "@validierung/jest-helper": "workspace:*",
     "@validierung/shared": "workspace:*",
-    "cross-env": "7.0.3",
     "esbuild": "0.14.8",
     "esbuild-node-loader": "0.6.3",
     "esbuild-register": "3.2.1",
@@ -42,7 +41,7 @@
     "prettier": "2.5.1",
     "rollup": "2.62.0",
     "rollup-plugin-dts": "4.1.0",
-    "rollup-plugin-esbuild": "4.7.2",
+    "rollup-plugin-esbuild": "4.8.1",
     "ts-jest": "27.1.2",
     "tsd": "0.19.0",
     "typescript": "4.5.4",
@@ -59,7 +58,7 @@
       "postcss": "8.4.5",
       "tailwindcss": "3.0.7",
       "typescript": "4.5.4",
-      "vite": "2.7.6",
+      "vite": "2.7.7",
       "vue-demi": "0.12.1"
     }
   }

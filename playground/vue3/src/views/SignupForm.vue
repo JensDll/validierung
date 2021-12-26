@@ -90,7 +90,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="mx-auto max-w-2xl">
+  <div>
     <form class="form" autocomplete="off" @submit.prevent="handleSubmit">
       <div>
         <label class="block font-medium" for="name">Name</label>
@@ -152,7 +152,7 @@ export default defineComponent({
         >
           Submit
         </AppButton>
-        <AppButton html-type="button" @click="resetFields()">Reset</AppButton>
+        <AppButton @click="resetFields()">Reset</AppButton>
       </div>
     </form>
     <PreFormData :val="{ form, validating, submitting, errors, hasError }" />
