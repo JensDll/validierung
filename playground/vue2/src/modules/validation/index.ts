@@ -10,3 +10,12 @@ export const validation = createValidation({
     submit: ({ submit, hasError }) => submit || hasError
   }
 })
+
+declare module 'validierung' {
+  interface ValidationBehaviorFunctions {
+    change: any
+    lazy: any
+    lazier: any
+    submit: any
+  }
+}

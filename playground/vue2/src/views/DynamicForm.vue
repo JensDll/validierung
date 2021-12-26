@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent } from '@vue/composition-api'
 import { useValidation, Field } from 'validierung'
 
 import FormProvider from '~/components/form/FormProvider.vue'

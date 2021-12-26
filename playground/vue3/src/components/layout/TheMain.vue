@@ -5,7 +5,7 @@ export default defineComponent({})
 </script>
 
 <template>
-  <main class="">
+  <main class="pb-24 lg:pl-16">
     <router-view></router-view>
   </main>
 </template>

@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent } from '@vue/composition-api'
 
 import { useNavStore } from '~/modules/pinia'
 import MenuIcon from '~/components/icon/MenuIcon.vue'
@@ -25,7 +25,7 @@ export default defineComponent({
         class="w-6 h-6 mr-4 cursor-pointer hover:text-gray-800 lg:hidden"
         @click="navStore.toggleNav()"
       />
-      <div class="font-semibold text-lg">Vue 3 Playground</div>
+      <div class="font-semibold text-lg">Vue 2 Playground</div>
     </div>
   </header>
 </template>

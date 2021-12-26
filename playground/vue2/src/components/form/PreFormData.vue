@@ -41,8 +41,8 @@ export default defineComponent({
 
 <template>
   <div>
-    <h3 class="mt-16 text-lg">Validation State</h3>
-    <pre class="mt-2">Validating: {{ val.validating }}</pre>
+    <h2>Validation State</h2>
+    <pre>Validating: {{ val.validating }}</pre>
     <pre class="mt-1">Submitting: {{ val.submitting }}</pre>
     <pre class="mt-1">Has Error: {{ val.hasError }}</pre>
     <pre class="mt-1">Errors: {{ val.errors }}</pre>

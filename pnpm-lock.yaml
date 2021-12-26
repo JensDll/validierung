@@ -1417,9 +1417,10 @@ packages:
   /@vue/composition-api/1.4.2_vue@2.6.14:
     resolution: {integrity: sha512-EqybqmMq835GISvlQXdDaV8dsbunpdmhClrnAqUJZLyxxV9pQXQYRtNDf+0e+fEwMfimLIsv7YmbKCbqxGRqXg==}
     peerDependencies:
-      vue2: '>= 2.5 < 3'
+      vue: '>= 2.5 < 3'
     dependencies:
       tslib: 2.3.1
+      vue: 2.6.14
       vue2: /vue/2.6.14
     dev: false
 
@@ -4809,6 +4810,7 @@ packages:
     peerDependencies:
       '@vue/composition-api': ^1.4.0
       typescript: '>=4.4.4'
+      vue: ^2.6.14 || ^3.2.0
     peerDependenciesMeta:
       '@vue/composition-api':
         optional: true
@@ -4818,9 +4820,8 @@ packages:
       '@vue/composition-api': 1.4.2_vue@2.6.14
       '@vue/devtools-api': 6.0.0-beta.21.1
       typescript: 4.5.4
+      vue: 2.6.14
       vue-demi: 0.12.1_36d2f728e2505d572049ec41bd4a1032
-    transitivePeerDependencies:
-      - vue
     dev: false
 
   /pinia/2.0.9_typescript@4.5.4+vue@3.2.26:
@@ -4828,6 +4829,7 @@ packages:
     peerDependencies:
       '@vue/composition-api': ^1.4.0
       typescript: '>=4.4.4'
+      vue: ^2.6.14 || ^3.2.0
     peerDependenciesMeta:
       '@vue/composition-api':
         optional: true
@@ -4836,9 +4838,8 @@ packages:
     dependencies:
       '@vue/devtools-api': 6.0.0-beta.21.1
       typescript: 4.5.4
+      vue: 3.2.26
       vue-demi: 0.12.1_vue@3.2.26
-    transitivePeerDependencies:
-      - vue
     dev: false
 
   /pirates/4.0.4:

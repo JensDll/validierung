@@ -2,11 +2,11 @@
 import { defineComponent } from '@vue/composition-api'
 import { Field, useValidation } from 'validierung'
 
-import PreFormData from '~/components/form/PreFormData.vue'
+import { rules } from '~/domain'
 import AppButton from '~/components/app/AppButton.vue'
 import FormErrors from '~/components/form/FormErrors.vue'
 import LoadingIcon from '~/components/icon/LoadingIcon.vue'
-import { rules } from '~/domain'
+import FormProvider from '~/components/form/FormProvider.vue'
 
 type FormData = {
   name: Field<string>
@@ -36,12 +36,7 @@ const checkName = (name: string) => {
 }
 
 export default defineComponent({
-  components: {
-    PreFormData,
-    AppButton,
-    FormErrors,
-    LoadingIcon
-  },
+  components: { FormErrors, AppButton, LoadingIcon, FormProvider },
   setup() {
     const val = useValidation<FormData>({
       name: {
@@ -81,87 +76,83 @@ export default defineComponent({
       } catch {}
     }
 
-    function handleReset() {
-      val.resetFields()
-    }
-
     return {
       ...val,
-      handleSubmit,
-      handleReset
+      handleSubmit
     }
   }
 })
 </script>
 
 <template>
-  <div class="mx-auto max-w-2xl">
-    <form class="form" autocomplete="off" @submit.prevent="handleSubmit">
-      <div>
-        <label class="block font-medium" for="name">Name</label>
-        <div class="flex items-center relative">
-          <input
-            class="w-full rounded border-2 px-1 py-[1px]"
-            id="name"
-            type="text"
-            v-model="form.name.$value"
-          />
-          <LoadingIcon
-            class="w-4 h-4 text-blue-600 absolute right-2"
-            v-if="form.name.$validating"
-          />
-        </div>
-        <FormErrors :errors="form.name.$errors" />
-      </div>
-      <div class="mt-2">
-        <label class="block font-medium" for="email">Email</label>
+  <FormProvider
+    title="Signup Form"
+    :val="{ form, validating, submitting, errors, hasError }"
+    @submit="handleSubmit()"
+  >
+    <div>
+      <label class="block font-medium" for="name">Name</label>
+      <div class="flex items-center relative">
         <input
           class="w-full rounded border-2 px-1 py-[1px]"
-          id="email"
+          id="name"
           type="text"
-          v-model="form.email.$value"
-          @blur="form.email.$validate()"
+          v-model="form.name.$value"
         />
-        <FormErrors :errors="form.email.$errors" />
-      </div>
-      <div class="mt-2">
-        <label class="block font-medium" for="password">Password</label>
-        <input
-          class="w-full rounded border-2 px-1 py-[1px]"
-          id="password"
-          type="password"
-          v-model="form.password.$value"
-          @blur="form.password.$validate()"
+        <LoadingIcon
+          class="w-4 h-4 text-blue-600 absolute right-2"
+          v-if="form.name.$validating"
         />
-        <FormErrors :errors="form.password.$errors" />
       </div>
-      <div class="mt-2">
-        <label class="block font-semibold" for="confirm-password">
-          Confirm Password
-        </label>
-        <input
-          class="w-full rounded border-2 px-1 py-[1px]"
-          id="confirm-password"
-          type="password"
-          v-model="form.confirmPassword.$value"
-          @blur="form.confirmPassword.$validate()"
-        />
-        <FormErrors :errors="form.confirmPassword.$errors" />
-      </div>
-      <div class="mt-6">
-        <AppButton
-          class="mr-2"
-          html-type="submit"
-          type="primary"
-          :disabled="submitting"
-        >
-          Submit
-        </AppButton>
-        <AppButton @click="handleReset()">Reset</AppButton>
-      </div>
-    </form>
-    <PreFormData :val="{ form, validating, submitting, errors, hasError }" />
-  </div>
+      <FormErrors :errors="form.name.$errors" />
+    </div>
+    <div class="mt-2">
+      <label class="block font-medium" for="email">Email</label>
+      <input
+        class="w-full rounded border-2 px-1 py-[1px]"
+        id="email"
+        type="text"
+        v-model="form.email.$value"
+        @blur="form.email.$validate()"
+      />
+      <FormErrors :errors="form.email.$errors" />
+    </div>
+    <div class="mt-2">
+      <label class="block font-medium" for="password">Password</label>
+      <input
+        class="w-full rounded border-2 px-1 py-[1px]"
+        id="password"
+        type="password"
+        v-model="form.password.$value"
+        @blur="form.password.$validate()"
+      />
+      <FormErrors :errors="form.password.$errors" />
+    </div>
+    <div class="mt-2">
+      <label class="block font-semibold" for="confirm-password">
+        Confirm Password
+      </label>
+      <input
+        class="w-full rounded border-2 px-1 py-[1px]"
+        id="confirm-password"
+        type="password"
+        v-model="form.confirmPassword.$value"
+        @blur="form.confirmPassword.$validate()"
+      />
+      <FormErrors :errors="form.confirmPassword.$errors" />
+    </div>
+    <div class="mt-6">
+      <AppButton
+        class="mr-2"
+        html-type="submit"
+        type="primary"
+        :disabled="submitting"
+      >
+        Submit
+      </AppButton>
+      <AppButton @click="resetFields()">Reset</AppButton>
+    </div>
+  </FormProvider>
 </template>
 
 <style lang="postcss" scoped></style>

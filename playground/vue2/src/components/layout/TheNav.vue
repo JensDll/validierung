@@ -1,18 +1,14 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { useRouter } from 'vue-router'
+import { defineComponent } from '@vue/composition-api'
 
 import { useNavStore } from '~/modules/pinia'
 
 export default defineComponent({
   setup() {
     const navStore = useNavStore()
-    const router = useRouter()
-    const routes = router.getRoutes()
 
     return {
-      navStore,
-      routes
+      navStore
     }
   }
 })
@@ -26,7 +22,7 @@ export default defineComponent({
     >
       <ul class="space-y-2 lg:sticky lg:top-8">
         <router-link
-          v-for="route in routes"
+          v-for="route in $router.getRoutes()"
           :key="route.name"
           :to="{ name: route.name }"
           custom
@@ -53,7 +49,7 @@ export default defineComponent({
 .slide-leave-active {
   transition: transform 0.2s;
 }
-.slide-enter-from,
+.slide-enter,
 .slide-leave-to {
   transform: translateX(-100%);
 }
