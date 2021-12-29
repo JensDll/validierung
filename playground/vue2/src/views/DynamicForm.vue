@@ -84,7 +84,6 @@ export default defineComponent({
   <FormProvider
     title="Dynamic Form"
     :val="{ form, validating, submitting, errors, hasError }"
-    form-class="grid justify-items-start"
     @submit="handleSubmit()"
   >
     <div class="grid grid-cols-[auto_auto] grid-rows-[auto_auto]">

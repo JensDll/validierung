@@ -52,12 +52,16 @@ export default defineComponent({
       },
       email: {
         $value: '',
-        $rules: [rules.email('Please use a valid email address')]
+        $rules: [
+          rules.email(
+            `Please use a valid email address containing an "@" followed by a "."`
+          )
+        ]
       },
       password: {
         $value: '',
         $rules: [
-          rules.min(8)('Password has to be 8 characters or longer'),
+          rules.min(8)('Please use a password longer than 7 characters'),
           {
             key: 'pw',
             rule: rules.equal('Passwords do not match')
@@ -67,7 +71,7 @@ export default defineComponent({
       confirmPassword: {
         $value: '',
         $rules: [
-          rules.min(8)('Password has to be 8 characters or longer'),
+          rules.min(8)('Please use a password longer than 7 characters'),
           {
             key: 'pw',
             rule: rules.equal('Passwords do not match')
@@ -97,67 +101,72 @@ export default defineComponent({
     :val="{ form, validating, submitting, errors, hasError }"
     @submit="handleSubmit()"
   >
-    <div>
-      <label class="block font-medium" for="name">Name</label>
-      <div class="flex items-center relative">
-        <input
-          class="w-full rounded border-2 px-1 py-[1px]"
-          id="name"
-          type="text"
-          v-model="form.name.$value"
-        />
-        <LoadingIcon
-          class="w-4 h-4 text-blue-600 absolute right-2"
-          v-if="form.name.$validating"
-        />
+    <div class="2xl:w-2/3">
+      <div>
+        <label class="block font-medium mb-1" for="name">Name</label>
+        <div class="flex items-center relative">
+          <input
+            class="w-full rounded border-2 p-1"
+            id="name"
+            type="text"
+            placeholder="Alice, Bob, or Oscar"
+            v-model="form.name.$value"
+          />
+          <LoadingIcon
+            class="w-4 h-4 text-blue-600 absolute right-2"
+            v-if="form.name.$validating"
+          />
+        </div>
+        <FormErrors class="mt-1" :errors="form.name.$errors" />
       </div>
-      <FormErrors :errors="form.name.$errors" />
-    </div>
-    <div class="mt-2">
-      <label class="block font-medium" for="email">Email</label>
-      <input
-        class="w-full rounded border-2 px-1 py-[1px]"
-        id="email"
-        type="text"
-        v-model="form.email.$value"
-        @blur="form.email.$validate()"
-      />
-      <FormErrors :errors="form.email.$errors" />
-    </div>
-    <div class="mt-2">
-      <label class="block font-medium" for="password">Password</label>
-      <input
-        class="w-full rounded border-2 px-1 py-[1px]"
-        id="password"
-        type="password"
-        v-model="form.password.$value"
-        @blur="form.password.$validate()"
-      />
-      <FormErrors :errors="form.password.$errors" />
-    </div>
-    <div class="mt-2">
-      <label class="block font-semibold" for="confirm-password">
-        Confirm Password
-      </label>
-      <input
-        class="w-full rounded border-2 px-1 py-[1px]"
-        id="confirm-password"
-        type="password"
-        v-model="form.confirmPassword.$value"
-        @blur="form.confirmPassword.$validate()"
-      />
-      <FormErrors :errors="form.confirmPassword.$errors" />
-    </div>
-    <div class="mt-6">
-      <AppButton
-        class="mr-2"
-        html-type="submit"
-        type="primary"
-        :disabled="submitting"
-      >
-        Signup
-      </AppButton>
-      <AppButton @click="resetFields()">Reset</AppButton>
+      <div class="mt-2">
+        <label class="block font-medium mb-1" for="email">Email</label>
+        <input
+          class="w-full rounded border-2 p-1"
+          id="email"
+          type="text"
+          v-model="form.email.$value"
+          @blur="form.email.$validate()"
+        />
+        <FormErrors class="mt-1" :errors="form.email.$errors" />
+      </div>
+      <div class="grid grid-cols-2 gap-x-4 mt-2">
+        <div>
+          <label class="block font-medium mb-1" for="password">Password</label>
+          <input
+            class="w-full rounded border-2 p-1"
+            id="password"
+            type="password"
+            v-model="form.password.$value"
+            @blur="form.password.$validate()"
+          />
+          <FormErrors class="mt-1" :errors="form.password.$errors" />
+        </div>
+        <div>
+          <label class="block font-semibold mb-1" for="confirm-password">
+            Confirm
+          </label>
+          <input
+            class="w-full rounded border-2 p-1"
+            id="confirm-password"
+            type="password"
+            v-model="form.confirmPassword.$value"
+            @blur="form.confirmPassword.$validate()"
+          />
+          <FormErrors class="mt-1" :errors="form.confirmPassword.$errors" />
+        </div>
+      </div>
+      <div class="mt-6">
+        <AppButton
+          class="mr-2"
+          html-type="submit"
+          type="primary"
+          :disabled="submitting"
+        >
+          Signup
+        </AppButton>
+        <AppButton @click="resetFields()">Reset</AppButton>
+      </div>
     </div>
   </FormProvider>
 </template>

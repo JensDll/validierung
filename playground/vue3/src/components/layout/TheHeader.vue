@@ -22,7 +22,7 @@ export default defineComponent({
   <header class="border-b py-4">
     <div class="px-6 flex items-center lg:px-12 lg:container lg:mx-auto">
       <MenuIcon
-        class="w-6 h-6 mr-4 cursor-pointer hover:text-gray-800 lg:hidden"
+        class="w-6 h-6 mr-4 mt-[2px] cursor-pointer hover:text-gray-800 lg:hidden"
         @click="navStore.toggleNav()"
       />
       <div class="font-semibold text-lg">Vue 3 Playground</div>

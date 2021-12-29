@@ -29,7 +29,9 @@ export type ValidationBehaviorInfo<T = any> = {
   value: T
 }
 
-export type ValidationBehaviorFunction = (info: ValidationBehaviorInfo) => any
+export type ValidationBehaviorFunction = (
+  info: ValidationBehaviorInfo
+) => boolean
 
 export type ValidationBehavior =
   | ValidationBehaviorString

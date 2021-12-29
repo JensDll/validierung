@@ -63,9 +63,11 @@ export class FormField {
     this.initialModelValue = nShared.deepCopy(this.modelValue.value)
 
     this.ruleInfos = ruleInfos.map((info, ruleNumber) => {
+      const rule = unpackRule(info.rule)
+
       let validator: Validator
       const validatorNotDebounced: Validator = (modelValues, force, submit) => {
-        if (this.shouldValidate(ruleNumber, force, submit)) {
+        if (rule && this.shouldValidate(ruleNumber, force, submit)) {
           return this.validate(ruleNumber, modelValues)
         }
       }
@@ -88,7 +90,7 @@ export class FormField {
         )
 
         validator = (modelValues, force, submit) => {
-          if (this.shouldValidate(ruleNumber, force, submit)) {
+          if (rule && this.shouldValidate(ruleNumber, force, submit)) {
             debounceInvokedTimes++
             this.rulesValidating.value++
             this.form.rulesValidating.value++
@@ -106,7 +108,7 @@ export class FormField {
 
       return {
         buffer: new nShared.LinkedList(),
-        rule: unpackRule(info.rule),
+        rule,
         validator,
         validatorNotDebounced,
         validationBehavior: info.validationBehavior,
@@ -126,11 +128,8 @@ export class FormField {
   async validate(ruleNumber: number, modelValues: unknown[]) {
     const { rule, buffer } = this.ruleInfos[ruleNumber]
 
-    if (!rule) {
-      return
-    }
-
     let error: unknown
+    // @ts-expect-error It is made sure that the rule is defined at this point
     const ruleResult = rule(...modelValues)
 
     if (buffer.last?.value) {

@@ -8,7 +8,7 @@ import * as nShared from '@validierung/shared'
 export type ValidatorParameters = [
   /**
    * Type definition is not accurate here but catches invalid use of validators.
-   * The accurate type would be an array of anything expect Refs.
+   * Calling validators with Refs will be caught.
    */
   modelValues: (string | number | Record<string, unknown>)[],
   force: boolean,
@@ -20,11 +20,13 @@ export type Validator = (...params: ValidatorParameters) => ValidatorReturn
 type SimpleValidators = {
   validators: Validator[]
   validatorsNotDebounced: Validator[]
-  meta: {
-    field: FormField
-    keys: string[]
-    rollbacks: (() => void)[]
-  }
+  meta: SimpleValidatorsMeta
+}
+
+type SimpleValidatorsMeta = {
+  field: FormField
+  keys: string[]
+  rollbacks: (() => void)[]
 }
 
 type KeyedValidator = {
@@ -127,7 +129,11 @@ export class Form {
       ...validators.map(validator =>
         validator([meta.field.modelValue.value], force, false)
       ),
-      ...this.collectValidatorResultsForKeysMaybeDebounced(meta.keys, force)
+      ...this.collectValidatorResultsForKeysMaybeDebounced(
+        meta.keys,
+        meta.field,
+        force
+      )
     ])
   }
 
@@ -196,11 +202,12 @@ export class Form {
    */
   private *collectValidatorResultsForKeysMaybeDebounced(
     keys: string[] | Iterable<string>,
+    field: FormField,
     force: boolean
   ): Generator<ValidatorReturn> {
     for (const key of keys) {
       const keyedValidators = this.keyedValidators.get(key)!
-      if (this.isEveryFieldTouched(keyedValidators)) {
+      if (this.isEveryOtherFieldTouched(keyedValidators, field)) {
         const values = [...keyedValidators.values()]
         const modelValues = values.map(
           ({ meta }) => meta.field.modelValue.value
@@ -248,9 +255,12 @@ export class Form {
     }
   }
 
-  private isEveryFieldTouched(keyedValidators: KeyedValidators): boolean {
+  private isEveryOtherFieldTouched(
+    keyedValidators: KeyedValidators,
+    field: FormField
+  ): boolean {
     for (const { meta } of keyedValidators) {
-      if (!meta.field.touched.value) {
+      if (meta.field !== field && !meta.field.touched.value) {
         return false
       }
     }

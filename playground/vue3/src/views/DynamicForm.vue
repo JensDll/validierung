@@ -6,6 +6,7 @@ import FormProvider from '~/components/form/FormProvider.vue'
 import AppButton from '~/components/app/AppButton.vue'
 import PlusCircleIcon from '~/components/icon/PlusCircleIcon.vue'
 import MinusCircleIcon from '~/components/icon/MinusCircleIcon.vue'
+import { rules } from '~/domain'
 
 type FormData = {
   a: Field<string>
@@ -28,7 +29,8 @@ export default defineComponent({
   setup() {
     const val = useValidation<FormData>({
       a: {
-        $value: ''
+        $value: '',
+        $rules: []
       },
       outerList: []
     })
@@ -36,19 +38,33 @@ export default defineComponent({
     function addOuter() {
       val.add(['outerList'], {
         b: {
-          $value: ''
+          $value: '',
+          $rules: []
         },
         innerList: []
       })
     }
 
+    let id = 0
     function addInner(outerIndex: number) {
       val.add(['outerList', outerIndex, 'innerList'], {
         c: {
-          $value: ''
+          $value: '',
+          $rules: [
+            {
+              key: (++id).toString(),
+              rule(c, d) {}
+            }
+          ]
         },
         d: {
-          $value: ''
+          $value: '',
+          $rules: [
+            {
+              key: id.toString(),
+              rule(c, d) {}
+            }
+          ]
         }
       })
     }
@@ -84,76 +100,86 @@ export default defineComponent({
   <FormProvider
     title="Dynamic Form"
     :val="{ form, validating, submitting, errors, hasError }"
-    form-class="grid justify-items-start"
     @submit="handleSubmit()"
   >
-    <div class="grid grid-cols-[auto_auto] grid-rows-[auto_auto]">
+    <div>
       <label class="block font-medium" :for="form.a.$uid.toString()">A</label>
-      <div></div>
-      <input
-        :id="form.a.$uid.toString()"
-        class="border-2"
-        type="text"
-        v-model="form.a.$value"
-      />
-      <PlusCircleIcon
-        class="w-6 h-6 ml-6 cursor-pointer self-center text-emerald-600 hover:text-emerald-700"
-        @click="addOuter()"
-      />
+      <div class="flex items-center">
+        <input
+          :id="form.a.$uid.toString()"
+          class="border-2"
+          type="text"
+          v-model="form.a.$value"
+          @blur="form.a.$validate()"
+        />
+        <PlusCircleIcon
+          class="w-6 h-6 ml-6 cursor-pointer text-emerald-600 hover:text-emerald-700"
+          @click="addOuter()"
+        />
+      </div>
     </div>
     <div
       v-for="(outer, outerIndex) in form.outerList"
       :key="outer.b.$uid"
-      class="mt-6 grid justify-items-start"
+      class="mt-6"
     >
-      <div class="grid grid-cols-[auto_auto_auto] grid-rows-[auto_auto]">
+      <div>
         <label class="block font-medium" :for="outer.b.$uid.toString()">
           B
         </label>
-        <div class="col-span-2"></div>
-        <input
-          :id="outer.b.$uid.toString()"
-          class="border-2"
-          type="text"
-          v-model="outer.b.$value"
-        />
-        <PlusCircleIcon
-          class="w-6 h-6 ml-6 cursor-pointer self-center text-emerald-600 hover:text-emerald-700"
-          @click="addInner(outerIndex)"
-        />
-        <MinusCircleIcon
-          class="w-6 h-6 ml-3 cursor-pointer self-center text-red-600 hover:text-red-700"
-          @click="removeOuter(outerIndex)"
-        />
+        <div class="flex items-center">
+          <input
+            :id="outer.b.$uid.toString()"
+            class="border-2"
+            type="text"
+            v-model="outer.b.$value"
+            @blur="outer.b.$validate()"
+          />
+          <PlusCircleIcon
+            class="w-6 h-6 ml-6 cursor-pointer text-emerald-600 hover:text-emerald-700"
+            @click="addInner(outerIndex)"
+          />
+          <MinusCircleIcon
+            class="w-6 h-6 ml-3 cursor-pointer text-red-600 hover:text-red-700"
+            @click="removeOuter(outerIndex)"
+          />
+        </div>
       </div>
       <div
         v-for="(inner, innerIndex) in outer.innerList"
         :key="inner.c.$uid"
-        class="grid grid-cols-[auto_auto_auto] grid-rows-[auto_auto] mt-2"
+        class="mt-2 flex"
       >
-        <label class="block font-medium" :for="inner.c.$uid.toString()">
-          C
-        </label>
-        <label class="block ml-6 font-medium" :for="inner.d.$uid.toString()">
-          D
-        </label>
-        <div></div>
-        <input
-          :id="inner.c.$uid.toString()"
-          class="border-2"
-          type="text"
-          v-model="inner.c.$value"
-        />
-        <input
-          :id="inner.d.$uid.toString()"
-          class="ml-6 border-2"
-          type="text"
-          v-model="inner.d.$value"
-        />
-        <MinusCircleIcon
-          class="w-6 h-6 ml-6 self-center cursor-pointer text-red-600 hover:text-red-700"
-          @click="removeInner(outerIndex, innerIndex)"
-        />
+        <div>
+          <label class="block font-medium" :for="inner.c.$uid.toString()">
+            C
+          </label>
+          <input
+            :id="inner.c.$uid.toString()"
+            class="border-2"
+            type="text"
+            v-model="inner.c.$value"
+            @blur="inner.c.$validate()"
+          />
+        </div>
+        <div>
+          <label class="block ml-6 font-medium" :for="inner.d.$uid.toString()">
+            D
+          </label>
+          <div class="flex items-center">
+            <input
+              :id="inner.d.$uid.toString()"
+              class="ml-6 border-2"
+              type="text"
+              v-model="inner.d.$value"
+              @blur="inner.d.$validate()"
+            />
+            <MinusCircleIcon
+              class="w-6 h-6 ml-6 cursor-pointer text-red-600 hover:text-red-700"
+              @click="removeInner(outerIndex, innerIndex)"
+            />
+          </div>
+        </div>
       </div>
     </div>
     <div class="mt-12">

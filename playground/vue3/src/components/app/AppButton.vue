@@ -20,7 +20,7 @@ export default defineComponent({
   <button
     :type="htmlType"
     :class="[
-      'py-1 px-4 rounded border-2  transition-colors',
+      'py-1 px-4 rounded border-2 font-medium transition-colors',
       {
         default: 'border-gray-300 hover:bg-gray-100 ',
         primary:

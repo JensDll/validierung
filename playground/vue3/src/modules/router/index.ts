@@ -2,6 +2,7 @@ import { RouteRecordRaw, createRouter, createWebHistory } from 'vue-router'
 
 import SignupForm from '~/views/SignupForm.vue'
 import DynamicForm from '~/views/DynamicForm.vue'
+import KeyedRules from '~/views/KeyedRules.vue'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -18,6 +19,14 @@ const routes: RouteRecordRaw[] = [
     component: DynamicForm,
     meta: {
       displayName: 'Dynamic Form'
+    }
+  },
+  {
+    path: '/keyed',
+    name: 'keyed',
+    component: KeyedRules,
+    meta: {
+      displayName: 'More Keyed Rules'
     }
   }
 ]
