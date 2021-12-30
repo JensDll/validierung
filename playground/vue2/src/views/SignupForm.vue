@@ -2,9 +2,10 @@
 import { defineComponent } from '@vue/composition-api'
 import { Field, useValidation } from 'validierung'
 
-import { rules } from '~/domain'
+import PreFormData from '~/components/form/PreFormData.vue'
 import AppButton from '~/components/app/AppButton.vue'
 import FormErrors from '~/components/form/FormErrors.vue'
+import { rules } from '~/domain'
 import LoadingIcon from '~/components/icon/LoadingIcon.vue'
 import FormProvider from '~/components/form/FormProvider.vue'
 
@@ -36,7 +37,13 @@ const checkName = (name: string) => {
 }
 
 export default defineComponent({
-  components: { FormErrors, AppButton, LoadingIcon, FormProvider },
+  components: {
+    PreFormData,
+    AppButton,
+    FormErrors,
+    LoadingIcon,
+    FormProvider
+  },
   setup() {
     const val = useValidation<FormData>({
       name: {
@@ -50,21 +57,27 @@ export default defineComponent({
       password: {
         $value: '',
         $rules: [
-          rules.min(8)('Password has to be 8 characters or longer'),
-          {
-            key: 'pw',
-            rule: rules.equal('Passwords do not match')
-          }
+          rules.min(8)('Password has to be longer than 7 characters'),
+          [
+            'lazy',
+            {
+              key: 'pw',
+              rule: rules.equal('Passwords do not match')
+            }
+          ]
         ]
       },
       confirmPassword: {
         $value: '',
         $rules: [
-          rules.min(8)('Password has to be 8 characters or longer'),
-          {
-            key: 'pw',
-            rule: rules.equal('Passwords do not match')
-          }
+          rules.min(8)('Password has to be longer than 7 characters'),
+          [
+            'lazy',
+            {
+              key: 'pw',
+              rule: rules.equal('Passwords do not match')
+            }
+          ]
         ]
       }
     })
@@ -90,67 +103,72 @@ export default defineComponent({
     :val="{ form, validating, submitting, errors, hasError }"
     @submit="handleSubmit()"
   >
-    <div>
-      <label class="block font-medium" for="name">Name</label>
-      <div class="flex items-center relative">
-        <input
-          class="w-full rounded border-2 px-1 py-[1px]"
-          id="name"
-          type="text"
-          v-model="form.name.$value"
-        />
-        <LoadingIcon
-          class="w-4 h-4 text-blue-600 absolute right-2"
-          v-if="form.name.$validating"
-        />
+    <div class="2xl:w-2/3">
+      <div>
+        <label class="label" for="name">Name</label>
+        <div class="flex items-center relative">
+          <input
+            id="name"
+            class="w-full input"
+            :class="{ error: form.name.$hasError }"
+            type="text"
+            placeholder="Alice Bob or Oscar"
+            v-model="form.name.$value"
+          />
+          <LoadingIcon
+            class="w-5 h-5 text-indigo-500 absolute right-3"
+            v-if="form.name.$validating"
+          />
+        </div>
+        <FormErrors class="mt-1" :errors="form.name.$errors" />
       </div>
-      <FormErrors :errors="form.name.$errors" />
-    </div>
-    <div class="mt-2">
-      <label class="block font-medium" for="email">Email</label>
-      <input
-        class="w-full rounded border-2 px-1 py-[1px]"
-        id="email"
-        type="text"
-        v-model="form.email.$value"
-        @blur="form.email.$validate()"
-      />
-      <FormErrors :errors="form.email.$errors" />
-    </div>
-    <div class="mt-2">
-      <label class="block font-medium" for="password">Password</label>
-      <input
-        class="w-full rounded border-2 px-1 py-[1px]"
-        id="password"
-        type="password"
-        v-model="form.password.$value"
-        @blur="form.password.$validate()"
-      />
-      <FormErrors :errors="form.password.$errors" />
-    </div>
-    <div class="mt-2">
-      <label class="block font-semibold" for="confirm-password">
-        Confirm Password
-      </label>
-      <input
-        class="w-full rounded border-2 px-1 py-[1px]"
-        id="confirm-password"
-        type="password"
-        v-model="form.confirmPassword.$value"
-        @blur="form.confirmPassword.$validate()"
-      />
-      <FormErrors :errors="form.confirmPassword.$errors" />
-    </div>
-    <div class="mt-6">
-      <AppButton
-        class="mr-2"
-        html-type="submit"
-        type="primary"
-        :disabled="submitting"
-      >
-        Submit
-      </AppButton>
-      <AppButton @click="resetFields()">Reset</AppButton>
+      <div class="mt-2">
+        <label class="label" for="email">Email</label>
+        <input
+          id="email"
+          class="w-full input"
+          :class="{ error: form.email.$hasError }"
+          type="text"
+          v-model="form.email.$value"
+          @blur="form.email.$validate()"
+        />
+        <FormErrors class="mt-1" :errors="form.email.$errors" />
+      </div>
+      <div class="mt-2">
+        <label class="label" for="password">Password</label>
+        <input
+          id="password"
+          class="w-full input"
+          :class="{ error: form.password.$hasError }"
+          type="password"
+          v-model="form.password.$value"
+          @blur="form.password.$validate()"
+        />
+        <FormErrors class="mt-1" :errors="form.password.$errors" />
+      </div>
+      <div class="mt-2">
+        <label class="label" for="confirm-password">Confirm Password</label>
+        <input
+          id="confirm-password"
+          class="w-full input"
+          :class="{ error: form.confirmPassword.$hasError }"
+          type="password"
+          v-model="form.confirmPassword.$value"
+          @blur="form.confirmPassword.$validate()"
+        />
+        <FormErrors class="mt-1" :errors="form.confirmPassword.$errors" />
+      </div>
+      <div class="mt-6">
+        <AppButton
+          class="mr-2"
+          html-type="submit"
+          type="primary"
+          :disabled="submitting"
+        >
+          Signup
+        </AppButton>
+        <AppButton @click="resetFields()">Reset</AppButton>
+      </div>
     </div>
   </FormProvider>
 </template>

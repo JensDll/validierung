@@ -69,4 +69,18 @@ export default defineComponent({
     @apply text-2xl font-semibold mb-[0.8em];
   }
 }
+
+@layer components {
+  .label {
+    @apply block mb-1 font-medium text-gray-700;
+  }
+
+  .input {
+    @apply block py-2 px-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50;
+  }
+
+  .input.error {
+    @apply bg-red-50 border-red-200 focus:border-red-300 focus:ring focus:ring-red-200 focus:ring-opacity-50;
+  }
+}
 </style>

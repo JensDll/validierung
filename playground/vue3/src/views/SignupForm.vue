@@ -52,30 +52,32 @@ export default defineComponent({
       },
       email: {
         $value: '',
-        $rules: [
-          rules.email(
-            `Please use a valid email address containing an "@" followed by a "."`
-          )
-        ]
+        $rules: [rules.email('Please use a valid email address')]
       },
       password: {
         $value: '',
         $rules: [
-          rules.min(8)('Please use a password longer than 7 characters'),
-          {
-            key: 'pw',
-            rule: rules.equal('Passwords do not match')
-          }
+          rules.min(8)('Password has to be longer than 7 characters'),
+          [
+            'lazy',
+            {
+              key: 'pw',
+              rule: rules.equal('Passwords do not match')
+            }
+          ]
         ]
       },
       confirmPassword: {
         $value: '',
         $rules: [
-          rules.min(8)('Please use a password longer than 7 characters'),
-          {
-            key: 'pw',
-            rule: rules.equal('Passwords do not match')
-          }
+          rules.min(8)('Password has to be longer than 7 characters'),
+          [
+            'lazy',
+            {
+              key: 'pw',
+              rule: rules.equal('Passwords do not match')
+            }
+          ]
         ]
       }
     })
@@ -103,58 +105,58 @@ export default defineComponent({
   >
     <div class="2xl:w-2/3">
       <div>
-        <label class="block font-medium mb-1" for="name">Name</label>
+        <label class="label" for="name">Name</label>
         <div class="flex items-center relative">
           <input
-            class="w-full rounded border-2 p-1"
             id="name"
+            class="w-full input"
+            :class="{ error: form.name.$hasError }"
             type="text"
-            placeholder="Alice, Bob, or Oscar"
+            placeholder="Alice Bob or Oscar"
             v-model="form.name.$value"
           />
           <LoadingIcon
-            class="w-4 h-4 text-blue-600 absolute right-2"
+            class="w-5 h-5 text-indigo-500 absolute right-3"
             v-if="form.name.$validating"
           />
         </div>
         <FormErrors class="mt-1" :errors="form.name.$errors" />
       </div>
       <div class="mt-2">
-        <label class="block font-medium mb-1" for="email">Email</label>
+        <label class="label" for="email">Email</label>
         <input
-          class="w-full rounded border-2 p-1"
           id="email"
+          class="w-full input"
+          :class="{ error: form.email.$hasError }"
           type="text"
           v-model="form.email.$value"
           @blur="form.email.$validate()"
         />
         <FormErrors class="mt-1" :errors="form.email.$errors" />
       </div>
-      <div class="grid grid-cols-2 gap-x-4 mt-2">
-        <div>
-          <label class="block font-medium mb-1" for="password">Password</label>
-          <input
-            class="w-full rounded border-2 p-1"
-            id="password"
-            type="password"
-            v-model="form.password.$value"
-            @blur="form.password.$validate()"
-          />
-          <FormErrors class="mt-1" :errors="form.password.$errors" />
-        </div>
-        <div>
-          <label class="block font-semibold mb-1" for="confirm-password">
-            Confirm
-          </label>
-          <input
-            class="w-full rounded border-2 p-1"
-            id="confirm-password"
-            type="password"
-            v-model="form.confirmPassword.$value"
-            @blur="form.confirmPassword.$validate()"
-          />
-          <FormErrors class="mt-1" :errors="form.confirmPassword.$errors" />
-        </div>
+      <div class="mt-2">
+        <label class="label" for="password">Password</label>
+        <input
+          id="password"
+          class="w-full input"
+          :class="{ error: form.password.$hasError }"
+          type="password"
+          v-model="form.password.$value"
+          @blur="form.password.$validate()"
+        />
+        <FormErrors class="mt-1" :errors="form.password.$errors" />
+      </div>
+      <div class="mt-2">
+        <label class="label" for="confirm-password">Confirm Password</label>
+        <input
+          id="confirm-password"
+          class="w-full input"
+          :class="{ error: form.confirmPassword.$hasError }"
+          type="password"
+          v-model="form.confirmPassword.$value"
+          @blur="form.confirmPassword.$validate()"
+        />
+        <FormErrors class="mt-1" :errors="form.confirmPassword.$errors" />
       </div>
       <div class="mt-6">
         <AppButton

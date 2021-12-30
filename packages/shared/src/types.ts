@@ -11,18 +11,17 @@ export const isArray = (x: unknown): x is any[] => Array.isArray(x)
 export const isObject = (x: unknown): x is AnyObject =>
   typeof x === 'object' && x !== null
 
-export type Key = string | number | symbol
-
-export type AnyObject = Record<Key, any>
+export type AnyObject = Record<PropertyKey, any>
 
 export type AnyFunction = (...args: any[]) => any
 
-export type DeepIndex<T, Ks extends readonly Key[], R = unknown> = Ks extends [
-  infer First,
-  ...infer Rest
-]
+export type DeepIndex<
+  T,
+  Ks extends readonly PropertyKey[],
+  R = unknown
+> = Ks extends [infer First, ...infer Rest]
   ? First extends keyof T
-    ? Rest extends readonly Key[]
+    ? Rest extends readonly PropertyKey[]
       ? DeepIndex<T[First], Rest>
       : R
     : R

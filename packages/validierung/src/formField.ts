@@ -44,7 +44,9 @@ export class FormField {
   validating: ComputedRef<boolean> = computed(
     () => this.rulesValidating.value > 0
   )
-  hasError: ComputedRef<boolean> = computed(() => this.errors.value.length > 0)
+  hasError: ComputedRef<boolean> = computed(() =>
+    this.hasErrors.value.some(value => value)
+  )
   hasErrors: Ref<boolean[]>
 
   constructor(
@@ -163,7 +165,7 @@ export class FormField {
         //
         // In both cases, no error is to be set but the promise should still reject
         // if the rule returns a string.
-        if (typeof error === 'string') {
+        if (typeof error === 'string' || typeof error === 'symbol') {
           throw error
         }
       }
@@ -222,23 +224,26 @@ export class FormField {
   }
 
   private setError(ruleNumber: any, error: unknown) {
-    if (typeof error === 'string') {
+    const isString = typeof error === 'string'
+    const isSymbol = typeof error === 'symbol'
+
+    if (isString || isSymbol) {
       if (isVue3) {
-        this.rawErrors.value[ruleNumber] = error
+        isString && (this.rawErrors.value[ruleNumber] = error)
         this.hasErrors.value[ruleNumber] = true
       } else {
-        set(this.rawErrors.value, ruleNumber, error)
+        isString && set(this.rawErrors.value, ruleNumber, error)
         set(this.hasErrors.value, ruleNumber, true)
       }
       throw error
+    }
+
+    if (isVue3) {
+      this.rawErrors.value[ruleNumber] = null
+      this.hasErrors.value[ruleNumber] = false
     } else {
-      if (isVue3) {
-        this.rawErrors.value[ruleNumber] = null
-        this.hasErrors.value[ruleNumber] = false
-      } else {
-        set(this.rawErrors.value, ruleNumber, null)
-        set(this.hasErrors.value, ruleNumber, false)
-      }
+      set(this.rawErrors.value, ruleNumber, null)
+      set(this.hasErrors.value, ruleNumber, false)
     }
   }
 

@@ -24,7 +24,7 @@ export default defineComponent({
       {
         default: 'border-gray-300 hover:bg-gray-100 ',
         primary:
-          'bg-blue-600 border-blue-600 text-white hover:bg-blue-500 hover:border-blue-500',
+          'bg-indigo-600 border-indigo-600 text-white hover:bg-indigo-500 hover:border-indigo-500',
         danger:
           'bg-red-500 border-red-500 text-white hover:bg-red-400 hover:border-red-400'
       }[type]

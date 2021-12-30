@@ -19,13 +19,13 @@ export default defineComponent({
   <button
     :type="htmlType"
     :class="[
-      'py-1 px-4 rounded border-2 transition-colors',
+      'py-1 px-4 rounded border-2 font-medium transition-colors',
       {
         default: 'border-gray-300 hover:bg-gray-100 ',
         primary:
-          'bg-blue-600 border-blue-600 text-white hover:bg-blue-500 hover:border-blue-500',
+          'bg-indigo-600 border-indigo-600 text-white hover:bg-indigo-500 hover:border-indigo-500',
         danger:
-          'bg-red-600 border-6ed-500 text-white hover:bg-red-500 hover:border-red-500'
+          'bg-red-500 border-red-500 text-white hover:bg-red-400 hover:border-red-400'
       }[type]
     ]"
     @click="$emit('click')"

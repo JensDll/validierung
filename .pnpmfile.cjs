@@ -4,8 +4,6 @@ function hasVuePeerDependency(pkg) {
 
 function readPackage(pkg, context) {
   if (hasVuePeerDependency(pkg)) {
-    // Maybe vue peer dependencies warnings
-    // can be fixed here
   }
 
   return pkg

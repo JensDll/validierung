@@ -18,9 +18,9 @@ export default defineComponent({
   <transition name="slide">
     <nav
       v-if="!navStore.isHidden"
-      class="pr-8 pb-24 fixed bg-white inset-y-0 left-0 z-50 border-r lg:relative"
+      class="p-4 fixed bg-white inset-y-0 left-0 z-50 border-r lg:p-0 lg:pr-8 lg:relative"
     >
-      <ul class="space-y-2 lg:sticky lg:top-8">
+      <ul class="space-y-2 lg:sticky lg:top-6">
         <router-link
           v-for="route in $router.getRoutes()"
           :key="route.name"
@@ -30,9 +30,9 @@ export default defineComponent({
         >
           <li
             :class="[
-              'pl-4 pr-12 py-2 rounded-md cursor-pointer hover:text-sky-500',
+              'pl-4 pr-12 py-2 rounded-md cursor-pointer hover:text-emerald-600 lg:ml-[-1rem]',
               isActive && 'router-link-active',
-              isExactActive && 'bg-sky-50 text-sky-500 font-medium'
+              isExactActive && 'bg-emerald-50 text-emerald-600 font-medium'
             ]"
             @click="navigate"
           >

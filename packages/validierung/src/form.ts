@@ -137,7 +137,7 @@ export class Form {
     ])
   }
 
-  async validateAll(names?: readonly nShared.Key[]): Promise<void> {
+  async validateAll(names?: readonly PropertyKey[]): Promise<void> {
     const settledResults = await Promise.allSettled(
       this.collectValidatorResultsForNames(names)
     )
@@ -220,7 +220,7 @@ export class Form {
   }
 
   private *collectValidatorResultsForNames(
-    names?: readonly nShared.Key[]
+    names?: readonly PropertyKey[]
   ): Generator<ValidatorReturn> {
     if (names === undefined) {
       for (const {

@@ -21,7 +21,6 @@ export {
   isDefined,
   isObject,
   isRecord,
-  type Key,
   type MaybeRef,
   type AnyObject,
   type AnyFunction,

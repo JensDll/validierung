@@ -1,8 +1,12 @@
 import { set as vueSet, isVue3 } from 'vue-demi'
 
-import { Key, AnyObject } from './types'
+import { AnyObject } from './types'
 
-export function set(obj: AnyObject, keys: readonly Key[], value: unknown) {
+export function set(
+  obj: AnyObject,
+  keys: readonly PropertyKey[],
+  value: unknown
+) {
   if (keys.length === 0) {
     return
   }

@@ -34,9 +34,9 @@ export default defineComponent({
         >
           <li
             :class="[
-              'pl-4 pr-12 py-2 rounded-md cursor-pointer hover:text-sky-500 lg:ml-[-1rem]',
+              'pl-4 pr-12 py-2 rounded-md cursor-pointer hover:text-emerald-600 lg:ml-[-1rem]',
               isActive && 'router-link-active',
-              isExactActive && 'bg-sky-50 text-sky-500 font-medium'
+              isExactActive && 'bg-emerald-50 text-emerald-600 font-medium'
             ]"
             @click="navigate"
           >

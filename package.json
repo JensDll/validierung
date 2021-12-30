@@ -30,7 +30,7 @@
     "@typescript-eslint/parser": "5.8.1",
     "@validierung/jest-helper": "workspace:*",
     "@validierung/shared": "workspace:*",
-    "esbuild": "0.14.8",
+    "esbuild": "0.14.9",
     "esbuild-node-loader": "0.6.3",
     "esbuild-register": "3.3.1",
     "eslint": "8.5.0",
@@ -41,9 +41,9 @@
     "prettier": "2.5.1",
     "rollup": "2.62.0",
     "rollup-plugin-dts": "4.1.0",
-    "rollup-plugin-esbuild": "4.8.1",
+    "rollup-plugin-esbuild": "4.8.2",
     "ts-jest": "27.1.2",
-    "tsd": "0.19.0",
+    "tsd": "0.19.1",
     "typescript": "4.5.4",
     "validierung": "workspace:*",
     "vue2": "npm:vue@2.6.14",
@@ -54,11 +54,11 @@
     "overrides": {
       "@tailwindcss/forms": "0.4.0",
       "@vue/composition-api": "1.4.3",
-      "autoprefixer": "10.4.0",
+      "autoprefixer": "10.4.1",
       "postcss": "8.4.5",
-      "tailwindcss": "3.0.7",
+      "tailwindcss": "3.0.8",
       "typescript": "4.5.4",
-      "vite": "2.7.8",
+      "vite": "2.7.10",
       "vue-demi": "0.12.1"
     }
   }

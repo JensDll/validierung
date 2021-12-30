@@ -103,11 +103,11 @@ export default defineComponent({
     @submit="handleSubmit()"
   >
     <div>
-      <label class="block font-medium" :for="form.a.$uid.toString()">A</label>
+      <label class="label" :for="form.a.$uid.toString()">A</label>
       <div class="flex items-center">
         <input
           :id="form.a.$uid.toString()"
-          class="border-2"
+          class="input"
           type="text"
           v-model="form.a.$value"
           @blur="form.a.$validate()"
@@ -124,13 +124,11 @@ export default defineComponent({
       class="mt-6"
     >
       <div>
-        <label class="block font-medium" :for="outer.b.$uid.toString()">
-          B
-        </label>
+        <label class="label" :for="outer.b.$uid.toString()"> B </label>
         <div class="flex items-center">
           <input
             :id="outer.b.$uid.toString()"
-            class="border-2"
+            class="input"
             type="text"
             v-model="outer.b.$value"
             @blur="outer.b.$validate()"
@@ -151,25 +149,21 @@ export default defineComponent({
         class="mt-2 flex"
       >
         <div>
-          <label class="block font-medium" :for="inner.c.$uid.toString()">
-            C
-          </label>
+          <label class="label" :for="inner.c.$uid.toString()"> C </label>
           <input
             :id="inner.c.$uid.toString()"
-            class="border-2"
+            class="input"
             type="text"
             v-model="inner.c.$value"
             @blur="inner.c.$validate()"
           />
         </div>
         <div>
-          <label class="block ml-6 font-medium" :for="inner.d.$uid.toString()">
-            D
-          </label>
+          <label class="label ml-6" :for="inner.d.$uid.toString()"> D </label>
           <div class="flex items-center">
             <input
               :id="inner.d.$uid.toString()"
-              class="ml-6 border-2"
+              class="ml-6 input"
               type="text"
               v-model="inner.d.$value"
               @blur="inner.d.$validate()"

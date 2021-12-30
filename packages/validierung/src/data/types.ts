@@ -11,16 +11,16 @@ export const isTransformedField = (
 ): value is TransformedField<unknown> =>
   nShared.isRecord(value) ? '$uid' in value && '$value' in value : false
 
-export type Field<TValue, TExtra extends object = Record<string, never>> = {
+export type Field<V, E extends object = Record<string, never>> = {
   /**
    * The field's default value.
    */
-  $value: nShared.MaybeRef<TValue>
+  $value: nShared.MaybeRef<V>
   /**
    * Rules to use for validation.
    */
-  $rules?: FieldRule<TValue>[]
-} & (TExtra extends Record<string, never> ? unknown : TExtra)
+  $rules?: FieldRule<V>[]
+} & (E extends Record<string, never> ? unknown : E)
 
 export type ValidateOptions = {
   /**
@@ -37,10 +37,7 @@ export type ValidateOptions = {
   force?: boolean
 }
 
-export type TransformedField<
-  TValue,
-  TExtra extends object = Record<string, never>
-> = {
+export type TransformedField<V, E extends object = Record<string, never>> = {
   /**
    * The unique id of this field.
    */
@@ -48,7 +45,7 @@ export type TransformedField<
   /**
    * The current field's value.
    */
-  $value: TValue
+  $value: V
   /**
    * A list of validation error messages.
    */
@@ -85,7 +82,7 @@ export type TransformedField<
    * ```
    */
   $validate(options?: ValidateOptions): Promise<void>
-} & (TExtra extends Record<string, never> ? unknown : UnwrapRef<TExtra>)
+} & (E extends Record<string, never> ? unknown : UnwrapRef<E>)
 
 /**
  * Unwrap the `$value` property of all fields in `FormData`.
