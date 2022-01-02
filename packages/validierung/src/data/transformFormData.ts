@@ -9,13 +9,12 @@ import { Field, isField, TransformedField } from './types'
 export function mapFieldRules(
   fieldRules: FieldRule<unknown>[]
 ): RuleInformation[] {
-  const defaultValidationBehavior =
-    validationConfig.getDefaultValidationBehavior()
+  const defaultVbf = validationConfig.getDefaultVbf()
 
   return fieldRules.map<RuleInformation>(fieldRule => {
     if (typeof fieldRule === 'function') {
       return {
-        validationBehavior: defaultValidationBehavior,
+        vbf: defaultVbf,
         rule: fieldRule
       }
     }
@@ -25,7 +24,7 @@ export function mapFieldRules(
 
       if (typeof second === 'number') {
         return {
-          validationBehavior: defaultValidationBehavior,
+          vbf: defaultVbf,
           rule: first as any,
           debounce: second
         }
@@ -33,28 +32,26 @@ export function mapFieldRules(
 
       if (typeof first === 'function') {
         return {
-          validationBehavior: first,
+          vbf: first,
           rule: second,
           debounce: third
         }
       }
 
-      const validationBehavior = validationConfig.validationBehavior.get(
-        first as any
-      )
+      const vbf = validationConfig.vbfMap.get(first as any)
 
-      if (validationBehavior !== undefined) {
-        return { validationBehavior, rule: second, debounce: third }
+      if (vbf !== undefined) {
+        return { vbf, rule: second, debounce: third }
       } else {
         throw new Error(
           `[useValidation] Validation behavior with name '${first}' does not exist. Valid values are: ${[
-            ...validationConfig.validationBehavior.keys()
+            ...validationConfig.vbfMap.keys()
           ].join(', ')}`
         )
       }
     } else {
       return {
-        validationBehavior: defaultValidationBehavior,
+        vbf: defaultVbf,
         rule: fieldRule
       }
     }
@@ -82,7 +79,6 @@ export function registerField(
     $value: formField.modelValue,
     $errors: formField.errors,
     $hasError: formField.hasError,
-    $hasErrors: formField.hasErrors,
     $validating: formField.validating,
     $dirty: formField.dirty,
     $touched: formField.touched,

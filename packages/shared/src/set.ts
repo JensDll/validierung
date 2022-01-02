@@ -17,7 +17,7 @@ export function set(
     const value = obj[key]
 
     if (value === undefined) {
-      if (typeof nextKey !== 'symbol' && Number.isNaN(+nextKey)) {
+      if (typeof nextKey === 'symbol' || Number.isNaN(+nextKey)) {
         obj[key] = {}
       } else {
         obj[key] = []

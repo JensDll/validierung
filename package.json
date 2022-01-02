@@ -3,7 +3,6 @@
   "type": "module",
   "scripts": {
     "build": "node --experimental-loader esbuild-node-loader scripts/build.ts",
-    "build:watch": "node --experimental-loader esbuild-node-loader scripts/dev.ts --targets shared core",
     "lint": "pnpm exec eslint --rule=\"no-console: [\"error\", { allow: [\"warn\", \"error\"] }]\" --max-warnings 0 --fix-dry-run \"./packages/*/src/**/*.{ts,js}\"",
     "test": "pnpm run test:2 && pnpm run test:3",
     "test:2": "vue-demi-switch 2 vue2 && jest --runInBand",
@@ -11,8 +10,9 @@
     "test:dts": "pnpm run build && npm exec tsd",
     "test:dts-only": "pnpm exec tsd",
     "test:all": "pnpm run test:dts && pnpm run test",
-    "vue:2": "pnpm run dev:local --filter \"vue2-examples\"",
-    "vue:3": "pnpm run dev:local --filter \"vue3-examples\"",
+    "dev": "node --experimental-loader esbuild-node-loader scripts/dev.ts --targets shared core",
+    "dev:2": "pnpm run dev:local --filter \"vue2-playground\"",
+    "dev:3": "pnpm run dev:local --filter \"vue3-playground\"",
     "postinstall": "husky install && vue-demi-switch 3 vue3"
   },
   "types": "test-dts/index.d.ts",
@@ -20,10 +20,10 @@
     "directory": "test-dts"
   },
   "dependencies": {
-    "@rollup/plugin-alias": "^3.1.8",
-    "@rollup/plugin-node-resolve": "13.1.1",
+    "@rollup/plugin-alias": "^3.1.9",
+    "@rollup/plugin-node-resolve": "13.1.2",
     "@types/fs-extra": "9.0.13",
-    "@types/jest": "27.0.3",
+    "@types/jest": "27.4.0",
     "@types/node": "17.0.5",
     "@types/yargs": "17.0.8",
     "@typescript-eslint/eslint-plugin": "5.8.1",

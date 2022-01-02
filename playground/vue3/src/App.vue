@@ -76,7 +76,7 @@ export default defineComponent({
   }
 
   .input.error {
-    @apply bg-red-50 border-red-200 focus:border-red-300 focus:ring focus:ring-red-200 focus:ring-opacity-50;
+    @apply border-red-400 focus:border-red-300 focus:ring focus:ring-red-200 focus:ring-opacity-50;
   }
 }
 </style>

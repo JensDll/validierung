@@ -14,10 +14,10 @@ importers:
 
   .:
     specifiers:
-      '@rollup/plugin-alias': ^3.1.8
-      '@rollup/plugin-node-resolve': 13.1.1
+      '@rollup/plugin-alias': ^3.1.9
+      '@rollup/plugin-node-resolve': 13.1.2
       '@types/fs-extra': 9.0.13
-      '@types/jest': 27.0.3
+      '@types/jest': 27.4.0
       '@types/node': 17.0.5
       '@types/yargs': 17.0.8
       '@typescript-eslint/eslint-plugin': 5.8.1
@@ -44,10 +44,10 @@ importers:
       vue3: npm:vue@3.2.26
       yargs: 17.3.1
     dependencies:
-      '@rollup/plugin-alias': 3.1.8_rollup@2.62.0
-      '@rollup/plugin-node-resolve': 13.1.1_rollup@2.62.0
+      '@rollup/plugin-alias': 3.1.9_rollup@2.62.0
+      '@rollup/plugin-node-resolve': 13.1.2_rollup@2.62.0
       '@types/fs-extra': 9.0.13
-      '@types/jest': 27.0.3
+      '@types/jest': 27.4.0
       '@types/node': 17.0.5
       '@types/yargs': 17.0.8
       '@typescript-eslint/eslint-plugin': 5.8.1_3a47348159e115370aa4cba56aba33b6
@@ -66,7 +66,7 @@ importers:
       rollup: 2.62.0
       rollup-plugin-dts: 4.1.0_rollup@2.62.0+typescript@4.5.4
       rollup-plugin-esbuild: 4.8.2_esbuild@0.14.9+rollup@2.62.0
-      ts-jest: 27.1.2_a27e8f44bb9e5af14f9674b0b72891af
+      ts-jest: 27.1.2_861592106a330e4207f473e090883af8
       tsd: 0.19.1
       typescript: 4.5.4
       validierung: link:packages/validierung
@@ -852,8 +852,8 @@ packages:
       fastq: 1.13.0
     dev: false
 
-  /@rollup/plugin-alias/3.1.8_rollup@2.62.0:
-    resolution: {integrity: sha512-tf7HeSs/06wO2LPqKNY3Ckbvy0JRe7Jyn98bXnt/gfrxbe+AJucoNJlsEVi9sdgbQtXemjbakCpO/76JVgnHpA==}
+  /@rollup/plugin-alias/3.1.9_rollup@2.62.0:
+    resolution: {integrity: sha512-QI5fsEvm9bDzt32k39wpOwZhVzRcL5ydcffUHMyLVaVaLeC70I8TJZ17F1z1eMoLu4E/UOcH9BWVkKpIKdrfiw==}
     engines: {node: '>=8.0.0'}
     peerDependencies:
       rollup: ^1.20.0||^2.0.0
@@ -862,8 +862,8 @@ packages:
       slash: 3.0.0
     dev: false
 
-  /@rollup/plugin-node-resolve/13.1.1_rollup@2.62.0:
-    resolution: {integrity: sha512-6QKtRevXLrmEig9UiMYt2fSvee9TyltGRfw+qSs6xjUnxwjOzTOqy+/Lpxsgjb8mJn1EQNbCDAvt89O4uzL5kw==}
+  /@rollup/plugin-node-resolve/13.1.2_rollup@2.62.0:
+    resolution: {integrity: sha512-xyqbuf1vyOPC60jEKhx3DBHunymnCJswzjNTKfX4Jz7zCPar1UqbRZCNY1u5QaXh97beaFTWdoUUWiV4qX8o/g==}
     engines: {node: '>= 10.0.0'}
     peerDependencies:
       rollup: ^2.42.0
@@ -1000,8 +1000,8 @@ packages:
       '@types/istanbul-lib-report': 3.0.0
     dev: false
 
-  /@types/jest/27.0.3:
-    resolution: {integrity: sha512-cmmwv9t7gBYt7hNKH5Spu7Kuu/DotGa+Ff+JGRKZ4db5eh8PnKS4LuebJ3YLUoyOyIHraTGyULn23YtEAm0VSg==}
+  /@types/jest/27.4.0:
+    resolution: {integrity: sha512-gHl8XuC1RZ8H2j5sHv/JqsaxXkDDM9iDOgu0Wp8sjs4u/snb2PVehyWXJPr+ORA0RPpgw231mnutWI1+0hgjIQ==}
     dependencies:
       jest-diff: 27.4.2
       pretty-format: 27.4.2
@@ -4580,6 +4580,7 @@ packages:
     peerDependencies:
       '@vue/composition-api': ^1.4.0
       typescript: '>=4.4.4'
+      vue: ^2.6.14 || ^3.2.0
     peerDependenciesMeta:
       '@vue/composition-api':
         optional: true
@@ -4589,9 +4590,8 @@ packages:
       '@vue/composition-api': 1.4.3_vue@2.6.14
       '@vue/devtools-api': 6.0.0-beta.21.1
       typescript: 4.5.4
+      vue: 2.6.14
       vue-demi: 0.12.1_e5303bfcb7b5c4dcf864c0d0a9aab3b4
-    transitivePeerDependencies:
-      - vue
     dev: false
 
   /pinia/2.0.9_typescript@4.5.4+vue@3.2.26:
@@ -4599,6 +4599,7 @@ packages:
     peerDependencies:
       '@vue/composition-api': ^1.4.0
       typescript: '>=4.4.4'
+      vue: ^2.6.14 || ^3.2.0
     peerDependenciesMeta:
       '@vue/composition-api':
         optional: true
@@ -4607,9 +4608,8 @@ packages:
     dependencies:
       '@vue/devtools-api': 6.0.0-beta.21.1
       typescript: 4.5.4
+      vue: 3.2.26
       vue-demi: 0.12.1_vue@3.2.26
-    transitivePeerDependencies:
-      - vue
     dev: false
 
   /pirates/4.0.4:
@@ -5270,7 +5270,7 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
-  /ts-jest/27.1.2_a27e8f44bb9e5af14f9674b0b72891af:
+  /ts-jest/27.1.2_861592106a330e4207f473e090883af8:
     resolution: {integrity: sha512-eSOiJOWq6Hhs6Khzk5wKC5sgWIXgXqOCiIl1+3lfnearu58Hj4QpE5tUhQcA3xtZrELbcvAGCsd6HB8OsaVaTA==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     hasBin: true
@@ -5291,7 +5291,7 @@ packages:
       esbuild:
         optional: true
     dependencies:
-      '@types/jest': 27.0.3
+      '@types/jest': 27.4.0
       bs-logger: 0.2.6
       esbuild: 0.14.9
       fast-json-stable-stringify: 2.1.0

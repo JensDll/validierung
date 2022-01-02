@@ -1,5 +1,5 @@
 {
-  "name": "vue2-examples",
+  "name": "vue2-playground",
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",

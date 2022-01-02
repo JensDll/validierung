@@ -6,7 +6,6 @@ import FormProvider from '~/components/form/FormProvider.vue'
 import AppButton from '~/components/app/AppButton.vue'
 import PlusCircleIcon from '~/components/icon/PlusCircleIcon.vue'
 import MinusCircleIcon from '~/components/icon/MinusCircleIcon.vue'
-import { rules } from '~/domain'
 
 type FormData = {
   a: Field<string>
@@ -45,15 +44,22 @@ export default defineComponent({
       })
     }
 
-    let id = 0
     function addInner(outerIndex: number) {
       val.add(['outerList', outerIndex, 'innerList'], {
         c: {
           $value: '',
           $rules: [
             {
-              key: (++id).toString(),
-              rule(c, d) {}
+              key: 'a',
+              rule() {}
+            },
+            {
+              key: 'a',
+              rule() {}
+            },
+            {
+              key: 'a',
+              rule() {}
             }
           ]
         },
@@ -61,8 +67,14 @@ export default defineComponent({
           $value: '',
           $rules: [
             {
-              key: id.toString(),
-              rule(c, d) {}
+              key: 'a',
+              rule() {}
+            },
+            {
+              key: 'a',
+              rule(...values) {
+                console.log(values)
+              }
             }
           ]
         }

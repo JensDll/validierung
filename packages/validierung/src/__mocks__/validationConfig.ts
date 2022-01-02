@@ -4,7 +4,7 @@ export const ValidationConfig = jest.fn<any, any>().mockImplementation(() => {
   class MockValidationConfig extends ValidationConfig {
     constructor() {
       super()
-      this.validationBehavior.set('mock', () => true)
+      this.vbfMap.set('mock', () => true)
     }
   }
 

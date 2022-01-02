@@ -11,7 +11,8 @@ export const isSimpleRule = (
 
 export const unpackRule = (
   rule: SimpleRule | RuleWithKey
-): SimpleRule | undefined => (isSimpleRule(rule) ? rule : rule.rule)
+): [rule: SimpleRule | undefined, key: string | undefined] =>
+  isSimpleRule(rule) ? [rule, undefined] : [rule.rule, rule.key]
 
 export type SimpleRule<Param = any> = (...value: Param[]) => any
 export type KeyedRule<Params extends readonly any[] = any[]> = (
@@ -46,7 +47,7 @@ export type FieldRule<
 > = FieldSimpleRule<UnwrapRef<SimpleParam>> | FieldRuleWithKey<KeyedParams>
 
 export type RuleInformation = {
-  validationBehavior: ValidationBehaviorFunction
+  vbf: ValidationBehaviorFunction
   rule: SimpleRule | RuleWithKey
   debounce?: number
 }

@@ -24,20 +24,18 @@ export function createValidation(configuration: Configuration): Plugin {
       for (const [key, validationBehavior] of Object.entries(
         configuration.validationBehavior ?? {}
       ) as [ValidationBehaviorString, ValidationBehaviorFunction][]) {
-        validationConfig.validationBehavior.set(key, validationBehavior)
+        validationConfig.vbfMap.set(key, validationBehavior)
       }
 
       if (
-        validationConfig.validationBehavior.has(
-          configuration.defaultValidationBehavior
-        )
+        validationConfig.vbfMap.has(configuration.defaultValidationBehavior)
       ) {
         validationConfig.defaultValidationBehavior =
           configuration.defaultValidationBehavior
       } else {
         console.warn(
           `[useValidation] Default validation behavior '${configuration.defaultValidationBehavior}' is not valid. Valid values are`,
-          validationConfig.validationBehavior.keys()
+          validationConfig.vbfMap.keys()
         )
       }
     }

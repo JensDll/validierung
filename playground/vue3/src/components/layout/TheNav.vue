@@ -19,7 +19,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <transition name="slide">
+  <Transition name="slide">
     <nav
       v-if="!navStore.isHidden"
       class="p-4 fixed bg-white inset-y-0 left-0 z-50 border-r lg:p-0 lg:pr-8 lg:relative"
@@ -45,7 +45,7 @@ export default defineComponent({
         </router-link>
       </ul>
     </nav>
-  </transition>
+  </Transition>
 </template>
 
 <style lang="postcss" scoped>

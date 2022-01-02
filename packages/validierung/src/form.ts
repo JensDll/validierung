@@ -1,52 +1,36 @@
-import { computed, ref, shallowReactive } from 'vue-demi'
+import { computed, ref, shallowReactive, Ref } from 'vue-demi'
 
 import { FormField } from './formField'
 import { ValidationError } from './validationError'
 import { isSimpleRule, RuleInformation } from './rules'
-import * as nShared from '@validierung/shared'
 
-export type ValidatorParameters = [
-  /**
-   * Type definition is not accurate here but catches invalid use of validators.
-   * Calling validators with Refs will be caught.
-   */
-  modelValues: (string | number | Record<string, unknown>)[],
-  force: boolean,
-  submit: boolean
-]
 export type ValidatorReturn = Promise<void> | void
-export type Validator = (...params: ValidatorParameters) => ValidatorReturn
+export type Validator = (
+  modelValues: Ref<unknown>[]
+) => (force: boolean, submit: boolean) => ValidatorReturn
 
-type SimpleValidators = {
-  validators: Validator[]
-  validatorsNotDebounced: Validator[]
-  meta: SimpleValidatorsMeta
+type ValidatorTuple = {
+  validator: ReturnType<Validator>
+  validatorNotDebounced: ReturnType<Validator>
 }
 
-type SimpleValidatorsMeta = {
-  field: FormField
-  keys: string[]
+type SimpleEntry = {
+  validators: ValidatorTuple[]
   rollbacks: (() => void)[]
+  field: FormField
 }
 
-type KeyedValidator = {
-  validator: Validator
-  validatorNotDebounced: Validator
-  meta: {
-    field: FormField
-  }
+type KeyedEntry = {
+  validators: ValidatorTuple[]
+  modelValues: Ref<unknown>[]
+  fields: FormField[]
 }
-
-type KeyedValidators = Set<KeyedValidator>
 
 export class Form {
-  simpleValidators: Map<number, SimpleValidators> = new Map()
-  keyedValidators: Map<string, KeyedValidators> = new Map()
-  reactiveFields: Map<number, FormField> = shallowReactive(new Map())
+  simpleMap: Map<number, SimpleEntry> = new Map()
+  keyedMap: Map<string, KeyedEntry> = new Map()
 
-  tryGetSimpleValidators = nShared.tryGet(this.simpleValidators)
-  trySetKeyedValidators = nShared.trySet(this.keyedValidators)
-  tryGetKeyedValidators = nShared.tryGet(this.keyedValidators)
+  reactiveFieldMap: Map<number, FormField> = shallowReactive(new Map())
 
   rulesValidating = ref(0)
   submitting = ref(false)
@@ -55,7 +39,7 @@ export class Form {
   errors = computed(() => {
     const errors: string[] = []
 
-    for (const field of this.reactiveFields.values()) {
+    for (const field of this.reactiveFieldMap.values()) {
       errors.push(...field.errors.value)
     }
 
@@ -69,76 +53,108 @@ export class Form {
     ruleInfos: RuleInformation[]
   ) {
     const field = new FormField(this, uid, name, modelValue, ruleInfos)
-
-    const simpleValidators: SimpleValidators = {
+    const simpleEntry: SimpleEntry = {
       validators: [],
-      validatorsNotDebounced: [],
-      meta: {
-        field,
-        keys: [],
-        rollbacks: []
-      }
+      rollbacks: [],
+      field
     }
+    const keysSeen = new Set<string>()
 
     ruleInfos.forEach(({ rule }, ruleNumber) => {
-      const validator = field.ruleInfos[ruleNumber].validator
-      const validatorNotDebounced =
-        field.ruleInfos[ruleNumber].validatorNotDebounced
+      const modelValues = [field.modelValue]
+      const validatorTuple: ValidatorTuple = {
+        validator: field.ruleInfos[ruleNumber].validator(modelValues),
+        validatorNotDebounced:
+          field.ruleInfos[ruleNumber].validatorNotDebounced(modelValues)
+      }
 
       if (isSimpleRule(rule)) {
-        simpleValidators.validators.push(validator)
-        simpleValidators.validatorsNotDebounced.push(validatorNotDebounced)
+        simpleEntry.validators.push(validatorTuple)
       } else {
-        const keyedValidator: KeyedValidator = {
-          validator,
-          validatorNotDebounced,
-          meta: {
-            field
+        let keyedEntry = this.keyedMap.get(rule.key)!
+
+        if (keyedEntry === undefined) {
+          this.keyedMap.set(rule.key, {
+            validators: [validatorTuple],
+            modelValues,
+            fields: [field]
+          })
+        } else {
+          keyedEntry.validators.push(validatorTuple)
+          if (!keysSeen.has(rule.key)) {
+            keyedEntry.modelValues.push(field.modelValue)
+            keyedEntry.fields.push(field)
           }
         }
+
+        keyedEntry = this.keyedMap.get(rule.key)!
+
+        validatorTuple.validator = field.ruleInfos[ruleNumber].validator(
+          keyedEntry.modelValues
+        )
+        validatorTuple.validatorNotDebounced = field.ruleInfos[
+          ruleNumber
+        ].validatorNotDebounced(keyedEntry.modelValues)
+
+        keysSeen.add(rule.key)
+
         const rollback = () => {
-          this.tryGetKeyedValidators({
-            success: keyedValidators => {
-              keyedValidators.delete(keyedValidator)
-              if (keyedValidators.size === 0) {
-                this.keyedValidators.delete(rule.key)
-              }
+          let validatorIndex = -1
+          let modelValueIndex = -1
+          let fieldIndex = -1
+
+          for (let i = 0; i < keyedEntry.validators.length; ++i) {
+            if (keyedEntry.validators[i] === validatorTuple) {
+              validatorIndex = i
             }
-          })(rule.key)
+
+            if (keyedEntry.modelValues[i] === field.modelValue) {
+              modelValueIndex = i
+            }
+
+            if (keyedEntry.fields[i] === field) {
+              fieldIndex = i
+            }
+          }
+
+          if (validatorIndex >= 0) {
+            keyedEntry.validators.splice(validatorIndex, 1)
+          }
+
+          if (modelValueIndex >= 0) {
+            keyedEntry.modelValues.splice(modelValueIndex, 1)
+          }
+
+          if (fieldIndex >= 0) {
+            keyedEntry.fields.splice(fieldIndex, 1)
+          }
+
+          if (keyedEntry.validators.length === 0) {
+            this.keyedMap.delete(rule.key)
+          }
         }
 
-        simpleValidators.meta.keys.push(rule.key)
-        simpleValidators.meta.rollbacks.push(rollback)
-
-        this.trySetKeyedValidators({
-          failure: keyedValidators => keyedValidators.add(keyedValidator)
-        })(rule.key, new Set([keyedValidator]))
+        simpleEntry.rollbacks.push(rollback)
       }
     })
 
-    this.simpleValidators.set(uid, simpleValidators)
-    this.reactiveFields.set(uid, field)
+    this.simpleMap.set(uid, simpleEntry)
+    this.reactiveFieldMap.set(uid, field)
 
     return field
   }
 
   validate(uid: number, force = false): Promise<PromiseSettledResult<void>[]> {
-    const { validators, meta } = this.simpleValidators.get(uid)!
+    const { validators, field } = this.simpleMap.get(uid)!
 
-    return Promise.allSettled([
-      ...validators.map(validator =>
-        validator([meta.field.modelValue.value], force, false)
-      ),
-      ...this.collectValidatorResultsForKeysMaybeDebounced(
-        meta.keys,
-        meta.field,
-        force
-      )
+    return Promise.allSettled<ValidatorReturn>([
+      ...validators.map(({ validator }) => validator(force, false)),
+      ...this.collectValidatorResultsForKeys(field.keys, field, force, false)
     ])
   }
 
   async validateAll(names?: readonly PropertyKey[]): Promise<void> {
-    const settledResults = await Promise.allSettled(
+    const settledResults = await Promise.allSettled<ValidatorReturn>(
       this.collectValidatorResultsForNames(names)
     )
 
@@ -150,70 +166,44 @@ export class Form {
   }
 
   dispose(uid: number): void {
-    this.tryGetSimpleValidators({
-      success: ({ meta }) => {
-        meta.field.dispose()
-        meta.rollbacks.forEach(r => r())
-      }
-    })(uid)
+    const simpleEntry = this.simpleMap.get(uid)
 
-    this.simpleValidators.delete(uid)
-    this.reactiveFields.delete(uid)
+    if (simpleEntry) {
+      simpleEntry.field.dispose()
+      simpleEntry.rollbacks.forEach(r => r())
+    }
+
+    this.simpleMap.delete(uid)
+    this.reactiveFieldMap.delete(uid)
   }
 
   resetFields(): void {
-    for (const { meta } of this.simpleValidators.values()) {
-      meta.field.reset()
+    for (const { field } of this.simpleMap.values()) {
+      field.reset()
     }
   }
 
   getField(uid: number): FormField | undefined {
-    const simpleValidators = this.simpleValidators.get(uid)
-    if (simpleValidators) {
-      return simpleValidators.meta.field
+    const simpleEntry = this.simpleMap.get(uid)
+    if (simpleEntry) {
+      return simpleEntry.field
     }
   }
 
-  /**
-   * Should only be called from `validateAll`. `Force` and `submit`
-   * will default to `false` and `true`, and it will not use debounced validators.
-   *
-   * @param keys The keys of the rules to validate
-   */
-  private *collectValidatorResultsForKeysNotDebounced(
-    keys: string[] | Iterable<string>
-  ): Generator<ValidatorReturn> {
-    for (const key of keys) {
-      const keyedValidators = this.keyedValidators.get(key)!
-      const values = [...keyedValidators.values()]
-      const modelValues = values.map(({ meta }) => meta.field.modelValue.value)
-      for (const { validatorNotDebounced } of values) {
-        yield validatorNotDebounced(modelValues, false, true)
-      }
-    }
-  }
-
-  /**
-   * Should only be called from `validate`. `Submit` will default to `false`.
-   * It will also check if every field of a key is touched before
-   * invoking the validator and use the debounced version if available.
-   *
-   * @param keys The keys of the rules to validate
-   */
-  private *collectValidatorResultsForKeysMaybeDebounced(
-    keys: string[] | Iterable<string>,
+  private *collectValidatorResultsForKeys(
+    keys: Iterable<string>,
     field: FormField,
-    force: boolean
-  ): Generator<ValidatorReturn> {
+    force: boolean,
+    submit: boolean
+  ): Iterable<ValidatorReturn> {
     for (const key of keys) {
-      const keyedValidators = this.keyedValidators.get(key)!
-      if (this.isEveryOtherFieldTouched(keyedValidators, field)) {
-        const values = [...keyedValidators.values()]
-        const modelValues = values.map(
-          ({ meta }) => meta.field.modelValue.value
-        )
-        for (const { validator } of values) {
-          yield validator(modelValues, force, false)
+      const { validators, fields } = this.keyedMap.get(key)!
+
+      if (this.isEveryOtherFieldTouched(field, fields)) {
+        for (let i = 0; i < validators.length; ++i) {
+          yield submit
+            ? validators[i].validatorNotDebounced(force, submit)
+            : validators[i].validator(force, submit)
         }
       }
     }
@@ -221,46 +211,62 @@ export class Form {
 
   private *collectValidatorResultsForNames(
     names?: readonly PropertyKey[]
-  ): Generator<ValidatorReturn> {
+  ): Iterable<ValidatorReturn> {
     if (names === undefined) {
-      for (const {
-        validatorsNotDebounced,
-        meta
-      } of this.simpleValidators.values()) {
-        meta.field.touched.value = true
-        for (const validator of validatorsNotDebounced) {
-          yield validator([meta.field.modelValue.value], false, true)
+      for (const { field } of this.simpleMap.values()) {
+        field.touched.value = true
+      }
+
+      for (const { validators } of this.simpleMap.values()) {
+        for (let i = 0; i < validators.length; ++i) {
+          yield validators[i].validatorNotDebounced(false, true)
         }
       }
-      yield* this.collectValidatorResultsForKeysNotDebounced(
-        this.keyedValidators.keys()
-      )
+
+      for (const key of this.keyedMap.keys()) {
+        const { validators } = this.keyedMap.get(key)!
+        for (let i = 0; i < validators.length; ++i) {
+          yield validators[i].validatorNotDebounced(false, true)
+        }
+      }
     } else if (names.length > 0) {
       const uniqueNames = new Set(names)
+      const validatedKeys = new Set<string>()
 
-      for (const {
-        validatorsNotDebounced,
-        meta
-      } of this.simpleValidators.values()) {
-        if (uniqueNames.has(meta.field.name)) {
-          meta.field.touched.value = true
-          for (const validator of validatorsNotDebounced) {
-            yield validator([meta.field.modelValue.value], false, true)
+      for (const { field } of this.simpleMap.values()) {
+        if (uniqueNames.has(field.name)) {
+          field.touched.value = true
+        }
+      }
+
+      for (const { field, validators } of this.simpleMap.values()) {
+        if (uniqueNames.has(field.name)) {
+          for (let i = 0; i < validators.length; ++i) {
+            yield validators[i].validatorNotDebounced(false, true)
           }
-          yield* this.collectValidatorResultsForKeysNotDebounced(
-            this.keyedValidators.keys()
-          )
+
+          for (const key of field.keys) {
+            if (!validatedKeys.has(key)) {
+              validatedKeys.add(key)
+              yield* this.collectValidatorResultsForKeys(
+                [key],
+                field,
+                false,
+                true
+              )
+            }
+          }
         }
       }
     }
   }
 
   private isEveryOtherFieldTouched(
-    keyedValidators: KeyedValidators,
-    field: FormField
+    field: FormField,
+    fields: FormField[]
   ): boolean {
-    for (const { meta } of keyedValidators) {
-      if (meta.field !== field && !meta.field.touched.value) {
+    for (let i = 0; i < fields.length; ++i) {
+      if (field !== fields[i] && !fields[i].touched.value) {
         return false
       }
     }

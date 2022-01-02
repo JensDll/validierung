@@ -53,16 +53,16 @@ it('should dispose every field', () => {
   )
 
   expect(form.dispose).toBeCalledTimes(0)
-  expect(form.simpleValidators.size).toBe(5)
-  expect(form.keyedValidators.size).toBe(1)
-  expect(form.reactiveFields.size).toBe(5)
+  expect(form.simpleMap.size).toBe(5)
+  expect(form.keyedMap.size).toBe(1)
+  expect(form.reactiveFieldMap.size).toBe(5)
 
   disposeForm(form, formData)
 
   expect(form.dispose).toBeCalledTimes(5)
-  expect(form.simpleValidators.size).toBe(0)
-  expect(form.keyedValidators.size).toBe(0)
-  expect(form.reactiveFields.size).toBe(0)
+  expect(form.simpleMap.size).toBe(0)
+  expect(form.keyedMap.size).toBe(0)
+  expect(form.reactiveFieldMap.size).toBe(0)
 })
 
 it('should dispose subset', () => {
@@ -100,14 +100,14 @@ it('should dispose subset', () => {
   )
 
   expect(form.dispose).toBeCalledTimes(0)
-  expect(form.simpleValidators.size).toBe(5)
-  expect(form.keyedValidators.size).toBe(1)
-  expect(form.reactiveFields.size).toBe(5)
+  expect(form.simpleMap.size).toBe(5)
+  expect(form.keyedMap.size).toBe(1)
+  expect(form.reactiveFieldMap.size).toBe(5)
 
   disposeForm(form, formData.b)
 
   expect(form.dispose).toBeCalledTimes(3)
-  expect(form.simpleValidators.size).toBe(2)
-  expect(form.keyedValidators.size).toBe(0)
-  expect(form.reactiveFields.size).toBe(2)
+  expect(form.simpleMap.size).toBe(2)
+  expect(form.keyedMap.size).toBe(0)
+  expect(form.reactiveFieldMap.size).toBe(2)
 })

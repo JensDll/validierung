@@ -55,10 +55,6 @@ export type TransformedField<V, E extends object = Record<string, never>> = {
    */
   $hasError: boolean
   /**
-   * The error status of this field one for each rule.
-   */
-  $hasErrors: boolean[]
-  /**
    * `True` while this field has any pending rules.
    */
   $validating: boolean

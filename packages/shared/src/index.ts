@@ -1,7 +1,5 @@
 export { deepCopy } from './deepCopy'
 
-export { tryGet, trySet } from './map'
-
 export { path } from './path'
 
 export { set } from './set'

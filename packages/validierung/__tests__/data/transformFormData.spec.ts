@@ -46,7 +46,6 @@ it('should transform every field', () => {
       $value: 1,
       $errors: [],
       $hasError: false,
-      $hasErrors: [false],
       $validating: false,
       $dirty: false,
       $touched: false,
@@ -58,7 +57,6 @@ it('should transform every field', () => {
       $value: 1,
       $errors: [],
       $hasError: false,
-      $hasErrors: [false, false, false],
       $validating: false,
       $dirty: false,
       $touched: false,
@@ -71,7 +69,6 @@ it('should transform every field', () => {
           $value: 1,
           $errors: [],
           $hasError: false,
-          $hasErrors: [false, false],
           $validating: false,
           $dirty: false,
           $touched: false,
@@ -82,7 +79,6 @@ it('should transform every field', () => {
           $value: 1,
           $errors: [],
           $hasError: false,
-          $hasErrors: [false, false],
           $validating: false,
           $dirty: false,
           $touched: false,
@@ -95,7 +91,6 @@ it('should transform every field', () => {
           $value: 1,
           $errors: [],
           $hasError: false,
-          $hasErrors: [false, false],
           $validating: false,
           $dirty: false,
           $touched: false,
@@ -106,7 +101,6 @@ it('should transform every field', () => {
           $value: 1,
           $errors: [],
           $hasError: false,
-          $hasErrors: [false, false],
           $validating: false,
           $dirty: false,
           $touched: false,
@@ -119,7 +113,6 @@ it('should transform every field', () => {
           $value: 1,
           $errors: [],
           $hasError: false,
-          $hasErrors: [false, false],
           $validating: false,
           $dirty: false,
           $touched: false,
@@ -130,7 +123,6 @@ it('should transform every field', () => {
           $value: 1,
           $errors: [],
           $hasError: false,
-          $hasErrors: [false, false],
           $validating: false,
           $dirty: false,
           $touched: false,
@@ -149,7 +141,7 @@ describe('mapFieldRules', () => {
 
     expect(ruleInfo).toEqual<RuleInformation[]>([
       {
-        validationBehavior: expect.any(Function),
+        vbf: expect.any(Function),
         rule
       }
     ])
@@ -166,7 +158,7 @@ describe('mapFieldRules', () => {
 
     expect(ruleInfo).toEqual<RuleInformation[]>([
       {
-        validationBehavior: expect.any(Function),
+        vbf: expect.any(Function),
         rule: {
           key: 'key',
           rule
@@ -181,7 +173,7 @@ describe('mapFieldRules', () => {
 
     expect(ruleInfo).toEqual<RuleInformation[]>([
       {
-        validationBehavior: expect.any(Function),
+        vbf: expect.any(Function),
         rule
       }
     ])
@@ -201,7 +193,7 @@ describe('mapFieldRules', () => {
 
     expect(ruleInfo).toEqual<RuleInformation[]>([
       {
-        validationBehavior: expect.any(Function),
+        vbf: expect.any(Function),
         rule: {
           key: 'key',
           rule
@@ -211,24 +203,24 @@ describe('mapFieldRules', () => {
   })
 
   it('validation behavior inline + simple rule', () => {
-    const validationBehavior = jest.fn()
+    const vbf = jest.fn()
     const rule = jest.fn()
-    const ruleInfo = mapFieldRules([[validationBehavior, rule]])
+    const ruleInfo = mapFieldRules([[vbf, rule]])
 
     expect(ruleInfo).toEqual<RuleInformation[]>([
       {
-        validationBehavior,
+        vbf,
         rule
       }
     ])
   })
 
   it('validation behavior inline + keyed rule', () => {
-    const validationBehavior = jest.fn()
+    const vbf = jest.fn()
     const rule = jest.fn()
     const ruleInfo = mapFieldRules([
       [
-        validationBehavior,
+        vbf,
         {
           key: 'key',
           rule
@@ -238,7 +230,7 @@ describe('mapFieldRules', () => {
 
     expect(ruleInfo).toEqual<RuleInformation[]>([
       {
-        validationBehavior,
+        vbf,
         rule: {
           key: 'key',
           rule
@@ -253,7 +245,7 @@ describe('mapFieldRules', () => {
 
     expect(ruleInfo).toEqual<RuleInformation[]>([
       {
-        validationBehavior: expect.any(Function),
+        vbf: expect.any(Function),
         rule,
         debounce: 100
       }
@@ -274,7 +266,7 @@ describe('mapFieldRules', () => {
 
     expect(ruleInfo).toEqual<RuleInformation[]>([
       {
-        validationBehavior: expect.any(Function),
+        vbf: expect.any(Function),
         rule: {
           key: 'key',
           rule
@@ -290,7 +282,7 @@ describe('mapFieldRules', () => {
 
     expect(ruleInfo).toEqual<RuleInformation[]>([
       {
-        validationBehavior: expect.any(Function),
+        vbf: expect.any(Function),
         rule,
         debounce: 100
       }
@@ -312,7 +304,7 @@ describe('mapFieldRules', () => {
 
     expect(ruleInfo).toEqual<RuleInformation[]>([
       {
-        validationBehavior: expect.any(Function),
+        vbf: expect.any(Function),
         rule: {
           key: 'key',
           rule
@@ -323,13 +315,13 @@ describe('mapFieldRules', () => {
   })
 
   it('validation behavior inline + simple rule + debounce', () => {
-    const validationBehavior = jest.fn()
+    const vbf = jest.fn()
     const rule = jest.fn()
-    const ruleInfo = mapFieldRules([[validationBehavior, rule, 100]])
+    const ruleInfo = mapFieldRules([[vbf, rule, 100]])
 
     expect(ruleInfo).toEqual<RuleInformation[]>([
       {
-        validationBehavior,
+        vbf,
         rule,
         debounce: 100
       }
@@ -337,11 +329,11 @@ describe('mapFieldRules', () => {
   })
 
   it('validation behavior inline + keyed rule + debounce', () => {
-    const validationBehavior = jest.fn()
+    const vbf = jest.fn()
     const rule = jest.fn()
     const ruleInfo = mapFieldRules([
       [
-        validationBehavior,
+        vbf,
         {
           key: 'key',
           rule
@@ -352,7 +344,7 @@ describe('mapFieldRules', () => {
 
     expect(ruleInfo).toEqual<RuleInformation[]>([
       {
-        validationBehavior,
+        vbf,
         rule: {
           key: 'key',
           rule

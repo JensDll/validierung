@@ -5,13 +5,13 @@ import {
 
 export class ValidationConfig {
   defaultValidationBehavior: ValidationBehaviorString | null = null
-  validationBehavior: Map<string, ValidationBehaviorFunction> = new Map()
+  vbfMap: Map<string, ValidationBehaviorFunction> = new Map()
 
-  getDefaultValidationBehavior(): ValidationBehaviorFunction {
+  getDefaultVbf(): ValidationBehaviorFunction {
     if (this.defaultValidationBehavior === null) {
       return () => true
     }
-    return this.validationBehavior.get(this.defaultValidationBehavior)!
+    return this.vbfMap.get(this.defaultValidationBehavior)!
   }
 }
 

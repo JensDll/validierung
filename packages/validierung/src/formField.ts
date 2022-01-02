@@ -9,7 +9,7 @@ import {
   ComputedRef
 } from 'vue-demi'
 
-import { Form, Validator, ValidatorParameters } from './form'
+import { Form, Validator } from './form'
 import { ValidationBehaviorFunction } from './validationBehavior'
 import { SimpleRule, RuleInformation, unpackRule } from './rules'
 import * as nShared from '@validierung/shared'
@@ -19,35 +19,39 @@ type MappedRuleInformation = {
   rule?: SimpleRule
   validator: Validator
   validatorNotDebounced: Validator
-  validationBehavior: ValidationBehaviorFunction
+  vbf: ValidationBehaviorFunction
   cancelDebounce: () => void
 }
 
-type DebouncedValidator = nShared.Debounced<ValidatorParameters>
+type DebouncedValidator = nShared.Debounced<[Ref<unknown>[]]>
 
 export class FormField {
-  watchStopHandle: WatchStopHandle
-  form: Form
-  ruleInfos: MappedRuleInformation[]
-  rulesValidating = ref(0)
-  initialModelValue: unknown
-
   uid: number
   name: string
-  touched = ref(false)
-  dirty = ref(false)
-  modelValue: Ref<any>
+  touched: Ref<boolean> = ref(false)
+  dirty: Ref<boolean> = ref(false)
+  initialModelValue: unknown
+  modelValue: Ref<unknown>
+
+  rulesValidating = ref(0)
+  validating: ComputedRef<boolean> = computed(
+    () => this.rulesValidating.value > 0
+  )
+
   rawErrors: Ref<(string | null)[]>
   errors: ComputedRef<string[]> = computed(() =>
     this.rawErrors.value.filter(nShared.isDefined)
   )
-  validating: ComputedRef<boolean> = computed(
-    () => this.rulesValidating.value > 0
-  )
-  hasError: ComputedRef<boolean> = computed(() =>
-    this.hasErrors.value.some(value => value)
-  )
+
   hasErrors: Ref<boolean[]>
+  hasError: ComputedRef<boolean> = computed(() =>
+    this.hasErrors.value.some(e => e)
+  )
+
+  form: Form
+  keys: Set<string> = new Set()
+  ruleInfos: MappedRuleInformation[]
+  watchStopHandle: WatchStopHandle
 
   constructor(
     form: Form,
@@ -65,14 +69,19 @@ export class FormField {
     this.initialModelValue = nShared.deepCopy(this.modelValue.value)
 
     this.ruleInfos = ruleInfos.map((info, ruleNumber) => {
-      const rule = unpackRule(info.rule)
+      const [rule, key] = unpackRule(info.rule)
+
+      if (key) {
+        this.keys.add(key)
+      }
 
       let validator: Validator
-      const validatorNotDebounced: Validator = (modelValues, force, submit) => {
-        if (rule && this.shouldValidate(ruleNumber, force, submit)) {
-          return this.validate(ruleNumber, modelValues)
+      const validatorNotDebounced: Validator =
+        modelValues => (force, submit) => {
+          if (rule && this.shouldValidate(ruleNumber, force, submit)) {
+            return this.validate(ruleNumber, modelValues)
+          }
         }
-      }
 
       let debouncedValidator: DebouncedValidator
       let debounceInvokedTimes = 0
@@ -91,7 +100,7 @@ export class FormField {
           }
         )
 
-        validator = (modelValues, force, submit) => {
+        validator = modelValues => (force, submit) => {
           if (rule && this.shouldValidate(ruleNumber, force, submit)) {
             debounceInvokedTimes++
             this.rulesValidating.value++
@@ -100,7 +109,7 @@ export class FormField {
             return new Promise(resolve => {
               debounceResolve?.()
               debounceResolve = resolve
-              debouncedValidator(modelValues, force, submit)
+              debouncedValidator(modelValues)
             })
           }
         }
@@ -113,7 +122,7 @@ export class FormField {
         rule,
         validator,
         validatorNotDebounced,
-        validationBehavior: info.validationBehavior,
+        vbf: info.vbf,
         cancelDebounce: () => {
           if (debouncedValidator) {
             debounceInvokedTimes = 0
@@ -127,12 +136,12 @@ export class FormField {
     this.watchStopHandle = this.setupWatcher()
   }
 
-  async validate(ruleNumber: number, modelValues: unknown[]) {
+  async validate(ruleNumber: number, modelValues: Ref<unknown>[]) {
     const { rule, buffer } = this.ruleInfos[ruleNumber]
 
     let error: unknown
     // @ts-expect-error It is made sure that the rule is defined at this point
-    const ruleResult = rule(...modelValues)
+    const ruleResult = rule(...modelValues.map(r => r.value))
 
     if (buffer.last?.value) {
       buffer.last.value = false
@@ -164,7 +173,7 @@ export class FormField {
         // 2. While this rule was validating the field was reset.
         //
         // In both cases, no error is to be set but the promise should still reject
-        // if the rule returns a string.
+        // if the rule returns a string or symbol.
         if (typeof error === 'string' || typeof error === 'symbol') {
           throw error
         }
@@ -202,7 +211,7 @@ export class FormField {
 
   dispose() {
     if (isVue3) {
-      // @ts-ignore Stop is only available in Vue3
+      // @ts-ignore Stop is only available in Vue 3
       this.errors.effect.stop()
       // @ts-ignore
       this.validating.effect.stop()
@@ -213,8 +222,8 @@ export class FormField {
   }
 
   shouldValidate(ruleNumber: number, force: boolean, submit: boolean) {
-    return this.ruleInfos[ruleNumber].validationBehavior({
-      hasError: this.rawErrors.value[ruleNumber] !== null,
+    return this.ruleInfos[ruleNumber].vbf({
+      hasError: this.hasErrors.value[ruleNumber],
       touched: this.touched.value,
       dirty: this.dirty.value,
       force,

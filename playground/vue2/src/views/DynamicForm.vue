@@ -28,7 +28,8 @@ export default defineComponent({
   setup() {
     const val = useValidation<FormData>({
       a: {
-        $value: ''
+        $value: '',
+        $rules: []
       },
       outerList: []
     })
@@ -36,7 +37,8 @@ export default defineComponent({
     function addOuter() {
       val.add(['outerList'], {
         b: {
-          $value: ''
+          $value: '',
+          $rules: []
         },
         innerList: []
       })
@@ -45,10 +47,36 @@ export default defineComponent({
     function addInner(outerIndex: number) {
       val.add(['outerList', outerIndex, 'innerList'], {
         c: {
-          $value: ''
+          $value: '',
+          $rules: [
+            {
+              key: 'a',
+              rule() {}
+            },
+            {
+              key: 'a',
+              rule() {}
+            },
+            {
+              key: 'a',
+              rule() {}
+            }
+          ]
         },
         d: {
-          $value: ''
+          $value: '',
+          $rules: [
+            {
+              key: 'a',
+              rule() {}
+            },
+            {
+              key: 'a',
+              rule(...values) {
+                console.log(values)
+              }
+            }
+          ]
         }
       })
     }

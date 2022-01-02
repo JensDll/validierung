@@ -20,17 +20,17 @@ const requiredDate = (date: string, time: string) => {
   }
 
   if (!date) {
-    return 'Please select a date'
+    return 'Select a date'
   }
 }
 
 const requiredTime = (date: string, time: string) => {
   if (!date && !time) {
-    return 'Please select a date and time'
+    return 'Select a date and time'
   }
 
   if (!time) {
-    return 'Please select a time'
+    return 'Select a time'
   }
 }
 
@@ -41,71 +41,62 @@ export default defineComponent({
       startDate: {
         $value: '',
         $rules: [
-          ['change', rules.inTheFuture('Please select a date in the future')],
-          ['change', { key: 'start', rule: requiredDate }],
+          ['change', rules.inTheFuture('Select a date in the future')],
+          { key: 'start', rule: requiredDate },
           { key: 'date-and-time' }
         ]
       },
       startTime: {
         $value: '',
-        $rules: [
-          ['change', { key: 'start', rule: requiredTime }],
-          { key: 'date-and-time' }
-        ]
+        $rules: [{ key: 'start', rule: requiredTime }, { key: 'date-and-time' }]
       },
       endDate: {
         $value: '',
         $rules: [
-          ['change', { key: 'end', rule: requiredDate }],
-          [
-            'change',
-            {
-              key: 'date-and-time',
-              rule(
-                startDate: string,
-                startTime: string,
-                endDate: string,
-                endTime: string
-              ) {
-                if (!startDate || !endDate || !startTime || !endTime) {
-                  return
-                }
+          { key: 'end', rule: requiredDate },
+          {
+            key: 'date-and-time',
+            rule(
+              startDate: string,
+              startTime: string,
+              endDate: string,
+              endTime: string
+            ) {
+              if (!startDate || !endDate || !startTime || !endTime) {
+                return
+              }
 
-                if (compare.date(startDate, endDate) > 0) {
-                  return 'Please select a later combination'
-                }
+              if (compare.date(startDate, endDate) > 0) {
+                return 'Select a later combination'
               }
             }
-          ]
+          }
         ]
       },
       endTime: {
         $value: '',
         $rules: [
-          ['change', { key: 'end', rule: requiredTime }],
-          [
-            'change',
-            {
-              key: 'date-and-time',
-              rule(
-                startDate: string,
-                startTime: string,
-                endDate: string,
-                endTime: string
-              ) {
-                if (!startDate || !endDate || !startTime || !endTime) {
-                  return
-                }
+          { key: 'end', rule: requiredTime },
+          {
+            key: 'date-and-time',
+            rule(
+              startDate: string,
+              startTime: string,
+              endDate: string,
+              endTime: string
+            ) {
+              if (!startDate || !endDate || !startTime || !endTime) {
+                return
+              }
 
-                if (
-                  compare.date(startDate, endDate) === 0 &&
-                  compare.time(startTime, endTime) > 0
-                ) {
-                  return 'Please select a later combination'
-                }
+              if (
+                compare.date(startDate, endDate) === 0 &&
+                compare.time(startTime, endTime) > 0
+              ) {
+                return 'Select a later combination'
               }
             }
-          ]
+          }
         ]
       }
     })
@@ -142,6 +133,7 @@ export default defineComponent({
               'error z-10': form.startDate.$hasError
             }"
             type="date"
+            :min="new Date().toLocaleDateString('en-CA')"
             v-model="form.startDate.$value"
             @blur="form.startDate.$validate()"
           />
@@ -168,6 +160,7 @@ export default defineComponent({
             class="input rounded-r-none focus:z-10"
             :class="{ 'error z-10': form.endDate.$hasError }"
             type="date"
+            :min="form.startDate.$value"
             v-model="form.endDate.$value"
             @blur="form.endDate.$validate()"
           />

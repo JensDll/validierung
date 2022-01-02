@@ -112,7 +112,7 @@ export default defineComponent({
             class="w-full input"
             :class="{ error: form.name.$hasError }"
             type="text"
-            placeholder="Alice Bob or Oscar"
+            placeholder="Alice, Bob, or Oscar"
             v-model="form.name.$value"
           />
           <LoadingIcon
