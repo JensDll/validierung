@@ -34,10 +34,6 @@ export default defineComponent({
 
       prevInnerWidth = window.innerWidth
     })
-
-    return {
-      navStore
-    }
   }
 })
 </script>

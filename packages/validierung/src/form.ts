@@ -9,18 +9,18 @@ export type Validator = (
   modelValues: Ref<unknown>[]
 ) => (force: boolean, submit: boolean) => ValidatorReturn
 
-type ValidatorTuple = {
+export type ValidatorTuple = {
   validator: ReturnType<Validator>
   validatorNotDebounced: ReturnType<Validator>
 }
 
-type SimpleEntry = {
+export type SimpleEntry = {
   validators: ValidatorTuple[]
   rollbacks: (() => void)[]
   field: FormField
 }
 
-type KeyedEntry = {
+export type KeyedEntry = {
   validators: ValidatorTuple[]
   modelValues: Ref<unknown>[]
   fields: FormField[]
@@ -213,11 +213,9 @@ export class Form {
     names?: readonly PropertyKey[]
   ): Iterable<ValidatorReturn> {
     if (names === undefined) {
-      for (const { field } of this.simpleMap.values()) {
+      for (const { field, validators } of this.simpleMap.values()) {
         field.touched.value = true
-      }
 
-      for (const { validators } of this.simpleMap.values()) {
         for (let i = 0; i < validators.length; ++i) {
           yield validators[i].validatorNotDebounced(false, true)
         }
@@ -225,6 +223,7 @@ export class Form {
 
       for (const key of this.keyedMap.keys()) {
         const { validators } = this.keyedMap.get(key)!
+
         for (let i = 0; i < validators.length; ++i) {
           yield validators[i].validatorNotDebounced(false, true)
         }
