@@ -99,7 +99,7 @@ export default defineComponent({
 
 <template>
   <FormProvider
-    title="Signup Form"
+    title="Signup"
     :val="{ form, validating, submitting, errors, hasError }"
     @submit="handleSubmit()"
   >
@@ -117,6 +117,7 @@ export default defineComponent({
           />
           <LoadingIcon
             class="w-5 h-5 text-indigo-500 absolute right-3"
+            :class="{ 'text-red-500': form.name.$hasError }"
             v-if="form.name.$validating"
           />
         </div>

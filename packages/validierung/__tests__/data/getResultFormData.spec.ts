@@ -16,7 +16,7 @@ function setup<T extends object>(formData: T): TransformFormData<T> {
 it('should only keep the $value properties', () => {
   const formData = setup({
     a: {
-      $value: 1
+      $value: [new File([], '')]
     },
     b: {
       c: {
@@ -38,7 +38,7 @@ it('should only keep the $value properties', () => {
   const result: Result = getResultFormData(formData)
 
   expect(result).toStrictEqual<Result>({
-    a: 1,
+    a: [expect.any(File)],
     b: {
       c: 1,
       ds: [{ e: 1 }]

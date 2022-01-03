@@ -3,6 +3,7 @@ import VueRouter, { RouteConfig } from 'vue-router'
 import SignupForm from '~/views/SignupForm.vue'
 import DynamicForm from '~/views/DynamicForm.vue'
 import KeyedRules from '~/views/KeyedRules.vue'
+import FileUploadForm from '~/views/FileUploadForm.vue'
 
 const routes: RouteConfig[] = [
   {
@@ -27,6 +28,14 @@ const routes: RouteConfig[] = [
     component: KeyedRules,
     meta: {
       displayName: 'More Keyed Rules'
+    }
+  },
+  {
+    path: '/upload',
+    name: 'upload',
+    component: FileUploadForm,
+    meta: {
+      displayName: 'File Upload Form'
     }
   }
 ]

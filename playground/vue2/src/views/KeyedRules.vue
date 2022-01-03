@@ -20,17 +20,17 @@ const requiredDate = (date: string, time: string) => {
   }
 
   if (!date) {
-    return 'Select a date'
+    return 'Please select a date'
   }
 }
 
 const requiredTime = (date: string, time: string) => {
   if (!date && !time) {
-    return 'Select a date and time'
+    return 'Please select a date and time'
   }
 
   if (!time) {
-    return 'Select a time'
+    return 'Please select a time'
   }
 }
 
@@ -41,7 +41,7 @@ export default defineComponent({
       startDate: {
         $value: '',
         $rules: [
-          ['change', rules.inTheFuture('Select a date in the future')],
+          ['change', rules.inTheFuture('Please select a date in the future')],
           { key: 'start', rule: requiredDate },
           { key: 'date-and-time' }
         ]
@@ -67,7 +67,7 @@ export default defineComponent({
               }
 
               if (compare.date(startDate, endDate) > 0) {
-                return 'Select a later combination'
+                return 'Please select a later combination'
               }
             }
           }
@@ -93,7 +93,7 @@ export default defineComponent({
                 compare.date(startDate, endDate) === 0 &&
                 compare.time(startTime, endTime) > 0
               ) {
-                return 'Select a later combination'
+                return 'Please select a later combination'
               }
             }
           }

@@ -1,15 +1,15 @@
 import type { Ref } from 'vue-demi'
 
-export const isDefined = <T>(x: T | null | undefined): x is T =>
-  x !== null && x !== undefined
+export const isDefined = <T>(value: T | null | undefined): value is T =>
+  value !== null && value !== undefined
 
-export const isRecord = (x: unknown): x is AnyObject =>
-  typeof x === 'object' && x !== null && !Array.isArray(x)
+export const isRecord = (value: unknown): value is AnyObject =>
+  isObject(value) && !Array.isArray(value)
 
-export const isArray = (x: unknown): x is any[] => Array.isArray(x)
+export const isArray = (value: unknown): value is any[] => Array.isArray(value)
 
-export const isObject = (x: unknown): x is AnyObject =>
-  typeof x === 'object' && x !== null
+export const isObject = (value: unknown): value is AnyObject =>
+  typeof value === 'object' && value !== null && !(value instanceof File)
 
 export type AnyObject = Record<PropertyKey, any>
 

@@ -124,10 +124,7 @@ export default defineComponent({
           v-model="form.a.$value"
           @blur="form.a.$validate()"
         />
-        <PlusCircleIcon
-          class="w-6 h-6 ml-6 cursor-pointer text-emerald-600 hover:text-emerald-700"
-          @click="addOuter()"
-        />
+        <PlusCircleIcon class="ml-6" @click="addOuter()" />
       </div>
     </div>
     <div
@@ -145,14 +142,8 @@ export default defineComponent({
             v-model="outer.b.$value"
             @blur="outer.b.$validate()"
           />
-          <PlusCircleIcon
-            class="w-6 h-6 ml-6 cursor-pointer text-emerald-600 hover:text-emerald-700"
-            @click="addInner(outerIndex)"
-          />
-          <MinusCircleIcon
-            class="w-6 h-6 ml-3 cursor-pointer text-red-600 hover:text-red-700"
-            @click="removeOuter(outerIndex)"
-          />
+          <PlusCircleIcon class="ml-6" @click="addInner(outerIndex)" />
+          <MinusCircleIcon class="ml-3" @click="removeOuter(outerIndex)" />
         </div>
       </div>
       <div
@@ -181,7 +172,7 @@ export default defineComponent({
               @blur="inner.d.$validate()"
             />
             <MinusCircleIcon
-              class="w-6 h-6 ml-6 cursor-pointer text-red-600 hover:text-red-700"
+              class="ml-6"
               @click="removeInner(outerIndex, innerIndex)"
             />
           </div>
