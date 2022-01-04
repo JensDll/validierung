@@ -77,7 +77,7 @@ export default defineComponent({
       />
       <div class="mt-6">
         <AppButton
-          class="mr-2"
+          class="mr-3"
           html-type="submit"
           type="primary"
           :disabled="submitting"

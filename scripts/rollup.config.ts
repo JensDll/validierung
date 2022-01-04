@@ -12,7 +12,7 @@ const rootDir = path.resolve(__dirname, '..')
 
 const configs: RollupOptions[] = []
 
-for (const { name, external, output } of packages) {
+for (const [name, { external, output }] of Object.entries(packages)) {
   const config: RollupOptions = {
     input: `packages/${name}/src/index.ts`,
     output: output.map(({ format, fileName }) => ({

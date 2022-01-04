@@ -11,16 +11,16 @@ export const isTransformedField = (
 ): value is TransformedField<unknown> =>
   nShared.isRecord(value) ? '$uid' in value && '$value' in value : false
 
-export type Field<V, E extends object = Record<string, never>> = {
+export type Field<T, E extends object = {}> = {
   /**
    * The field's default value.
    */
-  $value: nShared.MaybeRef<V>
+  $value: nShared.MaybeRef<T>
   /**
    * Rules to use for validation.
    */
-  $rules?: FieldRule<V>[]
-} & (E extends Record<string, never> ? unknown : E)
+  $rules?: FieldRule<T>[]
+} & E
 
 export type ValidateOptions = {
   /**
@@ -37,7 +37,7 @@ export type ValidateOptions = {
   force?: boolean
 }
 
-export type TransformedField<V, E extends object = Record<string, never>> = {
+export type TransformedField<T, E extends object = {}> = {
   /**
    * The unique id of this field.
    */
@@ -45,7 +45,7 @@ export type TransformedField<V, E extends object = Record<string, never>> = {
   /**
    * The current field's value.
    */
-  $value: V
+  $value: T
   /**
    * A list of validation error messages.
    */
@@ -78,16 +78,14 @@ export type TransformedField<V, E extends object = Record<string, never>> = {
    * ```
    */
   $validate(options?: ValidateOptions): Promise<void>
-} & (E extends Record<string, never> ? unknown : UnwrapRef<E>)
+} & UnwrapRef<E>
 
 /**
  * Unwrap the `$value` property of all fields in `FormData`.
  */
-export type ResultFormData<FormData> = FormData extends any
-  ? {
-      [K in keyof FormData]: ResultFormDataImpl<FormData[K]>
-    }
-  : never
+export type ResultFormData<FormData> = {
+  [K in keyof FormData]: ResultFormDataImpl<FormData[K]>
+}
 
 type ResultFormDataImpl<T> = T extends {
   $value: infer V
@@ -110,8 +108,8 @@ type FieldNamesImpl<FormData, K> =
     ? never
     : FormData extends { $value: any }
     ? K
-    : FormData extends readonly (infer TArray)[]
-    ? FieldNamesImpl<TArray, K>
+    : FormData extends readonly (infer A)[]
+    ? FieldNamesImpl<A, K>
     : {
         [K in keyof FormData]-?: nShared.ExcludePrimitives<
           FormData[K]
@@ -125,11 +123,9 @@ type FieldNamesImpl<FormData, K> =
 /**
  * Transforms every field in `FormData` into transformed fields.
  */
-export type TransformFormData<FormData> = FormData extends any
-  ? {
-      [K in keyof FormData]: TransformFormDataImpl<FormData[K]>
-    }
-  : never
+export type TransformFormData<FormData> = {
+  [K in keyof FormData]: TransformFormDataImpl<FormData[K]>
+}
 
 type TransformFormDataImpl<T> = T extends {
   $value: infer V

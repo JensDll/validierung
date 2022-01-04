@@ -1,19 +1,19 @@
 import { ModuleFormat } from 'rollup'
 
+type PackageNames = 'shared' | 'validierung'
+
 export type PackageOutput = {
   format: ModuleFormat
   fileName: string
 }
 
 export type Package = {
-  name: string
   output: PackageOutput[]
   external: string[]
 }
 
-export const packages: Package[] = [
-  {
-    name: 'shared',
+export const packages: Record<PackageNames, Package> = {
+  shared: {
     output: [
       {
         format: 'esm',
@@ -26,8 +26,7 @@ export const packages: Package[] = [
     ],
     external: ['vue-demi']
   },
-  {
-    name: 'validierung',
+  validierung: {
     output: [
       {
         format: 'esm',
@@ -40,4 +39,4 @@ export const packages: Package[] = [
     ],
     external: ['vue-demi']
   }
-]
+}

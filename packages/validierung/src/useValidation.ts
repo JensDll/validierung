@@ -189,7 +189,7 @@ export type UseValidation<FormData extends object> = {
    *
    * @param formData - Form data to set specific values. It has the same structure as the object passed to `useValidation`
    */
-  resetFields(formData?: Partial<ResultFormData<FormData>>): void
+  resetFields(formData?: nShared.DeepPartial<ResultFormData<FormData>>): void
   /**
    * Adds a new property to the form data.
    * Fields with a `$value` are transformed.

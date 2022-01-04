@@ -24,3 +24,5 @@ export type {
   ValidationBehaviorString,
   ValidationBehaviorInfo
 } from './validationBehavior'
+
+export { type DeepPartial } from '@validierung/shared'

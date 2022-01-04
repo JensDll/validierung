@@ -14,16 +14,15 @@ export { LinkedList } from './linkedList'
 
 export { PromiseCancel, CancelError } from './promiseCancel'
 
-export {
-  isArray,
-  isDefined,
-  isObject,
-  isRecord,
-  type MaybeRef,
-  type AnyObject,
-  type AnyFunction,
-  type DeepIndex,
-  type Tuple,
-  type Optional,
-  type ExcludePrimitives
+export { isArray, isDefined, isObject, isRecord } from './typeGuards'
+
+export type {
+  MaybeRef,
+  AnyObject,
+  AnyFunction,
+  DeepIndex,
+  Tuple,
+  Optional,
+  ExcludePrimitives,
+  DeepPartial
 } from './types'
