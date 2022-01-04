@@ -25,7 +25,7 @@ export default defineComponent({
       zip: {
         $value: '',
         $rules: [
-          ['submit', rules.min(4)('The name has to be 3 characters or longer')]
+          ['submit', rules.min(3)('The name has to be 3 characters or longer')]
         ]
       },
       files: {
@@ -55,35 +55,37 @@ export default defineComponent({
     :val="{ form, validating, submitting, errors, hasError }"
     @submit="handleSubmit()"
   >
-    <div>
-      <label class="label" for="zip-name">ZIP Name</label>
-      <input
-        id="zip-name"
-        class="input"
-        :class="{ error: form.zip.$hasError }"
-        type="text"
-        v-model="form.zip.$value"
-        @blur="form.zip.$validate()"
+    <div class="2xl:w-2/3">
+      <div>
+        <label class="label" for="zip-name">ZIP Name</label>
+        <input
+          id="zip-name"
+          class="input"
+          :class="{ error: form.zip.$hasError }"
+          type="text"
+          v-model="form.zip.$value"
+          @blur="form.zip.$validate()"
+        />
+        <FormErrors class="mt-1" :errors="form.zip.$errors" />
+      </div>
+      <FormFileUpload
+        class="mt-3"
+        label="Files to Upload"
+        multiple
+        :errors="form.files.$errors"
+        v-model="form.files.$value"
       />
-      <FormErrors class="mt-1" :errors="form.zip.$errors" />
-    </div>
-    <FormFileUpload
-      class="mt-3"
-      label="Files to Upload"
-      multiple
-      :errors="form.files.$errors"
-      v-model="form.files.$value"
-    />
-    <div class="mt-6">
-      <AppButton
-        class="mr-2"
-        html-type="submit"
-        type="primary"
-        :disabled="submitting"
-      >
-        Upload
-      </AppButton>
-      <AppButton @click="resetFields()">Reset</AppButton>
+      <div class="mt-6">
+        <AppButton
+          class="mr-2"
+          html-type="submit"
+          type="primary"
+          :disabled="submitting"
+        >
+          Upload
+        </AppButton>
+        <AppButton @click="resetFields()">Reset</AppButton>
+      </div>
     </div>
   </FormProvider>
 </template>

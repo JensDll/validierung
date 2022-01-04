@@ -104,7 +104,7 @@ export default defineComponent({
     async function handleSubmit() {
       try {
         const formData = await val.validateFields()
-        console.log(JSON.stringify(formData, null, 2))
+        console.log(formData)
       } catch {}
     }
 

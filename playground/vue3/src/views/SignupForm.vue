@@ -1,5 +1,5 @@
 <script lang="ts">
-import { Field, useValidation } from 'validierung'
+import { Field, useValidation, ValidationBehaviorInfo } from 'validierung'
 import { defineComponent } from 'vue'
 
 import PreFormData from '~/components/form/PreFormData.vue'
@@ -57,7 +57,7 @@ export default defineComponent({
       password: {
         $value: '',
         $rules: [
-          rules.min(8)('Password has to be longer than 7 characters'),
+          rules.min(8)('Password has to be longer than 8 characters'),
           [
             'lazy',
             {
@@ -70,7 +70,7 @@ export default defineComponent({
       confirmPassword: {
         $value: '',
         $rules: [
-          rules.min(8)('Password has to be longer than 7 characters'),
+          rules.min(8)('Password has to be longer than 8 characters'),
           [
             'lazy',
             {
@@ -85,7 +85,7 @@ export default defineComponent({
     async function handleSubmit() {
       try {
         const formData = await val.validateFields()
-        console.log(JSON.stringify(formData, null, 2))
+        console.log(formData)
       } catch {}
     }
 
@@ -161,7 +161,7 @@ export default defineComponent({
       </div>
       <div class="mt-6">
         <AppButton
-          class="mr-2"
+          class="mr-3"
           html-type="submit"
           type="primary"
           :disabled="submitting"

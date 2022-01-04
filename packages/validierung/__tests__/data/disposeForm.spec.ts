@@ -69,12 +69,6 @@ it('should dispose every field', () => {
   expect(form.simpleMap.size).toBe(5)
   expect(form.reactiveFieldMap.size).toBe(5)
 
-  expect(keyedEntry.validators).toStrictEqual(
-    Array.from({ length: 4 }, () => ({
-      validator: expect.any(Function),
-      validatorNotDebounced: expect.any(Function)
-    }))
-  )
   expect(keyedEntry.modelValues.map(r => r.value)).toStrictEqual([3, 4, 6])
   expect(keyedEntry.fields).toStrictEqual(
     Array.from({ length: 3 }, () => expect.any(FormField))
@@ -137,12 +131,6 @@ it('should dispose a subset', () => {
   // @ts-expect-error
   delete formData.b
 
-  expect(keyedEntry.validators).toStrictEqual(
-    Array.from({ length: 2 }, () => ({
-      validator: expect.any(Function),
-      validatorNotDebounced: expect.any(Function)
-    }))
-  )
   expect(keyedEntry.modelValues.map(r => r.value)).toStrictEqual([6])
   expect(keyedEntry.fields).toStrictEqual(
     Array.from({ length: 1 }, () => expect.any(FormField))

@@ -14,7 +14,9 @@ export default defineComponent({
     FormErrors,
     MinusCircleIcon
   },
-  emits: ['update:modelValue'],
+  emits: {
+    'update:modelValue': (files: File[]) => true
+  },
   props: {
     label: {
       type: String

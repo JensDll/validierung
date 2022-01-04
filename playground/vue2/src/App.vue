@@ -72,7 +72,7 @@ export default defineComponent({
   }
 
   pre {
-    white-space: pre-line;
+    white-space: pre-wrap;
   }
 }
 

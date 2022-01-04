@@ -1,30 +1,112 @@
-import { makePromise } from '@validierung/jest-helper'
-import { UseValidation, useValidation } from '../../src/useValidation'
+import { makeMocks, makePromise } from '@validierung/jest-helper'
+import { useValidation } from '../../src/useValidation'
 import { Field } from '../../src/data/types'
 import { ValidationError } from '../../src/validationError'
+
+test('keyed rule should only be called when all other fields are touched and VBF is true', async () => {
+  type FormData = {
+    a: Field<number>
+    b: Field<number>
+    c: Field<number>
+  }
+
+  let a = false
+  let b = false
+  const [ruleA, ruleB, ruleC, ruleD] = makeMocks(4)
+  const { form } = useValidation<FormData>({
+    a: {
+      $value: 1,
+      $rules: [[() => true, { key: 'a', rule: ruleA }]]
+    },
+    b: {
+      $value: 1,
+      $rules: [[() => true, { key: 'a', rule: ruleB }]]
+    },
+    c: {
+      $value: 1,
+      $rules: [
+        [() => a, { key: 'a', rule: ruleC }],
+        [() => b, { key: 'a', rule: ruleD }]
+      ]
+    }
+  })
+
+  form.a.$touched = true
+  form.b.$touched = true
+
+  await form.c.$validate()
+
+  expect(ruleA).toBeCalledTimes(0)
+  expect(ruleB).toBeCalledTimes(0)
+  expect(ruleC).toBeCalledTimes(0)
+  expect(ruleD).toBeCalledTimes(0)
+
+  a = true
+
+  await form.c.$validate()
+
+  expect(ruleA).toBeCalledTimes(0)
+  expect(ruleB).toBeCalledTimes(0)
+  expect(ruleC).toBeCalledTimes(0)
+  expect(ruleD).toBeCalledTimes(0)
+
+  b = true
+
+  await form.c.$validate()
+
+  expect(ruleA).toBeCalledTimes(1)
+  expect(ruleB).toBeCalledTimes(1)
+  expect(ruleC).toBeCalledTimes(1)
+  expect(ruleD).toBeCalledTimes(1)
+})
+
+test('changing form values during validation should throw validation error accordingly', async () => {
+  const vbf = jest.fn(() => true)
+  const rule = jest.fn((foo: number) => makePromise(50, foo < 5 && 'Error'))
+
+  const { form, validateFields } = useValidation({
+    foo: {
+      $value: 0,
+      $rules: [[vbf, rule]]
+    }
+  })
+
+  // Foo is 0 => promise should throw an error
+  let promise = validateFields()
+
+  form.foo.$value = 10
+
+  await expect(promise).rejects.toThrow(ValidationError)
+
+  // Foo is 10 => promise should NOT throw an error
+  promise = validateFields()
+
+  form.foo.$value = 0
+
+  await expect(promise).resolves.toStrictEqual({
+    foo: 10
+  })
+
+  // Foo is 0 again => promise should throw an error
+  await expect(validateFields()).rejects.toThrow(ValidationError)
+})
 
 describe.each([
   { debounce: true, note: 'with debounced rule' },
   { debounce: false, note: 'with async rule' }
 ])('should change field values correctly ($note)', ({ debounce }) => {
-  let rule: jest.Mock
-  let useVal: UseValidation<{
+  type FormData = {
     a: Field<string>
-  }>
+  }
 
-  beforeEach(() => {
-    rule = jest.fn(() => makePromise(50, 'Error'))
-    useVal = useValidation({
+  test('using $validate', async () => {
+    const rule = jest.fn(() => makePromise(50, 'Error'))
+    const { form, submitting, validating } = useValidation<FormData>({
       a: {
         $value: '',
-        // @ts-expect-error
         $rules: [debounce ? [() => true, rule, 100] : [() => true, rule]]
       }
     })
-  })
-
-  test('using $validate', async () => {
-    const { form, submitting, validating } = useVal
 
     const promise = form.a.$validate()
 
@@ -58,7 +140,14 @@ describe.each([
   })
 
   test('using validateFields', async () => {
-    const { form, submitting, validating, validateFields } = useVal
+    const rule = jest.fn(() => makePromise(50, 'Error'))
+    const { form, submitting, validating, validateFields } =
+      useValidation<FormData>({
+        a: {
+          $value: '',
+          $rules: [debounce ? [() => true, rule, 100] : [() => true, rule]]
+        }
+      })
 
     const promise = validateFields()
 
@@ -92,7 +181,14 @@ describe.each([
   })
 
   test('resetFields should cancel validation', async () => {
-    const { form, submitting, validating, validateFields, resetFields } = useVal
+    const rule = jest.fn(() => makePromise(50, 'Error'))
+    const { form, submitting, validating, validateFields, resetFields } =
+      useValidation<FormData>({
+        a: {
+          $value: '',
+          $rules: [debounce ? [() => true, rule, 100] : [() => true, rule]]
+        }
+      })
 
     resetFields()
 
@@ -160,35 +256,4 @@ describe.each([
     expect(submitting.value).toBe(false)
     expect(validating.value).toBe(false)
   })
-})
-
-test('changing form values during validation should throw validation error accordingly', async () => {
-  const vbf = jest.fn(() => true)
-  const rule = jest.fn((foo: number) => makePromise(50, foo < 5 && 'Error'))
-
-  const { form, validateFields } = useValidation({
-    foo: {
-      $value: 0,
-      $rules: [[vbf, rule]]
-    }
-  })
-
-  // Foo is 0 => promise should throw an error
-  let promise = validateFields()
-
-  form.foo.$value = 10
-
-  await expect(promise).rejects.toThrow(ValidationError)
-
-  // Foo is 10 => promise should NOT throw an error
-  promise = validateFields()
-
-  form.foo.$value = 0
-
-  await expect(promise).resolves.toStrictEqual({
-    foo: 10
-  })
-
-  // Foo is 0 again => promise should throw an error
-  await expect(validateFields()).rejects.toThrow(ValidationError)
 })

@@ -27,10 +27,12 @@ export default defineComponent({
       default: () => []
     },
     image: {
-      type: Boolean
+      type: Boolean,
+      default: false
     },
     multiple: {
-      type: Boolean
+      type: Boolean,
+      default: false
     },
     accept: {
       type: String
@@ -95,7 +97,7 @@ export default defineComponent({
 
 <template>
   <div>
-    <label class="label" :for="`file-${label}`">{{ label }}</label>
+    <label v-if="label" class="label" :for="`file-${label}`">{{ label }}</label>
     <div
       :class="[
         'input border-2 group relative py-10 border-dashed grid place-items-center',

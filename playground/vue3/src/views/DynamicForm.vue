@@ -89,10 +89,13 @@ export default defineComponent({
       val.remove(['outerList', outerIndex, 'innerList', innerIndex])
     }
 
+    addOuter()
+    addInner(0)
+
     async function handleSubmit() {
       try {
         const formData = await val.validateFields()
-        console.log(JSON.stringify(formData, null, 2))
+        console.log(formData)
       } catch {}
     }
 
@@ -181,7 +184,7 @@ export default defineComponent({
     </div>
     <div class="mt-12">
       <AppButton
-        class="mr-2"
+        class="mr-4"
         html-type="submit"
         type="primary"
         :disabled="submitting"

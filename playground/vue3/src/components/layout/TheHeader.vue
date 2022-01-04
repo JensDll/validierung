@@ -20,12 +20,21 @@ export default defineComponent({
 
 <template>
   <header class="border-b py-4">
-    <div class="px-6 flex items-center lg:px-12 lg:container lg:mx-auto">
-      <MenuIcon
-        class="w-6 h-6 mr-4 mt-[2px] cursor-pointer hover:text-gray-800 lg:hidden"
-        @click="navStore.toggleNav()"
-      />
-      <div class="font-semibold text-lg">Vue 3 Playground</div>
+    <div
+      class="px-6 flex items-center justify-between lg:px-12 lg:container lg:mx-auto"
+    >
+      <div class="flex items-center">
+        <MenuIcon
+          class="w-6 h-6 mr-4 cursor-pointer hover:text-gray-800 lg:hidden"
+          @click="navStore.toggleNav()"
+        />
+        <div class="font-semibold text-lg">Vue 3 Playground</div>
+      </div>
+      <a
+        class="text-indigo-600 hover:text-indigo-800"
+        href="https://github.com/JensDll/validierung/tree/main"
+        >GitHub</a
+      >
     </div>
   </header>
 </template>
