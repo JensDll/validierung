@@ -1,15 +1,42 @@
-export type Package = {
-  name: string
-  buildFormats: string[]
+import { ModuleFormat } from 'rollup'
+
+type PackageNames = 'shared' | 'validierung'
+
+export type PackageOutput = {
+  format: ModuleFormat
+  fileName: string
 }
 
-export const packages: Package[] = [
-  {
-    name: 'shared',
-    buildFormats: ['esm']
+export type Package = {
+  output: PackageOutput[]
+  external: string[]
+}
+
+export const packages: Record<PackageNames, Package> = {
+  shared: {
+    output: [
+      {
+        format: 'esm',
+        fileName: 'index.mjs'
+      },
+      {
+        format: 'cjs',
+        fileName: 'index.cjs'
+      }
+    ],
+    external: ['vue-demi']
   },
-  {
-    name: 'vue3-form-validation',
-    buildFormats: ['esm', 'cjs']
+  validierung: {
+    output: [
+      {
+        format: 'esm',
+        fileName: 'index.mjs'
+      },
+      {
+        format: 'cjs',
+        fileName: 'index.cjs'
+      }
+    ],
+    external: ['vue-demi']
   }
-]
+}

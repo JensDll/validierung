@@ -1,7 +1,7 @@
 import { expectType } from 'tsd'
-import { ref, Ref } from 'vue'
+import { ref, Ref } from 'vue-demi'
 
-import { Field, TransformedField, useValidation } from 'vue3-form-validation'
+import { Field, TransformedField, useValidation } from 'validierung'
 
 useValidation<{ a: Field<string> }>({
   a: {

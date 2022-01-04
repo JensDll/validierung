@@ -1,26 +1,35 @@
-import { Key } from './types'
+import { set as vueSet, isVue3 } from 'vue-demi'
 
-export function set(obj: any, keys: readonly Key[], value: any) {
+import { AnyObject } from './types'
+
+export function set(
+  obj: AnyObject,
+  keys: readonly PropertyKey[],
+  value: unknown
+) {
   if (keys.length === 0) {
     return
   }
 
-  let o = obj as Record<Key, unknown>
   for (let i = 0; i < keys.length - 1; i++) {
     const key = keys[i]
     const nextKey = keys[i + 1]
-    const value = o[key]
+    const value = obj[key]
 
     if (value === undefined) {
-      if (Number.isNaN(+nextKey)) {
-        o[key] = {}
+      if (typeof nextKey === 'symbol' || Number.isNaN(+nextKey)) {
+        obj[key] = {}
       } else {
-        o[key] = []
+        obj[key] = []
       }
     }
 
-    o = o[key] as any
+    obj = obj[key]
   }
 
-  o[keys[keys.length - 1]] = value
+  if (isVue3) {
+    obj[keys[keys.length - 1]] = value
+  } else {
+    vueSet(obj, keys[keys.length - 1], value)
+  }
 }

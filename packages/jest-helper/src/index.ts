@@ -1,4 +1,4 @@
-import { Tuple } from '@/shared'
+import { Tuple } from '@validierung/shared'
 
 export const makePromise = <T = undefined>(
   timeout: number,

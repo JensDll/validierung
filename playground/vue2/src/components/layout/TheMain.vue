@@ -1,0 +1,13 @@
+<script lang="ts">
+import { defineComponent } from '@vue/composition-api'
+
+export default defineComponent({})
+</script>
+
+<template>
+  <main class="pb-24 lg:pl-16">
+    <router-view></router-view>
+  </main>
+</template>
+
+<style lang="postcss" scoped></style>
