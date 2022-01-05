@@ -66,7 +66,7 @@ export class FormField {
   form: Form
   keys: Set<string> = new Set()
   simpleValidators: ValidatorTuple[] = []
-  keyedValidators: Map<string, ValidatorTuple[]> = new Map()
+  keyedValidators: Record<string, ValidatorTuple[]> = {}
   ruleInfos: MappedRuleInformation[]
   watchStopHandle: WatchStopHandle
 
@@ -155,10 +155,10 @@ export class FormField {
       if (key) {
         this.keys.add(key)
 
-        const keyedValidators = this.keyedValidators.get(key)
+        const keyedValidators = this.keyedValidators[key]
 
         if (keyedValidators === undefined) {
-          this.keyedValidators.set(key, rule ? [validatorTuple] : [])
+          this.keyedValidators[key] = rule ? [validatorTuple] : []
         } else {
           rule && keyedValidators.push(validatorTuple)
         }
@@ -276,11 +276,9 @@ export class FormField {
   }
 
   shouldAllValidate(key: string, force: boolean, submit: boolean): boolean {
-    const keyedValidators = this.keyedValidators.get(key)!
-
-    for (let i = 0; i < keyedValidators.length; i++) {
+    for (let i = 0; i < this.keyedValidators[key].length; i++) {
       const shouldValidateResult = this.shouldValidate(
-        keyedValidators[i].ruleNumber,
+        this.keyedValidators[key][i].ruleNumber,
         force,
         submit
       )

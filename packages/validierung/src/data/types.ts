@@ -11,7 +11,7 @@ export const isTransformedField = (
 ): value is TransformedField<unknown> =>
   nShared.isRecord(value) ? '$uid' in value && '$value' in value : false
 
-export type Field<T, E extends object = {}> = {
+export type Field<T, E extends object = Record<string, never>> = {
   /**
    * The field's default value.
    */
@@ -20,7 +20,7 @@ export type Field<T, E extends object = {}> = {
    * Rules to use for validation.
    */
   $rules?: FieldRule<T>[]
-} & E
+} & (E extends Record<string, never> ? unknown : E)
 
 export type ValidateOptions = {
   /**
@@ -37,7 +37,7 @@ export type ValidateOptions = {
   force?: boolean
 }
 
-export type TransformedField<T, E extends object = {}> = {
+export type TransformedField<T, E extends object = Record<string, never>> = {
   /**
    * The unique id of this field.
    */
@@ -78,19 +78,21 @@ export type TransformedField<T, E extends object = {}> = {
    * ```
    */
   $validate(options?: ValidateOptions): Promise<void>
-} & UnwrapRef<E>
+} & (E extends Record<string, never> ? unknown : UnwrapRef<E>)
 
 /**
  * Unwrap the `$value` property of all fields in `FormData`.
  */
-export type ResultFormData<FormData> = {
-  [K in keyof FormData]: ResultFormDataImpl<FormData[K]>
-}
+export type ResultFormData<FormData> = FormData extends any
+  ? {
+      [K in keyof FormData]: ResultFormDataImpl<FormData[K]>
+    }
+  : never
 
 type ResultFormDataImpl<T> = T extends {
   $value: infer V
 }
-  ? UnwrapRef<Exclude<V, Ref>>
+  ? UnwrapRef<Exclude<nShared.MaybeRef<V>, Ref>>
   : T extends object
   ? ResultFormData<T>
   : T
@@ -123,14 +125,19 @@ type FieldNamesImpl<FormData, K> =
 /**
  * Transforms every field in `FormData` into transformed fields.
  */
-export type TransformFormData<FormData> = {
-  [K in keyof FormData]: TransformFormDataImpl<FormData[K]>
-}
+export type TransformFormData<FormData> = FormData extends any
+  ? {
+      [K in keyof FormData]: TransformFormDataImpl<FormData[K]>
+    }
+  : never
 
 type TransformFormDataImpl<T> = T extends {
   $value: infer V
 }
-  ? TransformedField<UnwrapRef<Exclude<V, Ref>>, Omit<T, '$value' | '$rules'>>
+  ? TransformedField<
+      UnwrapRef<Exclude<nShared.MaybeRef<V>, Ref>>,
+      Omit<T, '$value' | '$rules'>
+    >
   : T extends object
   ? TransformFormData<T>
   : T

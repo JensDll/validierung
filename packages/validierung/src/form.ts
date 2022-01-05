@@ -166,7 +166,7 @@ export class Form {
         field.shouldAllValidate(key, force, submit)
       ) {
         for (let i = 0; i < fields.length; ++i) {
-          const keyedValidators = fields[i].keyedValidators.get(key)!
+          const keyedValidators = fields[i].keyedValidators[key]
 
           for (let j = 0; j < keyedValidators.length; j++) {
             const { validator, validatorNotDebounced } = keyedValidators[j]
@@ -203,7 +203,9 @@ export class Form {
 
       for (const { fields, modelValues } of this.keyedMap.values()) {
         for (let i = 0; i < fields.length; ++i) {
-          for (const keyedValidators of fields[i].keyedValidators.values()) {
+          for (const keyedValidators of Object.values(
+            fields[i].keyedValidators
+          )) {
             for (let j = 0; j < keyedValidators.length; j++) {
               yield keyedValidators[j].validatorNotDebounced(
                 modelValues,
