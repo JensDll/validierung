@@ -13,3 +13,5 @@ Vue composition function for form validation.
 ```bash
 npm install validierung
 ```
+
+### 👉 [Check out the Documentation](https://github.com/JensDll/validierung/wiki/Documentation)
