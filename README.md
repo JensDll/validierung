@@ -1,19 +1,15 @@
-# Form Validation for Vue 3
+# Form Validation for Vue
 
-[![npm](https://badgen.net/npm/v/vue3-form-validation)](https://www.npmjs.com/package/vue3-form-validation)
-[![LICENSE](https://badgen.net/github/license/micromatch/micromatch?color=green)](https://github.com/JensDll/vue3-form-validation/blob/main/LICENSE)
+[![LICENSE](https://badgen.net/github/license/micromatch/micromatch?color=green)](https://github.com/JensDll/validierung/blob/main/LICENSE)
 
 Vue composition function for form validation.
 
 - 🌌 **Written in TypeScript**
-- ☄️ **Async rules**
+- ☄️ **Asynchronous validation**
 - 🌊 **Dynamic forms**
 - 🍂 **Light weight**
+- 🌳 **Vue 2 and 3**
 
 ```bash
-npm install vue3-form-validation
+npm install validierung
 ```
-
-### :point_right: [Check out the Documentation](https://github.com/JensDll/vue3-form-validation/wiki/Documentation)
-
-### :point_right: [Check out the Examples on StackBlitz](https://stackblitz.com/github/JensDll/vue3-form-validation/tree/main/packages/examples?file=src%2Fpages%2FHomeForm.vue)
