@@ -43,7 +43,7 @@ export default defineComponent({
     <TheNavBackground />
     <TheHeader />
     <div
-      class="px-6 lg:px-12 lg:container lg:mx-auto lg:grid lg:grid-cols-[auto_1fr]"
+      class="px-6 md:px-8 lg:px-12 lg:container lg:mx-auto lg:grid lg:grid-cols-[auto_1fr]"
     >
       <TheNav />
       <TheMain />

@@ -15,7 +15,7 @@ export const compare = {
       return 0
     }
 
-    if (end === '00:00' || start < end) {
+    if (start < end) {
       return -1
     } else {
       return 1

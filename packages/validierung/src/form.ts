@@ -168,17 +168,20 @@ export class Form {
         for (let i = 0; i < fields.length; ++i) {
           const keyedValidators = fields[i].keyedValidators[key]
 
-          for (let j = 0; j < keyedValidators.length; j++) {
-            const { validator, validatorNotDebounced } = keyedValidators[j]
-
+          for (let j = 0; j < keyedValidators.length; ++j) {
             yield submit
-              ? validatorNotDebounced(
+              ? keyedValidators[j].validatorNotDebounced(
                   modelValues,
                   force,
                   submit,
                   fields[i] === field
                 )
-              : validator(modelValues, force, submit, fields[i] === field)
+              : keyedValidators[j].validator(
+                  modelValues,
+                  force,
+                  submit,
+                  fields[i] === field
+                )
           }
         }
       }
@@ -201,12 +204,12 @@ export class Form {
         }
       }
 
-      for (const key of this.keyedMap.keys()) {
-        const { fields, modelValues } = this.keyedMap.get(key)!
-
+      for (const [key, { fields, modelValues }] of this.keyedMap.entries()) {
         for (let i = 0; i < fields.length; ++i) {
-          for (let j = 0; j < fields[i].keyedValidators[key].length; j++) {
-            yield fields[i].keyedValidators[key][j].validatorNotDebounced(
+          const keyedValidators = fields[i].keyedValidators[key]
+
+          for (let j = 0; j < keyedValidators.length; ++j) {
+            yield keyedValidators[j].validatorNotDebounced(
               modelValues,
               false,
               true
