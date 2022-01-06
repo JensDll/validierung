@@ -17,8 +17,8 @@ export default defineComponent({
 <template>
   <Transition name="slide">
     <nav
-      :class="{ hidden: navStore.isHidden }"
-      class="p-4 fixed bg-white inset-y-0 left-0 z-50 border-r lg:p-0 lg:pr-8 lg:relative lg:block"
+      v-show="!navStore.isHidden"
+      class="p-4 fixed bg-white inset-y-0 left-0 z-50 border-r lg:p-0 lg:pr-8 lg:relative lg:!block"
     >
       <ul class="space-y-2 lg:sticky lg:top-6">
         <router-link
