@@ -91,7 +91,7 @@ export default defineComponent({
 
               if (
                 compare.date(startDate, endDate) === 0 &&
-                compare.time(startTime, endTime) > 0
+                startTime > endTime
               ) {
                 return 'Please select a later combination'
               }
@@ -181,7 +181,7 @@ export default defineComponent({
     </div>
     <div class="mt-8">
       <AppButton
-        class="mr-2"
+        class="mr-4"
         html-type="submit"
         type="primary"
         :disabled="submitting"

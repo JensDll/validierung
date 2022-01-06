@@ -1,18 +1,14 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { useRouter } from 'vue-router'
 
 import { useNavStore } from '~/modules/pinia'
 
 export default defineComponent({
   setup() {
     const navStore = useNavStore()
-    const router = useRouter()
-    const routes = router.getRoutes()
 
     return {
-      navStore,
-      routes
+      navStore
     }
   }
 })
@@ -21,12 +17,12 @@ export default defineComponent({
 <template>
   <Transition name="slide">
     <nav
-      v-if="!navStore.isHidden"
-      class="p-4 fixed bg-white inset-y-0 left-0 z-50 border-r lg:p-0 lg:pr-8 lg:relative"
+      :class="{ hidden: navStore.isHidden }"
+      class="p-4 fixed bg-white inset-y-0 left-0 z-50 border-r lg:p-0 lg:pr-8 lg:relative lg:block"
     >
       <ul class="space-y-2 lg:sticky lg:top-6">
         <router-link
-          v-for="route in routes"
+          v-for="route in $router.getRoutes()"
           :key="route.name"
           :to="{ name: route.name }"
           custom

@@ -30,7 +30,7 @@ export default defineComponent({
 
 <template>
   <div>
-    <h1 class="">{{ title }}</h1>
+    <h1>{{ title }}</h1>
     <form autocomplete="off" @submit.prevent.self="$emit('submit')">
       <slot></slot>
     </form>

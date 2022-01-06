@@ -21,7 +21,7 @@ export default defineComponent({
 <template>
   <header class="border-b py-4">
     <div
-      class="px-6 flex items-center justify-between lg:px-12 lg:container lg:mx-auto"
+      class="px-6 flex items-center justify-between md:px-9 lg:px-12 lg:container lg:mx-auto"
     >
       <div class="flex items-center">
         <MenuIcon

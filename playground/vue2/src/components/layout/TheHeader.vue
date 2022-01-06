@@ -21,7 +21,7 @@ export default defineComponent({
 <template>
   <header class="border-b py-4">
     <div
-      class="px-6 flex items-center justify-between lg:px-12 lg:container lg:mx-auto"
+      class="px-6 flex items-center justify-between md:px-9 lg:px-12 lg:container lg:mx-auto"
     >
       <div class="flex items-center">
         <MenuIcon
@@ -33,8 +33,9 @@ export default defineComponent({
       <a
         class="text-indigo-600 hover:text-indigo-800"
         href="https://github.com/JensDll/validierung/tree/main"
-        >GitHub</a
       >
+        GitHub
+      </a>
     </div>
   </header>
 </template>

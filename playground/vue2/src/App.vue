@@ -1,11 +1,10 @@
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api'
 
-import { useNavStore } from './modules/pinia'
 import TheNav from './components/layout/TheNav.vue'
+import TheNavBackground from './components/layout/TheNavBackground.vue'
 import TheHeader from './components/layout/TheHeader.vue'
 import TheMain from './components/layout/TheMain.vue'
-import TheNavBackground from './components/layout/TheNavBackground.vue'
 
 export default defineComponent({
   components: {
@@ -13,27 +12,6 @@ export default defineComponent({
     TheHeader,
     TheMain,
     TheNavBackground
-  },
-  setup() {
-    const navStore = useNavStore()
-    const mobileBreakPoint = 1024
-
-    if (window.innerWidth >= mobileBreakPoint) {
-      navStore.isHidden = false
-    }
-
-    let prevInnerWidth = 0
-
-    window.addEventListener('resize', () => {
-      if (
-        prevInnerWidth <= mobileBreakPoint &&
-        window.innerWidth >= mobileBreakPoint
-      ) {
-        navStore.isHidden = false
-      }
-
-      prevInnerWidth = window.innerWidth
-    })
   }
 })
 </script>
@@ -43,7 +21,7 @@ export default defineComponent({
     <TheNavBackground />
     <TheHeader />
     <div
-      class="px-6 lg:px-12 lg:container lg:mx-auto lg:grid lg:grid-cols-[auto_1fr]"
+      class="px-6 md:px-9 lg:px-12 lg:container lg:mx-auto lg:grid lg:grid-cols-[auto_1fr]"
     >
       <TheNav />
       <TheMain />

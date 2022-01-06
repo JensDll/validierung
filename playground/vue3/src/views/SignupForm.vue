@@ -1,5 +1,5 @@
 <script lang="ts">
-import { Field, useValidation, ValidationBehaviorInfo } from 'validierung'
+import { Field, useValidation } from 'validierung'
 import { defineComponent } from 'vue'
 
 import PreFormData from '~/components/form/PreFormData.vue'
@@ -161,7 +161,7 @@ export default defineComponent({
       </div>
       <div class="mt-6">
         <AppButton
-          class="mr-3"
+          class="mr-4"
           html-type="submit"
           type="primary"
           :disabled="submitting"

@@ -15,10 +15,10 @@ export default defineComponent({
 </script>
 
 <template>
-  <transition name="slide">
+  <Transition name="slide">
     <nav
-      v-if="!navStore.isHidden"
-      class="p-4 fixed bg-white inset-y-0 left-0 z-50 border-r lg:p-0 lg:pr-8 lg:relative"
+      :class="{ hidden: navStore.isHidden }"
+      class="p-4 fixed bg-white inset-y-0 left-0 z-50 border-r lg:p-0 lg:pr-8 lg:relative lg:block"
     >
       <ul class="space-y-2 lg:sticky lg:top-6">
         <router-link
@@ -41,7 +41,7 @@ export default defineComponent({
         </router-link>
       </ul>
     </nav>
-  </transition>
+  </Transition>
 </template>
 
 <style lang="postcss" scoped>
@@ -49,7 +49,7 @@ export default defineComponent({
 .slide-leave-active {
   transition: transform 0.2s;
 }
-.slide-enter,
+.slide-enter-from,
 .slide-leave-to {
   transform: translateX(-100%);
 }
