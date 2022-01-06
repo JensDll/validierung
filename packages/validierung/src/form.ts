@@ -201,18 +201,16 @@ export class Form {
         }
       }
 
-      for (const { fields, modelValues } of this.keyedMap.values()) {
+      for (const key of this.keyedMap.keys()) {
+        const { fields, modelValues } = this.keyedMap.get(key)!
+
         for (let i = 0; i < fields.length; ++i) {
-          for (const keyedValidators of Object.values(
-            fields[i].keyedValidators
-          )) {
-            for (let j = 0; j < keyedValidators.length; j++) {
-              yield keyedValidators[j].validatorNotDebounced(
-                modelValues,
-                false,
-                true
-              )
-            }
+          for (let j = 0; j < fields[i].keyedValidators[key].length; j++) {
+            yield fields[i].keyedValidators[key][j].validatorNotDebounced(
+              modelValues,
+              false,
+              true
+            )
           }
         }
       }
