@@ -3,7 +3,7 @@
 [![npm](https://badgen.net/npm/v/validierung)](https://www.npmjs.com/package/validierung)
 [![LICENSE](https://badgen.net/github/license/micromatch/micromatch?color=green)](https://github.com/JensDll/validierung/blob/main/LICENSE)
 
-Vue composition function for form validation.
+Vue composition function for form validation. The word *validierung* is the german translation for validation.
 
 - 🌌 **Written in TypeScript**
 - ☄️ **Asynchronous validation**
