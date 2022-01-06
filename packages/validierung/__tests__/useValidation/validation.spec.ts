@@ -150,18 +150,22 @@ describe.each([
     )
     const ruleD = makeRule(
       jest.fn(() => true),
-      { key: 'a', rule: jest.fn(() => makePromise(50, 'd')) }
+      { key: 'b', rule: jest.fn(() => 'd') }
+    )
+    const ruleE = makeRule(
+      jest.fn(() => true),
+      { key: 'b', rule: jest.fn(() => makePromise(50, 'e')) }
     )
 
     const { form, errors, hasError, submitting, validating, validateFields } =
       useValidation({
         a: {
           $value: 1,
-          $rules: [ruleA.tuple, ruleB.tuple]
+          $rules: [ruleA.tuple, ruleB.tuple, ruleD.tuple]
         },
         b: {
           $value: 2,
-          $rules: [ruleC.tuple, ruleD.tuple]
+          $rules: [ruleC.tuple, ruleE.tuple]
         }
       })
 
@@ -175,12 +179,14 @@ describe.each([
     expect(ruleC.rule).toBeCalledWith(1, 2)
     expect(ruleD.rule).toBeCalledTimes(1)
     expect(ruleD.rule).toBeCalledWith(1, 2)
+    expect(ruleE.rule).toBeCalledTimes(1)
+    expect(ruleE.rule).toBeCalledWith(1, 2)
 
     expect(form.a).toStrictEqual<typeof form.a>({
       $uid: expect.any(Number),
       $dirty: false,
       $touched: true,
-      $errors: ['a', 'b'],
+      $errors: ['a', 'b', 'd'],
       $hasError: true,
       $validate: expect.any(Function),
       $validating: false,
@@ -198,7 +204,7 @@ describe.each([
       $value: 2
     })
 
-    expect(errors.value).toStrictEqual(['a', 'b', 'c'])
+    expect(errors.value.sort()).toStrictEqual(['a', 'b', 'c', 'd'])
     expect(hasError.value).toBe(true)
     expect(submitting.value).toBe(true)
     expect(validating.value).toBe(true)
@@ -209,7 +215,7 @@ describe.each([
       $uid: expect.any(Number),
       $dirty: false,
       $touched: true,
-      $errors: ['a', 'b'],
+      $errors: ['a', 'b', 'd'],
       $hasError: true,
       $validate: expect.any(Function),
       $validating: false,
@@ -220,14 +226,14 @@ describe.each([
       $uid: expect.any(Number),
       $dirty: false,
       $touched: true,
-      $errors: ['c', 'd'],
+      $errors: ['c', 'e'],
       $hasError: true,
       $validate: expect.any(Function),
       $validating: false,
       $value: 2
     })
 
-    expect(errors.value).toStrictEqual(['a', 'b', 'c', 'd'])
+    expect(errors.value.sort()).toStrictEqual(['a', 'b', 'c', 'd', 'e'])
     expect(hasError.value).toBe(true)
     expect(submitting.value).toBe(false)
     expect(validating.value).toBe(false)
