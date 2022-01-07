@@ -10,7 +10,7 @@
     "test:dts": "pnpm run build && npm exec tsd",
     "test:dts-only": "pnpm exec tsd",
     "test:all": "pnpm run test:dts && pnpm run test",
-    "dev": "node --experimental-loader esbuild-node-loader scripts/dev.ts --targets shared core",
+    "dev": "node --experimental-loader esbuild-node-loader scripts/dev.ts",
     "dev:2": "pnpm run dev:local --filter \"vue2-playground\"",
     "dev:3": "pnpm run dev:local --filter \"vue3-playground\"",
     "postinstall": "husky install && vue-demi-switch 3 vue3"
