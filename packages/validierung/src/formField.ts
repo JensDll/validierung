@@ -88,7 +88,6 @@ export class FormField {
     this.ruleInfos = ruleInfos.map((info, ruleNumber) => {
       const [rule, key] = unpackRule(info.rule)
 
-      let validator: Validator
       const validatorNotDebounced: Validator = (
         modelValues,
         force,
@@ -102,6 +101,7 @@ export class FormField {
           return this.validate(ruleNumber, modelValues)
         }
       }
+      let validator: Validator = validatorNotDebounced
 
       let debouncedValidator: DebouncedValidator
       let debounceInvokedTimes = 0
@@ -142,8 +142,6 @@ export class FormField {
             })
           }
         }
-      } else {
-        validator = validatorNotDebounced
       }
 
       const validatorTuple: ValidatorTuple = {
@@ -275,7 +273,7 @@ export class FormField {
     this.watchStopHandle()
   }
 
-  shouldAllValidate(key: string, force: boolean, submit: boolean): boolean {
+  shouldValidateForKey(key: string, force: boolean, submit: boolean): boolean {
     for (let i = 0; i < this.keyedValidators[key].length; i++) {
       const shouldValidateResult = this.shouldValidate(
         this.keyedValidators[key][i].ruleNumber,

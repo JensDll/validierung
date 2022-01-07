@@ -163,7 +163,7 @@ export class Form {
 
       if (
         this.isEveryOtherFieldTouched(field, fields) &&
-        field.shouldAllValidate(key, force, submit)
+        field.shouldValidateForKey(key, force, submit)
       ) {
         for (let i = 0; i < fields.length; ++i) {
           const keyedValidators = fields[i].keyedValidators[key]
