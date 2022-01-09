@@ -64,7 +64,6 @@ export class FormField {
   )
 
   form: Form
-  keys: Set<string> = new Set()
   simpleValidators: ValidatorTuple[] = []
   keyedValidators: Record<string, ValidatorTuple[]> = {}
   ruleInfos: MappedRuleInformation[]
@@ -151,10 +150,7 @@ export class FormField {
       }
 
       if (key) {
-        this.keys.add(key)
-
         const keyedValidators = this.keyedValidators[key]
-
         if (keyedValidators === undefined) {
           this.keyedValidators[key] = rule ? [validatorTuple] : []
         } else {

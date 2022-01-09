@@ -30,7 +30,7 @@
     "@typescript-eslint/parser": "5.9.0",
     "@validierung/jest-helper": "workspace:*",
     "@validierung/shared": "workspace:*",
-    "esbuild": "0.14.10",
+    "esbuild": "0.14.11",
     "esbuild-node-loader": "0.6.3",
     "esbuild-register": "3.3.1",
     "eslint": "8.6.0",
