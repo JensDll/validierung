@@ -6,10 +6,10 @@
 Vue composition function for form validation. The word *validierung* is the german translation for validation.
 
 - 🌌 **Written in TypeScript**
-- ☄️ **Asynchronous validation**
-- 🌊 **Dynamic forms**
-- 🍂 **Light weight**
-- 🌳 **Vue 2 and 3**
+- ☄️ **Asynchronous Validation**
+- 🌊 **Dynamic Forms**
+- 🍂 **Light Weight**
+- 🌳 **Vue 2 and 3 Support**
 
 ```bash
 npm install validierung
