@@ -1,6 +1,5 @@
 import fs from 'fs-extra'
 
-import { packages } from './meta'
 import { run } from './utils'
 
 const basePath = 'packages/validierung'
@@ -8,7 +7,7 @@ const basePath = 'packages/validierung'
 await run('rollup', ['--config'])
 
 console.log()
-console.log('Formatting type definition files ...')
+console.log('Formatting type declaration files ...')
 await run('pnpm', [
   'exec',
   'prettier',
@@ -25,12 +24,10 @@ await Promise.all([
   fs.copy('README.md', 'publish/README.md'),
   // Copy package.json
   fs.copy(`${basePath}/package.json`, 'publish/package.json'),
-  // Copy JavaScript bundles
-  ...packages.validierung.output.map(({ fileName }) =>
-    fs.copy(`${basePath}/dist/${fileName}`, `publish/dist/${fileName}`)
-  ),
-  // Copy TypeScript definition file
-  fs.copy(`${basePath}/dist/index.d.ts`, 'publish/dist/index.d.ts')
+  // Copy CommonJS entry point
+  fs.copy(`${basePath}/index.cjs`, 'publish/index.cjs'),
+  // Copy dist content
+  fs.copy(`${basePath}/dist`, `publish/dist`)
 ])
 
 console.log()

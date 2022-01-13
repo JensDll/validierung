@@ -6,6 +6,7 @@ import FormProvider from '~/components/form/FormProvider.vue'
 import AppButton from '~/components/app/AppButton.vue'
 import PlusCircleIcon from '~/components/icon/PlusCircleIcon.vue'
 import MinusCircleIcon from '~/components/icon/MinusCircleIcon.vue'
+import { stringify } from '~/domain'
 
 type FormData = {
   a: Field<string>
@@ -95,7 +96,7 @@ export default defineComponent({
     async function handleSubmit() {
       try {
         const formData = await val.validateFields()
-        console.log(formData)
+        alert(stringify(formData))
       } catch {}
     }
 

@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent, PropType, UnwrapRef } from 'vue'
 import { UseValidation } from 'validierung'
+import { stringify } from '~/domain'
 
 export default defineComponent({
   props: {
@@ -18,22 +19,7 @@ export default defineComponent({
   },
   computed: {
     formJson(): string {
-      return JSON.stringify(
-        this.val.form,
-        (key, value) => {
-          if (value === undefined) {
-            return 'undefined'
-          }
-          if (typeof value === 'function') {
-            return 'function'
-          }
-          if (value instanceof File) {
-            return `File { name: ${value.name} }`
-          }
-          return value
-        },
-        2
-      )
+      return stringify(this.val.form)
     }
   }
 })
