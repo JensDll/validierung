@@ -5,8 +5,8 @@ import { ValidationError } from './validationError'
 import { RuleInformation, unpackRule } from './rules'
 
 export type SimpleEntry = {
-  rollbacks: (() => void)[]
   field: FormField
+  rollbacks: (() => void)[]
 }
 
 export type KeyedEntry = {
@@ -80,12 +80,12 @@ export class Form {
             }
           }
 
-          if (modelValueIndex >= 0) {
-            keyedEntry.modelValues.splice(modelValueIndex, 1)
-          }
-
           if (fieldIndex >= 0) {
             keyedEntry.fields.splice(fieldIndex, 1)
+          }
+
+          if (modelValueIndex >= 0) {
+            keyedEntry.modelValues.splice(modelValueIndex, 1)
           }
 
           if (keyedEntry.fields.length === 0) {
@@ -107,9 +107,7 @@ export class Form {
     const { field } = this.simpleMap.get(uid)!
 
     return Promise.allSettled<ValidatorReturn>([
-      ...field.simpleValidators.map(({ validator }) =>
-        validator(field.modelValue, force, false)
-      ),
+      ...field.simpleValidators.map(({ validator }) => validator(force, false)),
       ...this.collectValidatorResultsForKeys(field, force, false)
     ])
   }
@@ -170,15 +168,15 @@ export class Form {
           for (let k = 0; k < keyedValidators.length; ++k) {
             yield submit
               ? keyedValidators[k].validatorNotDebounced(
-                  modelValues,
                   force,
                   submit,
+                  modelValues,
                   fields[j] === field
                 )
               : keyedValidators[k].validator(
-                  modelValues,
                   force,
                   submit,
+                  modelValues,
                   fields[j] === field
                 )
           }
@@ -195,11 +193,7 @@ export class Form {
         field.touched.value = true
 
         for (let i = 0; i < field.simpleValidators.length; ++i) {
-          yield field.simpleValidators[i].validatorNotDebounced(
-            field.modelValue,
-            false,
-            true
-          )
+          yield field.simpleValidators[i].validatorNotDebounced(false, true)
         }
       }
 
@@ -208,9 +202,9 @@ export class Form {
           const keyedValidators = fields[i].keyedValidators[key]
           for (let j = 0; j < keyedValidators.length; ++j) {
             yield keyedValidators[j].validatorNotDebounced(
-              modelValues,
               false,
-              true
+              true,
+              modelValues
             )
           }
         }
@@ -228,11 +222,7 @@ export class Form {
       for (const { field } of this.simpleMap.values()) {
         if (uniqueNames.has(field.name)) {
           for (let i = 0; i < field.simpleValidators.length; ++i) {
-            yield field.simpleValidators[i].validatorNotDebounced(
-              field.modelValue,
-              false,
-              true
-            )
+            yield field.simpleValidators[i].validatorNotDebounced(false, true)
           }
 
           for (const key of Object.keys(field.keyedValidators)) {

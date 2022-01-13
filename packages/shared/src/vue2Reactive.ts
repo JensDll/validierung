@@ -12,7 +12,7 @@ function vue2ReactiveImpl(obj: any): void {
   if (isArray(obj)) {
     for (let i = 0; i < obj.length; ++i) {
       if (isRecord(obj[i]) && !isRef(obj[i])) {
-        obj[i] = reactive(obj[i])
+        reactive(obj[i])
       }
     }
   }

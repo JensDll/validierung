@@ -17,9 +17,9 @@ import * as nShared from '@validierung/shared'
 
 export type ValidatorReturn = Promise<void> | void
 export type Validator = (
-  modelValues: Ref<unknown> | Ref<unknown>[],
   force: boolean,
   submit: boolean,
+  modelValues?: Ref<unknown> | Ref<unknown>[],
   skipShouldValidate?: boolean
 ) => ValidatorReturn
 
@@ -88,9 +88,9 @@ export class FormField {
       const [rule, key] = unpackRule(info.rule)
 
       const validatorNotDebounced: Validator = (
-        modelValues,
         force,
         submit,
+        modelValues = this.modelValue,
         skipShouldValidate = false
       ) => {
         if (
@@ -120,9 +120,9 @@ export class FormField {
         )
 
         validator = (
-          modelValues,
           force,
           submit,
+          modelValues = this.modelValue,
           skipShouldValidate = false
         ) => {
           if (
@@ -186,9 +186,9 @@ export class FormField {
     const { rule, buffer } = this.ruleInfos[ruleNumber]
 
     let error: unknown
-    // It is made sure that the rule is defined at this point
     const ruleResult = isRef(modelValues)
-      ? rule!(modelValues.value)
+      ? // It is made sure that the rule is defined at this point
+        rule!(modelValues.value)
       : rule!(...modelValues.map(r => r.value))
 
     if (buffer.last?.value) {
@@ -270,7 +270,7 @@ export class FormField {
   }
 
   shouldValidateForKey(key: string, force: boolean, submit: boolean): boolean {
-    for (let i = 0; i < this.keyedValidators[key].length; i++) {
+    for (let i = 0; i < this.keyedValidators[key].length; ++i) {
       const shouldValidateResult = this.shouldValidate(
         this.keyedValidators[key][i].ruleNumber,
         force,
