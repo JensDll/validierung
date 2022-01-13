@@ -3,7 +3,7 @@
   "type": "module",
   "scripts": {
     "build": "node --experimental-loader esbuild-node-loader scripts/build.ts",
-    "lint": "pnpm exec eslint --rule=\"no-console: [\"error\", { allow: [\"warn\", \"error\"] }]\" --max-warnings 0 --fix-dry-run \"./packages/*/src/**/*.{ts,js}\"",
+    "lint": "pnpm exec eslint --rule=\"no-console: [\"error\", { allow: [\"warn\", \"error\"] }]\" --max-warnings 0 --fix-dry-run \"./packages/**\"",
     "test": "pnpm run test:2 && pnpm run test:3",
     "test:2": "vue-demi-switch 2 vue2 && jest --runInBand",
     "test:3": "vue-demi-switch 3 vue3 && jest --runInBand",
