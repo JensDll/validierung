@@ -33,7 +33,9 @@ const plugin = {
   esbuild: esbuild({
     target: 'ES2019'
   }),
-  minify: minify(),
+  minify: minify({
+    target: 'ES2019'
+  }),
   replace: {
     esm: replace({
       preventAssignment: true,
