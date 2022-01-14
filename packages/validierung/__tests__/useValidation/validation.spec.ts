@@ -240,15 +240,16 @@ describe.each([
   })
 
   test('keyed rule should only be called when all other fields are touched and VBF is true', async () => {
-    let foo = false
-    let bar = false
+    let a = false
+    let b = false
+    let e = false
 
     const ruleA = makeRule(
-      jest.fn(() => foo),
+      jest.fn(() => a),
       { key: 'a', rule: jest.fn() }
     )
     const ruleB = makeRule(
-      jest.fn(() => bar),
+      jest.fn(() => b),
       { key: 'a', rule: jest.fn() }
     )
     const ruleC = makeRule(
@@ -259,11 +260,19 @@ describe.each([
       jest.fn(() => true),
       { key: 'a', rule: jest.fn() }
     )
+    const ruleE = makeRule(
+      jest.fn(() => e),
+      { key: 'b', rule: jest.fn() }
+    )
+    const ruleF = makeRule(
+      jest.fn(() => true),
+      { key: 'b', rule: jest.fn() }
+    )
 
     const { form } = useValidation({
       a: {
         $value: 1,
-        $rules: [ruleA.tuple, ruleB.tuple]
+        $rules: [ruleA.tuple, ruleB.tuple, ruleE.tuple]
       },
       b: {
         $value: 2,
@@ -271,7 +280,7 @@ describe.each([
       },
       c: {
         $value: 3,
-        $rules: [ruleD.tuple]
+        $rules: [ruleD.tuple, ruleF.tuple]
       }
     })
 
@@ -284,8 +293,10 @@ describe.each([
     expect(ruleB.rule).toBeCalledTimes(0)
     expect(ruleC.rule).toBeCalledTimes(0)
     expect(ruleD.rule).toBeCalledTimes(0)
+    expect(ruleE.rule).toBeCalledTimes(0)
+    expect(ruleF.rule).toBeCalledTimes(0)
 
-    foo = true
+    a = true
 
     await form.a.$validate()
 
@@ -293,19 +304,40 @@ describe.each([
     expect(ruleB.rule).toBeCalledTimes(0)
     expect(ruleC.rule).toBeCalledTimes(0)
     expect(ruleD.rule).toBeCalledTimes(0)
+    expect(ruleE.rule).toBeCalledTimes(0)
+    expect(ruleF.rule).toBeCalledTimes(0)
 
-    bar = true
+    b = true
 
     await form.a.$validate()
 
     expect(ruleA.rule).toBeCalledTimes(1)
-    expect(ruleA.rule).toBeCalledWith(1, 2, 3)
+    expect(ruleA.rule).lastCalledWith(1, 2, 3)
     expect(ruleB.rule).toBeCalledTimes(1)
-    expect(ruleB.rule).toBeCalledWith(1, 2, 3)
+    expect(ruleB.rule).lastCalledWith(1, 2, 3)
     expect(ruleC.rule).toBeCalledTimes(1)
-    expect(ruleC.rule).toBeCalledWith(1, 2, 3)
+    expect(ruleC.rule).lastCalledWith(1, 2, 3)
     expect(ruleD.rule).toBeCalledTimes(1)
-    expect(ruleD.rule).toBeCalledWith(1, 2, 3)
+    expect(ruleD.rule).lastCalledWith(1, 2, 3)
+    expect(ruleE.rule).toBeCalledTimes(0)
+    expect(ruleF.rule).toBeCalledTimes(0)
+
+    e = true
+
+    await form.a.$validate()
+
+    expect(ruleA.rule).toBeCalledTimes(2)
+    expect(ruleA.rule).lastCalledWith(1, 2, 3)
+    expect(ruleB.rule).toBeCalledTimes(2)
+    expect(ruleB.rule).lastCalledWith(1, 2, 3)
+    expect(ruleC.rule).toBeCalledTimes(2)
+    expect(ruleC.rule).lastCalledWith(1, 2, 3)
+    expect(ruleD.rule).toBeCalledTimes(2)
+    expect(ruleD.rule).lastCalledWith(1, 2, 3)
+    expect(ruleE.rule).toBeCalledTimes(1)
+    expect(ruleE.rule).lastCalledWith(1, 3)
+    expect(ruleF.rule).toBeCalledTimes(1)
+    expect(ruleF.rule).lastCalledWith(1, 3)
   })
 
   test('validateFields should only validate fields with given name', async () => {
