@@ -57,11 +57,7 @@ export class FormField {
   errors: ComputedRef<string[]> = computed(() =>
     this.rawErrors.value.filter(nShared.isDefined)
   )
-
-  hasErrors: Ref<boolean[]>
-  hasError: ComputedRef<boolean> = computed(() =>
-    this.hasErrors.value.some(e => e)
-  )
+  hasError: ComputedRef<boolean> = computed(() => this.errors.value.length > 0)
 
   form: Form
   simpleValidators: ValidatorTuple[] = []
@@ -81,7 +77,6 @@ export class FormField {
     this.name = name
     this.modelValue = ref(modelValue)
     this.rawErrors = ref(ruleInfos.map(() => null))
-    this.hasErrors = ref(ruleInfos.map(() => false))
     this.initialModelValue = nShared.deepCopy(this.modelValue.value)
 
     this.ruleInfos = ruleInfos.map((info, ruleNumber) => {
@@ -243,10 +238,8 @@ export class FormField {
     for (let i = 0; i < this.ruleInfos.length; ++i) {
       if (isVue3) {
         this.rawErrors.value[i] = null
-        this.hasErrors.value[i] = false
       } else {
         set(this.rawErrors.value, i, null)
-        set(this.hasErrors.value, i, false)
       }
       this.ruleInfos[i].cancelDebounce()
       for (const shouldSetError of this.ruleInfos[i].buffer.nodesForwards()) {
@@ -287,7 +280,7 @@ export class FormField {
 
   private shouldValidate(ruleNumber: number, force: boolean, submit: boolean) {
     return this.ruleInfos[ruleNumber].vbf({
-      hasError: this.hasErrors.value[ruleNumber],
+      hasError: this.rawErrors.value[ruleNumber] !== null,
       touched: this.touched.value,
       dirty: this.dirty.value,
       force,
@@ -303,20 +296,16 @@ export class FormField {
     if (isString || isSymbol) {
       if (isVue3) {
         isString && (this.rawErrors.value[ruleNumber] = error)
-        this.hasErrors.value[ruleNumber] = true
       } else {
         isString && set(this.rawErrors.value, ruleNumber, error)
-        set(this.hasErrors.value, ruleNumber, true)
       }
       throw error
     }
 
     if (isVue3) {
       this.rawErrors.value[ruleNumber] = null
-      this.hasErrors.value[ruleNumber] = false
     } else {
       set(this.rawErrors.value, ruleNumber, null)
-      set(this.hasErrors.value, ruleNumber, false)
     }
   }
 

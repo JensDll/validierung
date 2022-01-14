@@ -93,14 +93,14 @@ importers:
       tailwindcss: 3.0.13
       typescript: 4.5.4
       validierung: latest
-      vite: 2.7.11
+      vite: 2.7.12
       vite-plugin-vue2: 1.9.2
       vue: 2.6.14
       vue-router: 3.5.3
       vue-template-compiler: 2.6.14
     dependencies:
       '@tailwindcss/forms': 0.4.0_tailwindcss@3.0.13
-      '@vitejs/plugin-legacy': 1.6.4_vite@2.7.11
+      '@vitejs/plugin-legacy': 1.6.4_vite@2.7.12
       '@vue/composition-api': 1.4.3_vue@2.6.14
       '@vue/runtime-dom': 3.2.26
       autoprefixer: 10.4.2_postcss@8.4.5
@@ -109,8 +109,8 @@ importers:
       tailwindcss: 3.0.13_ef48b3b8837f8a23677bffe8f9cd866d
       typescript: 4.5.4
       validierung: link:../../packages/validierung
-      vite: 2.7.11
-      vite-plugin-vue2: 1.9.2_6bb5e6a19e04f92ecabb77a19b01c1e9
+      vite: 2.7.12
+      vite-plugin-vue2: 1.9.2_12de4b4b1ad5d1d484b4a93dbd918b05
       vue: 2.6.14
       vue-router: 3.5.3
       vue-template-compiler: 2.6.14
@@ -125,19 +125,19 @@ importers:
       tailwindcss: 3.0.13
       typescript: 4.5.4
       validierung: latest
-      vite: 2.7.11
+      vite: 2.7.12
       vue: 3.2.26
       vue-router: 4.0.12
     dependencies:
       '@tailwindcss/forms': 0.4.0_tailwindcss@3.0.13
-      '@vitejs/plugin-vue': 2.0.1_vite@2.7.11+vue@3.2.26
+      '@vitejs/plugin-vue': 2.0.1_vite@2.7.12+vue@3.2.26
       autoprefixer: 10.4.2_postcss@8.4.5
       pinia: 2.0.9_typescript@4.5.4+vue@3.2.26
       postcss: 8.4.5
       tailwindcss: 3.0.13_ef48b3b8837f8a23677bffe8f9cd866d
       typescript: 4.5.4
       validierung: link:../../packages/validierung
-      vite: 2.7.11
+      vite: 2.7.12
       vue: 3.2.26
       vue-router: 4.0.12_vue@3.2.26
 
@@ -1164,7 +1164,7 @@ packages:
       eslint-visitor-keys: 3.1.0
     dev: false
 
-  /@vitejs/plugin-legacy/1.6.4_vite@2.7.11:
+  /@vitejs/plugin-legacy/1.6.4_vite@2.7.12:
     resolution: {integrity: sha512-geH2F3hTRN++E4n9NZ0JFumxIWUKqW4FA9PAgM7Q6RvUOUUYW4tlURhEmCBYfZSN24H/yX3mEolX+wFVErsAYQ==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
@@ -1175,10 +1175,10 @@ packages:
       magic-string: 0.25.7
       regenerator-runtime: 0.13.9
       systemjs: 6.11.0
-      vite: 2.7.11
+      vite: 2.7.12
     dev: false
 
-  /@vitejs/plugin-vue/2.0.1_vite@2.7.11+vue@3.2.26:
+  /@vitejs/plugin-vue/2.0.1_vite@2.7.12+vue@3.2.26:
     resolution: {integrity: sha512-wtdMnGVvys9K8tg+DxowU1ytTrdVveXr3LzdhaKakysgGXyrsfaeds2cDywtvujEASjWOwWL/OgWM+qoeM8Plg==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
@@ -1188,7 +1188,7 @@ packages:
       vue:
         optional: true
     dependencies:
-      vite: 2.7.11
+      vite: 2.7.12
       vue: 3.2.26
     dev: false
 
@@ -4550,18 +4550,20 @@ packages:
     peerDependencies:
       '@vue/composition-api': ^1.4.0
       typescript: '>=4.4.4'
+      vue: ^2.6.14 || ^3.2.0
     peerDependenciesMeta:
       '@vue/composition-api':
         optional: true
       typescript:
         optional: true
+      vue:
+        optional: true
     dependencies:
       '@vue/composition-api': 1.4.3_vue@2.6.14
       '@vue/devtools-api': 6.0.0-beta.21.1
       typescript: 4.5.4
+      vue: 2.6.14
       vue-demi: 0.12.1_e5303bfcb7b5c4dcf864c0d0a9aab3b4
-    transitivePeerDependencies:
-      - vue
     dev: false
 
   /pinia/2.0.9_typescript@4.5.4+vue@3.2.26:
@@ -4569,17 +4571,19 @@ packages:
     peerDependencies:
       '@vue/composition-api': ^1.4.0
       typescript: '>=4.4.4'
+      vue: ^2.6.14 || ^3.2.0
     peerDependenciesMeta:
       '@vue/composition-api':
         optional: true
       typescript:
         optional: true
+      vue:
+        optional: true
     dependencies:
       '@vue/devtools-api': 6.0.0-beta.21.1
       typescript: 4.5.4
+      vue: 3.2.26
       vue-demi: 0.12.1_vue@3.2.26
-    transitivePeerDependencies:
-      - vue
     dev: false
 
   /pirates/4.0.4:
@@ -5409,7 +5413,7 @@ packages:
       spdx-expression-parse: 3.0.1
     dev: false
 
-  /vite-plugin-vue2/1.9.2_6bb5e6a19e04f92ecabb77a19b01c1e9:
+  /vite-plugin-vue2/1.9.2_12de4b4b1ad5d1d484b4a93dbd918b05:
     resolution: {integrity: sha512-y6a7tlqXe2OtwD0N7mNvlrZaQu2aeqGXzwk+MjEacUsOd70t/K1Qno1eNqH3+7evC/Klbou9VdYc/Pu0Sp7PfA==}
     peerDependencies:
       vite: ^2.0.0-beta.23
@@ -5435,15 +5439,15 @@ packages:
       rollup: 2.63.0
       slash: 3.0.0
       source-map: 0.7.3
-      vite: 2.7.11
+      vite: 2.7.12
       vue-template-compiler: 2.6.14
       vue-template-es2015-compiler: 1.9.1
     transitivePeerDependencies:
       - supports-color
     dev: false
 
-  /vite/2.7.11:
-    resolution: {integrity: sha512-W1OVwJmtuxnzt9HwZ1AebVLgvsgNpe4TK/sxvF+1x2y8MRnTEHvaPqxy9A67IYb5BR0Q+nENmLYa3QfESmp5GQ==}
+  /vite/2.7.12:
+    resolution: {integrity: sha512-KvPYToRQWhRfBeVkyhkZ5hASuHQkqZUUdUcE3xyYtq5oYEPIJ0h9LWiWTO6v990glmSac2cEPeYeXzpX5Z6qKQ==}
     engines: {node: '>=12.2.0'}
     hasBin: true
     peerDependencies:

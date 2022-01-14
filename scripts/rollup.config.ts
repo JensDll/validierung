@@ -90,7 +90,7 @@ const sharedConfigs: RollupOptions[] = [
   {
     input: input('shared'),
     output: output('shared').dts,
-    plugins: [plugin.alias.dts, plugin.dts]
+    plugins: [plugin.dts]
   }
 ]
 
@@ -124,7 +124,8 @@ configs.forEach(config => (config.external = ['vue-demi']))
 export default (cliArgs: Record<string, unknown>) => {
   return cliArgs.watch
     ? [
-        ...sharedConfigs,
+        sharedConfigs[0],
+        sharedConfigs[sharedConfigs.length - 1],
         validierungConfigs[0],
         validierungConfigs[validierungConfigs.length - 1]
       ]
