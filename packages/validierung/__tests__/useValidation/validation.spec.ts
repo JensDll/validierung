@@ -602,33 +602,33 @@ describe.each([
   test('changing form values during validation should throw validation error accordingly', async () => {
     const rule = makeRule(
       jest.fn(() => true),
-      jest.fn((foo: number) => makePromise(50, foo < 5 && 'a'))
+      jest.fn((foo: boolean) => makePromise(100, foo && 'a'))
     )
 
     const { form, validateFields } = useValidation({
       foo: {
-        $value: 0,
+        $value: true,
         $rules: [rule.tuple]
       }
     })
 
-    // Foo is 0 => promise should throw an error
+    // Foo is true => promise should throw an error
     let promise = validateFields()
 
-    form.foo.$value = 10
+    form.foo.$value = false
 
     await expect(promise).rejects.toThrow(ValidationError)
 
-    // Foo is 10 => promise should NOT throw an error
+    // Foo is false => promise should NOT throw an error
     promise = validateFields()
 
-    form.foo.$value = 0
+    form.foo.$value = true
 
     await expect(promise).resolves.toStrictEqual({
-      foo: 10
+      foo: false
     })
 
-    // Foo is 0 again => promise should throw an error
+    // Foo is true again => promise should throw an error
     await expect(validateFields()).rejects.toThrow(ValidationError)
   })
 
