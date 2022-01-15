@@ -100,18 +100,8 @@ export class LinkedList<T> {
     }
   }
 
-  *nodesForwards() {
-    let node = this.first
-
-    for (; node !== null; node = node.next) {
-      yield node
-    }
-  }
-
-  *nodesBackwards() {
-    let node = this.last
-
-    for (; node !== null; node = node.prev) {
+  *[Symbol.iterator]() {
+    for (let node = this.first; node !== null; node = node.next) {
       yield node
     }
   }

@@ -242,7 +242,7 @@ export class FormField {
         set(this.rawErrors.value, i, null)
       }
       this.ruleInfos[i].cancelDebounce()
-      for (const shouldSetError of this.ruleInfos[i].buffer.nodesForwards()) {
+      for (const shouldSetError of this.ruleInfos[i].buffer) {
         shouldSetError.value = false
       }
     }
