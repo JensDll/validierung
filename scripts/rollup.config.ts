@@ -97,7 +97,7 @@ const output = (name: PackageName): OutputReturn => ({
     format: 'esm'
   },
   cjs: {
-    file: `packages/${name}/dist/index.cjs`,
+    file: `packages/${name}/dist/index.dev.cjs`,
     format: 'cjs'
   },
   dts: {
@@ -106,19 +106,19 @@ const output = (name: PackageName): OutputReturn => ({
   },
   prod: [
     {
-      file: `packages/${name}/dist/index.min.cjs`,
+      file: `packages/${name}/dist/index.prod.cjs`,
       format: 'cjs',
       plugins: [plugin.minify]
     },
     {
-      file: `packages/${name}/dist/index.iife.min.js`,
+      file: `packages/${name}/dist/index.iife.prod.js`,
       format: 'iife',
       name: 'Validierung',
       extend: true,
       globals: {
         'vue-demi': 'VueDemi'
       },
-      plugins: [plugin.injectVueDemi, plugin.minify]
+      plugins: [plugin.injectVueDemi]
     }
   ]
 })
@@ -161,6 +161,11 @@ const validierungConfigs: RollupOptions[] = [
 
 const configs = [...sharedConfigs, ...validierungConfigs]
 
-configs.forEach(config => (config.external = ['vue-demi']))
+configs.forEach(config => {
+  config.treeshake = {
+    moduleSideEffects: false
+  }
+  config.external = ['vue-demi', 'execa']
+})
 
 export default configs

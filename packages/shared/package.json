@@ -6,7 +6,6 @@
     "url": "https://github.com/JensDll/validierung",
     "directory": "packages/shared"
   },
-  "sideEffects": false,
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
@@ -19,7 +18,7 @@
     "vue-demi": "*"
   },
   "peerDependencies": {
-    "@vue/composition-api": "^1.4.3",
+    "@vue/composition-api": "^1.4.4",
     "vue": "2.x || 3.x"
   },
   "peerDependenciesMeta": {

@@ -31,13 +31,13 @@
   "main": "./index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-  "unpkg": "./dist/index.iife.min.js",
-  "jsdelivr": "./dist/index.iife.min.js",
+  "unpkg": "./dist/index.iife.prod.js",
+  "jsdelivr": "./dist/index.iife.prod.js",
   "dependencies": {
     "vue-demi": "*"
   },
   "peerDependencies": {
-    "@vue/composition-api": "^1.4.3",
+    "@vue/composition-api": "^1.4.4",
     "vue": "2.x || 3.x"
   },
   "peerDependenciesMeta": {

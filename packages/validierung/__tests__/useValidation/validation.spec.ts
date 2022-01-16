@@ -1,6 +1,6 @@
 import { ref } from 'vue-demi'
 
-import { makePromise } from '@validierung/jest-helper'
+import { makePromise } from '@validierung/test-utils'
 import { useValidation } from '../../src/useValidation'
 import { ValidationError } from '../../src/validationError'
 import { ValidationBehaviorInfo } from 'validierung'

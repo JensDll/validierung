@@ -1,6 +1,6 @@
 import fs from 'fs-extra'
 
-import { run } from './utils'
+import { run } from '@validierung/shared'
 
 const basePath = 'packages/validierung'
 

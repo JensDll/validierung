@@ -26,5 +26,5 @@ module.exports = {
     // https://github.com/typescript-eslint/typescript-eslint/blob/main/packages/eslint-plugin/docs/rules/no-var-requires.md
     '@typescript-eslint/no-var-requires': 'off'
   },
-  ignorePatterns: ['**/dist']
+  ignorePatterns: ['**/dist', '**/*.html']
 }

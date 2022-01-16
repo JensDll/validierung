@@ -1,4 +1,4 @@
-import { makePromise } from '@validierung/jest-helper'
+import { makePromise } from '@validierung/test-utils'
 import { PromiseCancel } from '../src/promiseCancel'
 
 let promiseCancel: PromiseCancel<string>

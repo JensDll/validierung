@@ -10,7 +10,7 @@
     "test:dts": "pnpm run build && npm exec tsd",
     "test:dts-only": "pnpm exec tsd",
     "test:all": "pnpm run test:dts && pnpm run test",
-    "dev": "node --experimental-loader esbuild-node-loader scripts/dev.ts",
+    "dev": "rollup --config --watch",
     "dev:2": "pnpm run dev:local --filter \"vue2-playground\"",
     "dev:3": "pnpm run dev:local --filter \"vue3-playground\"",
     "postinstall": "husky install && vue-demi-switch 3 vue3"
@@ -25,35 +25,33 @@
     "@types/fs-extra": "9.0.13",
     "@types/jest": "27.4.0",
     "@types/node": "17.0.8",
-    "@types/yargs": "17.0.8",
+    "@types/puppeteer": "5.4.4",
     "@typescript-eslint/eslint-plugin": "5.9.1",
     "@typescript-eslint/parser": "5.9.1",
-    "@validierung/jest-helper": "workspace:*",
     "@validierung/shared": "workspace:*",
+    "@validierung/test-utils": "workspace:*",
     "esbuild": "0.14.11",
     "esbuild-node-loader": "0.6.3",
     "esbuild-register": "3.3.2",
-    "eslint": "8.6.0",
+    "eslint": "8.7.0",
     "execa": "6.0.0",
     "fs-extra": "10.0.0",
     "husky": "7.0.4",
     "jest": "27.4.7",
     "prettier": "2.5.1",
-    "rollup": "2.63.0",
+    "puppeteer": "13.0.1",
+    "rollup": "2.64.0",
     "rollup-plugin-dts": "4.1.0",
     "rollup-plugin-esbuild": "4.8.2",
-    "ts-jest": "27.1.2",
+    "ts-jest": "27.1.3",
     "tsd": "0.19.1",
     "typescript": "4.5.4",
     "validierung": "workspace:*",
+    "vue-demi": "0.12.1",
     "vue2": "npm:vue@2.6.14",
-    "vue3": "npm:vue@3.2.26"
+    "vue3": "npm:vue@3.2.27"
   },
   "pnpm": {
-    "overrides": {
-      "@vue/composition-api": "1.4.3",
-      "vue-demi": "0.12.1"
-    },
     "peerDependencyRules": {
       "ignoreMissing": [
         "vue"
