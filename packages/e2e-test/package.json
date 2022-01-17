@@ -7,7 +7,7 @@
     "directory": "packages/e2e-test"
   },
   "scripts": {
-    "build": "vue-demi-switch 3 vue3 && webpack --mode=development --env DEV && webpack --mode=production"
+    "build": "webpack --mode=development --env DEV && webpack --mode=production"
   },
   "dependencies": {
     "webpack": "5.66.0",

@@ -55,6 +55,9 @@ describe('cjs', () => {
     })
 
     expect(consoleWarnMock).toBeCalledTimes(1)
+    expect(consoleWarnMock.mock.calls[0][0].startsWith('[useValidation]')).toBe(
+      true
+    )
   })
 
   it('should not warn in prod mode', async () => {

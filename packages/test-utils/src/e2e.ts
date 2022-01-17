@@ -45,8 +45,8 @@ export function setupPuppeteer(pagePath: string) {
     await browser.close()
   })
 
-  async function html(selector: string) {
-    return await page.$eval(selector, node => node.outerHTML)
+  function html(selector: string) {
+    return page.$eval(selector, node => node.outerHTML)
   }
 
   return {
