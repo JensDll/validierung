@@ -16,8 +16,6 @@ export { PromiseCancel, CancelError } from './promiseCancel'
 
 export { isArray, isDefined, isObject, isRecord } from './typeGuards'
 
-export { run } from './utils'
-
 export type {
   MaybeRef,
   AnyObject,
