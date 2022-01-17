@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "name": "@validierung/e2e-test",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JensDll/validierung",
+    "directory": "packages/e2e-test"
+  },
+  "scripts": {
+    "build": "webpack --mode=development --env DEV && webpack --mode=production"
+  },
+  "dependencies": {
+    "webpack": "5.66.0",
+    "webpack-cli": "4.9.1"
+  }
+}

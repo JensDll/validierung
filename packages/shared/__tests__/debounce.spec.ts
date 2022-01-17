@@ -1,4 +1,4 @@
-import { makePromise } from '@validierung/jest-helper'
+import { makePromise } from '@validierung/test-utils'
 import { debounce } from '../src/debounce'
 
 it('should debounce the function call', async () => {

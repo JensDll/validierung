@@ -44,9 +44,9 @@ export function mapFieldRules(
         return { vbf, rule: second, debounce: third }
       } else {
         throw new Error(
-          `[useValidation] Validation behavior with name '${first}' does not exist. Valid values are: ${[
+          `[useValidation] Validation behavior with name '${first}' does not exist. Valid values are: "${[
             ...validationConfig.vbfMap.keys()
-          ].join(', ')}`
+          ].join(', ')}"`
         )
       }
     } else {

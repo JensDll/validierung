@@ -34,8 +34,11 @@ export function createValidation(configuration: Configuration): Plugin {
           configuration.defaultValidationBehavior
       } else if (__DEV__) {
         console.warn(
-          `[useValidation] Default validation behavior '${configuration.defaultValidationBehavior}' is not valid. Valid values are`,
-          validationConfig.vbfMap.keys()
+          `[useValidation] Default validation behavior '${
+            configuration.defaultValidationBehavior
+          }' is not valid. Valid values are: "${[
+            ...validationConfig.vbfMap.keys()
+          ].join(', ')}"`
         )
       }
     }

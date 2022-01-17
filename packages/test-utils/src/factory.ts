@@ -8,7 +8,7 @@ export const makePromise = <T = undefined>(
   new Promise<T>((resolve, reject) => {
     setTimeout(() => {
       if (mode === 'resolve') {
-        // @ts-ignore
+        // @ts-expect-error
         resolve(message)
       } else {
         reject(message)
@@ -17,7 +17,7 @@ export const makePromise = <T = undefined>(
   })
 
 type MakeMockOptions = {
-  mockReturn?: (x: any, i: number) => any
+  mockReturn?: (value: any, i: number) => any
   timeout?: number
   increasing?: number
   mode?: 'resolve' | 'reject'
@@ -33,12 +33,12 @@ export function makeMocks<N extends number>(
 
   const mapping = (_: never, i: number) =>
     timeout
-      ? jest.fn(x =>
-          // @ts-ignore TS should figure this out
-          makePromise(timeout + i * increasing, mockReturn(x, i), mode)
+      ? jest.fn(value =>
+          // @ts-expect-error TS should figure this out
+          makePromise(timeout + i * increasing, mockReturn(value, i), mode)
         )
-      : // @ts-ignore This as well
-        jest.fn(x => mockReturn(x, i))
+      : // @ts-expect-error  This as well
+        jest.fn(value => mockReturn(value, i))
 
   return Array.from({ length: amount }, mapping) as any
 }

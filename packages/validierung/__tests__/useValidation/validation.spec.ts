@@ -1,6 +1,6 @@
 import { ref } from 'vue-demi'
 
-import { makePromise } from '@validierung/jest-helper'
+import { makePromise } from '@validierung/test-utils'
 import { useValidation } from '../../src/useValidation'
 import { ValidationError } from '../../src/validationError'
 import { ValidationBehaviorInfo } from 'validierung'
@@ -686,5 +686,51 @@ describe.each([
     expect(form.a.$hasError).toBe(true)
     expect(form.a.$validating).toBe(false)
     expect(validating.value).toBe(false)
+  })
+
+  test('returning a symbol should be treated as an error', async () => {
+    let returnSymbol = true
+
+    const rule = makeRule(
+      jest.fn(() => true),
+      jest.fn(() => returnSymbol && Symbol())
+    )
+
+    const { form, validateFields } = useValidation({
+      a: {
+        $value: 1,
+        $rules: [rule.tuple]
+      }
+    })
+
+    await expect(validateFields()).rejects.toThrow(ValidationError)
+
+    expect(form.a).toStrictEqual<typeof form.a>({
+      $uid: expect.any(Number),
+      $dirty: false,
+      $touched: true,
+      $errors: [],
+      $hasError: true,
+      $validate: expect.any(Function),
+      $validating: false,
+      $value: 1
+    })
+
+    returnSymbol = false
+
+    await expect(validateFields()).resolves.toStrictEqual({
+      a: 1
+    })
+
+    expect(form.a).toStrictEqual<typeof form.a>({
+      $uid: expect.any(Number),
+      $dirty: false,
+      $touched: true,
+      $errors: [],
+      $hasError: false,
+      $validate: expect.any(Function),
+      $validating: false,
+      $value: 1
+    })
   })
 })
