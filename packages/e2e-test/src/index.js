@@ -1,6 +1,17 @@
-const { createValidation } = require('validierung')
+const { createValidation, useValidation } = require('validierung')
 
-createValidation({
-  defaultValidationBehavior: 'foo',
-  validationBehavior: {}
-}).install()
+window.testCreateValidation = () => {
+  createValidation({
+    defaultValidationBehavior: 'foo',
+    validationBehavior: {}
+  }).install()
+}
+
+window.testUseValidation = () => {
+  useValidation({
+    field: {
+      $value: '',
+      $rules: [['invalid', () => {}]]
+    }
+  })
+}

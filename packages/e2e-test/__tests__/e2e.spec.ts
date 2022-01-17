@@ -3,6 +3,13 @@ import cp from 'child_process'
 
 import { isVue2 } from 'vue-demi'
 import { setupPuppeteer } from '@validierung/test-utils'
+import * as Validierung from 'validierung'
+
+interface ExtendedWindow extends Window {
+  Validierung: typeof Validierung
+}
+
+declare const window: ExtendedWindow
 
 const { page, consoleWarnMock } = setupPuppeteer(
   path.resolve(__dirname, 'index.html')
@@ -24,23 +31,85 @@ describe('iife', () => {
         path: require.resolve('vue3/dist/vue.global.prod.js')
       })
     }
+  })
 
-    await page().addScriptTag({
-      path: require.resolve('validierung/dist/index.iife.prod.js')
+  describe('dev mode', () => {
+    beforeEach(async () => {
+      await page().addScriptTag({
+        path: require.resolve('validierung/dist/index.iife.dev.js')
+      })
+    })
+
+    it('should warn', async () => {
+      await page().evaluate(() => {
+        const { createValidation } = window.Validierung
+
+        // @ts-expect-error
+        createValidation({
+          defaultValidationBehavior: 'foo' as never,
+          validationBehavior: {}
+          // @ts-expect-error
+        }).install()
+      })
+
+      expect(consoleWarnMock).toBeCalledTimes(1)
+      expect(consoleWarnMock.mock.calls[0][0].startsWith('[validierung]')).toBe(
+        true
+      )
+    })
+
+    it('should throw validierung error', async () => {
+      await expect(
+        page().evaluate(() => {
+          const { useValidation } = window.Validierung
+
+          useValidation({
+            field: {
+              $value: '',
+              $rules: [['invalid', () => {}]]
+            }
+          })
+        })
+      ).rejects.toThrow('[validierung]')
     })
   })
 
-  it('should not warn on invalid input', async () => {
-    await page().evaluate(() => {
-      const { createValidation } = (window as any).Validierung
-
-      createValidation({
-        defaultValidationBehavior: 'foo',
-        validationBehavior: {}
-      }).install()
+  describe('prod mode', () => {
+    beforeEach(async () => {
+      await page().addScriptTag({
+        path: require.resolve('validierung/dist/index.iife.prod.js')
+      })
     })
 
-    expect(consoleWarnMock).toBeCalledTimes(0)
+    it('should NOT warn', async () => {
+      await page().evaluate(() => {
+        const { createValidation } = window.Validierung
+
+        // @ts-expect-error
+        createValidation({
+          defaultValidationBehavior: 'foo' as never,
+          validationBehavior: {}
+          // @ts-expect-error
+        }).install()
+      })
+
+      expect(consoleWarnMock).toBeCalledTimes(0)
+    })
+
+    it('should NOT throw validierung error', async () => {
+      await expect(
+        page().evaluate(() => {
+          const { useValidation } = window.Validierung
+
+          useValidation({
+            field: {
+              $value: '',
+              $rules: [['invalid', () => {}]]
+            }
+          })
+        })
+      ).rejects.toThrow(expect.not.stringContaining('[validierung]'))
+    })
   })
 })
 
@@ -49,22 +118,58 @@ describe('cjs', () => {
     cp.execSync('pnpm run build --filter "@validierung/e2e-test"')
   })
 
-  it('should warn in dev mode', async () => {
-    await page().addScriptTag({
-      path: require.resolve('../dist/index.dev.js')
+  describe('dev mode', () => {
+    beforeEach(async () => {
+      await page().addScriptTag({
+        path: require.resolve('../dist/index.dev.js')
+      })
     })
 
-    expect(consoleWarnMock).toBeCalledTimes(1)
-    expect(consoleWarnMock.mock.calls[0][0].startsWith('[useValidation]')).toBe(
-      true
-    )
+    it('should warn', async () => {
+      await page().evaluate(() => {
+        // @ts-expect-error
+        testCreateValidation()
+      })
+
+      expect(consoleWarnMock).toBeCalledTimes(1)
+      expect(consoleWarnMock.mock.calls[0][0].startsWith('[validierung]')).toBe(
+        true
+      )
+    })
+
+    it('should throw validierung error', async () => {
+      await expect(
+        page().evaluate(() => {
+          // @ts-expect-error
+          testUseValidation()
+        })
+      ).rejects.toThrow('[validierung]')
+    })
   })
 
-  it('should not warn in prod mode', async () => {
-    await page().addScriptTag({
-      path: require.resolve('../dist/index.prod.js')
+  describe('prod mode', () => {
+    beforeEach(async () => {
+      await page().addScriptTag({
+        path: require.resolve('../dist/index.prod.js')
+      })
     })
 
-    expect(consoleWarnMock).toBeCalledTimes(0)
+    it('should NOT warn', async () => {
+      await page().evaluate(() => {
+        // @ts-expect-error
+        testCreateValidation()
+      })
+
+      expect(consoleWarnMock).toBeCalledTimes(0)
+    })
+
+    it('should NOT throw validierung error', async () => {
+      await expect(
+        page().evaluate(() => {
+          // @ts-expect-error
+          testUseValidation()
+        })
+      ).rejects.toThrow(expect.not.stringContaining('[validierung]'))
+    })
   })
 })

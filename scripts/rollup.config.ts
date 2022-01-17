@@ -27,7 +27,7 @@ type BuildPlugins = {
   readonly injectVueDemi: Plugin
   readonly replace: {
     readonly esm: Plugin
-    readonly cjs: Plugin
+    readonly dev: Plugin
     readonly prod: Plugin
   }
 }
@@ -69,7 +69,7 @@ const plugin: BuildPlugins = {
       preventAssignment: true,
       __DEV__: "(process.env.NODE_ENV !== 'production')"
     }),
-    cjs: replace({
+    dev: replace({
       preventAssignment: true,
       __DEV__: true,
       'process.env.NODE_ENV': null
@@ -86,9 +86,10 @@ const input = (name: PackageName) => `packages/${name}/src/index.ts`
 
 type OutputReturn = {
   readonly esm: OutputOptions | OutputOptions[]
-  readonly cjs: OutputOptions | OutputOptions[]
-  readonly dts: OutputOptions | OutputOptions[]
+  readonly dev: OutputOptions | OutputOptions[]
+
   readonly prod: OutputOptions | OutputOptions[]
+  readonly dts: OutputOptions | OutputOptions[]
 }
 
 const output = (name: PackageName): OutputReturn => ({
@@ -96,14 +97,22 @@ const output = (name: PackageName): OutputReturn => ({
     file: `packages/${name}/dist/index.mjs`,
     format: 'esm'
   },
-  cjs: {
-    file: `packages/${name}/dist/index.dev.cjs`,
-    format: 'cjs'
-  },
-  dts: {
-    file: `packages/${name}/dist/index.d.ts`,
-    format: 'esm'
-  },
+  dev: [
+    {
+      file: `packages/${name}/dist/index.dev.cjs`,
+      format: 'cjs'
+    },
+    {
+      file: `packages/${name}/dist/index.iife.dev.js`,
+      format: 'iife',
+      name: 'Validierung',
+      extend: true,
+      globals: {
+        'vue-demi': 'VueDemi'
+      },
+      plugins: [plugin.injectVueDemi]
+    }
+  ],
   prod: [
     {
       file: `packages/${name}/dist/index.prod.cjs`,
@@ -120,7 +129,11 @@ const output = (name: PackageName): OutputReturn => ({
       },
       plugins: [plugin.injectVueDemi, plugin.minify]
     }
-  ]
+  ],
+  dts: {
+    file: `packages/${name}/dist/index.d.ts`,
+    format: 'esm'
+  }
 })
 
 const sharedConfigs: RollupOptions[] = [
@@ -144,8 +157,8 @@ const validierungConfigs: RollupOptions[] = [
   },
   {
     input: input('validierung'),
-    output: output('validierung').cjs,
-    plugins: [plugin.alias.esm, plugin.replace.cjs, plugin.esbuild]
+    output: output('validierung').dev,
+    plugins: [plugin.alias.esm, plugin.replace.dev, plugin.esbuild]
   },
   {
     input: input('validierung'),

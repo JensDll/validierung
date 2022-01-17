@@ -11,6 +11,7 @@ export function mapFieldRules(
 ): RuleInformation[] {
   const defaultVbf = validationConfig.getDefaultVbf()
 
+  // @ts-expect-error
   return fieldRules.map<RuleInformation>(fieldRule => {
     if (typeof fieldRule === 'function') {
       return {
@@ -42,9 +43,9 @@ export function mapFieldRules(
 
       if (vbf !== undefined) {
         return { vbf, rule: second, debounce: third }
-      } else {
+      } else if (__DEV__) {
         throw new Error(
-          `[useValidation] Validation behavior with name '${first}' does not exist. Valid values are: "${[
+          `[validierung] Validation behavior with name '${first}' does not exist. Valid values are: "${[
             ...validationConfig.vbfMap.keys()
           ].join(', ')}"`
         )
