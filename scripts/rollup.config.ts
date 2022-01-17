@@ -118,7 +118,7 @@ const output = (name: PackageName): OutputReturn => ({
       globals: {
         'vue-demi': 'VueDemi'
       },
-      plugins: [plugin.injectVueDemi]
+      plugins: [plugin.injectVueDemi, plugin.minify]
     }
   ]
 })
@@ -165,7 +165,7 @@ configs.forEach(config => {
   config.treeshake = {
     moduleSideEffects: false
   }
-  config.external = ['vue-demi', 'execa']
+  config.external = ['vue-demi']
 })
 
 export default configs
