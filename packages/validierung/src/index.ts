@@ -1,6 +1,6 @@
 export { useValidation, type UseValidation } from './useValidation'
 
-export { createValidation } from './createValidation'
+export { createValidation, type Validation } from './createValidation'
 
 export { ValidationError } from './validationError'
 

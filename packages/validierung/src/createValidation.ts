@@ -1,5 +1,3 @@
-import { Plugin } from 'vue-demi'
-
 import { validationConfig } from './validationConfig'
 import {
   ValidationBehaviorFunction,
@@ -13,12 +11,16 @@ type Configuration = {
   }
 }
 
+export type Validation = {
+  install(): void
+}
+
 /**
  * Configure the validation behavior of `useValidation`.
  *
  * @param configuration - The form validation configuration
  */
-export function createValidation(configuration: Configuration): Plugin {
+export function createValidation(configuration: Configuration): Validation {
   return {
     install() {
       for (const [key, validationBehavior] of Object.entries(

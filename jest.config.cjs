@@ -6,5 +6,8 @@ module.exports = {
   modulePathIgnorePatterns: ['<rootDir>/publish'],
   moduleNameMapper: {
     '@validierung/(.*)$': '<rootDir>/packages/$1/src'
+  },
+  globals: {
+    __DEV__: true
   }
 }

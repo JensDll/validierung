@@ -44,13 +44,9 @@ describe('iife', () => {
 
     it('should warn', async () => {
       await page().evaluate(() => {
-        const { createValidation } = window.Validierung
-
-        // @ts-ignore
-        createValidation({
+        window.Validierung.createValidation({
           defaultValidationBehavior: 'foo' as never,
           validationBehavior: {}
-          // @ts-ignore
         }).install()
       })
 
@@ -63,9 +59,7 @@ describe('iife', () => {
     it('should throw validierung error', async () => {
       await expect(
         page().evaluate(() => {
-          const { useValidation } = window.Validierung
-
-          useValidation({
+          window.Validierung.useValidation({
             field: {
               $value: '',
               $rules: [['invalid', () => {}]]
@@ -85,13 +79,9 @@ describe('iife', () => {
 
     it('should NOT warn', async () => {
       await page().evaluate(() => {
-        const { createValidation } = window.Validierung
-
-        // @ts-ignore
-        createValidation({
+        window.Validierung.createValidation({
           defaultValidationBehavior: 'foo' as never,
           validationBehavior: {}
-          // @ts-ignore
         }).install()
       })
 

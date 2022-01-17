@@ -3,6 +3,7 @@ import {
   transformFormData,
   mapFieldRules
 } from '../../src/data/transformFormData'
+import { createValidation } from '../../src/createValidation'
 import { Form } from '../../src/form'
 import { RuleInformation } from '../../src/rules'
 
@@ -135,6 +136,15 @@ it('should transform every field', () => {
 })
 
 describe('mapFieldRules', () => {
+  beforeEach(() => {
+    createValidation({
+      defaultValidationBehavior: 'mock' as never,
+      validationBehavior: {
+        mock: () => true
+      }
+    }).install()
+  })
+
   it('simple rule', () => {
     const rule = jest.fn()
     const ruleInfo = mapFieldRules([rule])
@@ -360,11 +370,11 @@ describe('mapFieldRules', () => {
     expect(() => {
       // @ts-expect-error
       mapFieldRules([['invalid', rule]])
-    }).toThrow()
+    }).toThrow('[validierung]')
 
     expect(() => {
       // @ts-expect-error
       mapFieldRules([[100, rule]])
-    }).toThrow()
+    }).toThrow('[validierung]')
   })
 })
