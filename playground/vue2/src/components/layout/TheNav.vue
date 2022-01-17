@@ -30,7 +30,7 @@ export default defineComponent({
         >
           <li
             :class="[
-              'pl-4 pr-12 py-2 rounded-md cursor-pointer hover:text-emerald-600 lg:ml-[-1rem]',
+              'pl-4 pr-10 py-2 rounded-md cursor-pointer whitespace-nowrap hover:text-emerald-600 lg:ml-[-1rem]',
               isActive && 'router-link-active',
               isExactActive && 'bg-emerald-50 text-emerald-600 font-medium'
             ]"

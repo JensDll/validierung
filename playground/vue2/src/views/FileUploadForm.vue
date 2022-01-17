@@ -6,7 +6,7 @@ import AppButton from '~/components/app/AppButton.vue'
 import FormProvider from '~/components/form/FormProvider.vue'
 import FormErrors from '~/components/form/FormErrors.vue'
 import FormFileUpload from '~/components/form/FormFileUpload.vue'
-import { rules } from '~/domain'
+import { rules, stringify } from '~/domain'
 
 type FormData = {
   zip: Field<string>
@@ -37,7 +37,7 @@ export default defineComponent({
     async function handleSubmit() {
       try {
         const formData = await val.validateFields()
-        console.log(formData)
+        alert(stringify(formData))
       } catch {}
     }
 

@@ -23,6 +23,9 @@ export default defineComponent({
         >
       >,
       required: true
+    },
+    formClass: {
+      type: String
     }
   }
 })
@@ -31,7 +34,11 @@ export default defineComponent({
 <template>
   <div>
     <h1>{{ title }}</h1>
-    <form autocomplete="off" @submit.prevent.self="$emit('submit')">
+    <form
+      :class="formClass"
+      autocomplete="off"
+      @submit.prevent.self="$emit('submit')"
+    >
       <slot></slot>
     </form>
     <PreFormData class="mt-12" :val="val" />

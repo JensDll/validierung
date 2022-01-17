@@ -4,7 +4,10 @@ export const compare = {
       return 0
     }
 
-    if (start.length <= end.length && start < end) {
+    if (
+      start.length < end.length ||
+      (start.length === end.length && start < end)
+    ) {
       return -1
     } else {
       return 1

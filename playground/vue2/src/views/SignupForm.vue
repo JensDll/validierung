@@ -1,13 +1,13 @@
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api'
 import { Field, useValidation } from 'validierung'
+import { defineComponent } from '@vue/composition-api'
 
 import PreFormData from '~/components/form/PreFormData.vue'
 import AppButton from '~/components/app/AppButton.vue'
 import FormErrors from '~/components/form/FormErrors.vue'
-import { rules } from '~/domain'
 import LoadingIcon from '~/components/icon/LoadingIcon.vue'
 import FormProvider from '~/components/form/FormProvider.vue'
+import { rules, stringify } from '~/domain'
 
 type FormData = {
   name: Field<string>
@@ -85,7 +85,7 @@ export default defineComponent({
     async function handleSubmit() {
       try {
         const formData = await val.validateFields()
-        console.log(formData)
+        alert(stringify(formData))
       } catch {}
     }
 

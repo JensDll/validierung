@@ -33,8 +33,9 @@ export default defineComponent({
       <a
         class="text-indigo-600 hover:text-indigo-800"
         href="https://github.com/JensDll/validierung/tree/main"
-        >GitHub</a
       >
+        GitHub
+      </a>
     </div>
   </header>
 </template>

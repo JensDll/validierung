@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent, PropType, UnwrapRef } from 'vue'
 import { UseValidation } from 'validierung'
+
 import { stringify } from '~/domain'
 
 export default defineComponent({

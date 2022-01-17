@@ -2,7 +2,7 @@
 import { defineComponent } from '@vue/composition-api'
 import { useValidation, Field } from 'validierung'
 
-import { compare, rules } from '~/domain'
+import { compare, rules, stringify } from '~/domain'
 import FormProvider from '~/components/form/FormProvider.vue'
 import AppButton from '~/components/app/AppButton.vue'
 import FormErrors from '~/components/form/FormErrors.vue'
@@ -104,7 +104,7 @@ export default defineComponent({
     async function handleSubmit() {
       try {
         const formData = await val.validateFields()
-        console.log(formData)
+        alert(stringify(formData))
       } catch {}
     }
 
@@ -156,11 +156,13 @@ export default defineComponent({
         <label class="label" for="end-date">Ends By</label>
         <div class="flex">
           <input
-            id="start-date"
+            id="end-date"
             class="input rounded-r-none focus:z-10"
             :class="{ 'error z-10': form.endDate.$hasError }"
             type="date"
-            :min="form.startDate.$value"
+            :min="
+              form.startDate.$value || new Date().toLocaleDateString('en-CA')
+            "
             v-model="form.endDate.$value"
             @blur="form.endDate.$validate()"
           />
