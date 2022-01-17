@@ -7,6 +7,8 @@ import * as Validierung from 'validierung'
 
 interface ExtendedWindow extends Window {
   Validierung: typeof Validierung
+  testCreateValidation(): void
+  testUseValidation(): void
 }
 
 declare const window: ExtendedWindow
@@ -44,11 +46,11 @@ describe('iife', () => {
       await page().evaluate(() => {
         const { createValidation } = window.Validierung
 
-        // @ts-expect-error
+        // @ts-ignore
         createValidation({
           defaultValidationBehavior: 'foo' as never,
           validationBehavior: {}
-          // @ts-expect-error
+          // @ts-ignore
         }).install()
       })
 
@@ -85,11 +87,11 @@ describe('iife', () => {
       await page().evaluate(() => {
         const { createValidation } = window.Validierung
 
-        // @ts-expect-error
+        // @ts-ignore
         createValidation({
           defaultValidationBehavior: 'foo' as never,
           validationBehavior: {}
-          // @ts-expect-error
+          // @ts-ignore
         }).install()
       })
 
@@ -127,8 +129,7 @@ describe('cjs', () => {
 
     it('should warn', async () => {
       await page().evaluate(() => {
-        // @ts-expect-error
-        testCreateValidation()
+        window.testCreateValidation()
       })
 
       expect(consoleWarnMock).toBeCalledTimes(1)
@@ -140,8 +141,7 @@ describe('cjs', () => {
     it('should throw validierung error', async () => {
       await expect(
         page().evaluate(() => {
-          // @ts-expect-error
-          testUseValidation()
+          window.testUseValidation()
         })
       ).rejects.toThrow('[validierung]')
     })
@@ -156,8 +156,7 @@ describe('cjs', () => {
 
     it('should NOT warn', async () => {
       await page().evaluate(() => {
-        // @ts-expect-error
-        testCreateValidation()
+        window.testCreateValidation()
       })
 
       expect(consoleWarnMock).toBeCalledTimes(0)
@@ -166,8 +165,7 @@ describe('cjs', () => {
     it('should NOT throw validierung error', async () => {
       await expect(
         page().evaluate(() => {
-          // @ts-expect-error
-          testUseValidation()
+          window.testUseValidation()
         })
       ).rejects.toThrow(expect.not.stringContaining('[validierung]'))
     })
