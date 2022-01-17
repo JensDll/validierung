@@ -57,3 +57,11 @@ expectType<{
     }
   }>
 )
+
+expectType<{
+  a?(): void
+}>(
+  {} as DeepPartial<{
+    a(): void
+  }>
+)

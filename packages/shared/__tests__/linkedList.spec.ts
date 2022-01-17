@@ -9,8 +9,15 @@ beforeEach(() => {
 const iterationValuesForwards = <T>(linkedList: LinkedList<T>) =>
   [...linkedList].map(node => node.value)
 
-const iterationValuesBackwards = <T>(linkedList: LinkedList<T>) =>
-  [...linkedList].map(node => node.value).reverse()
+const iterationValuesBackwards = <T>(linkedList: LinkedList<T>) => {
+  const values = []
+
+  for (let node = linkedList.last; node !== null; node = node.prev) {
+    values.push(node.value)
+  }
+
+  return values
+}
 
 describe('Adding nodes', () => {
   describe('Add first by value', () => {

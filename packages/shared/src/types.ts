@@ -46,4 +46,8 @@ export type DeepPartial<T extends object> = T extends readonly any[]
       [K in keyof T]?: DeepPartialImpl<T[K]> | undefined
     }
 
-type DeepPartialImpl<T> = T extends object ? DeepPartial<T> : T
+type DeepPartialImpl<T> = T extends AnyFunction
+  ? T
+  : T extends object
+  ? DeepPartial<T>
+  : T
