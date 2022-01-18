@@ -87,7 +87,6 @@ const input = (name: PackageName) => `packages/${name}/src/index.ts`
 type OutputReturn = {
   readonly esm: OutputOptions | OutputOptions[]
   readonly dev: OutputOptions | OutputOptions[]
-
   readonly prod: OutputOptions | OutputOptions[]
   readonly dts: OutputOptions | OutputOptions[]
 }
