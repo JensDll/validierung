@@ -38,7 +38,7 @@ describe('iife', () => {
   describe('dev mode', () => {
     beforeEach(async () => {
       await page().addScriptTag({
-        path: require.resolve('validierung/dist/index.iife.dev.js')
+        path: require.resolve('validierung/dist/index.iife.js')
       })
     })
 
@@ -73,7 +73,7 @@ describe('iife', () => {
   describe('prod mode', () => {
     beforeEach(async () => {
       await page().addScriptTag({
-        path: require.resolve('validierung/dist/index.iife.prod.js')
+        path: require.resolve('validierung/dist/index.iife.min.js')
       })
     })
 
@@ -113,7 +113,7 @@ describe('cjs', () => {
   describe('dev mode', () => {
     beforeEach(async () => {
       await page().addScriptTag({
-        path: require.resolve('../dist/index.dev.js')
+        path: require.resolve('../dist/index.js')
       })
     })
 
@@ -140,7 +140,7 @@ describe('cjs', () => {
   describe('prod mode', () => {
     beforeEach(async () => {
       await page().addScriptTag({
-        path: require.resolve('../dist/index.prod.js')
+        path: require.resolve('../dist/index.min.js')
       })
     })
 

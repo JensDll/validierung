@@ -15,7 +15,7 @@ importers:
       '@validierung/shared': workspace:*
       '@validierung/test-utils': workspace:*
       esbuild: 0.14.11
-      esbuild-node-loader: 0.6.3
+      esbuild-node-loader: 0.6.4
       esbuild-register: 3.3.2
       eslint: 8.7.0
       execa: 6.0.0
@@ -23,7 +23,7 @@ importers:
       husky: 7.0.4
       jest: 27.4.7
       prettier: 2.5.1
-      puppeteer: 13.1.0
+      puppeteer: 13.1.1
       rollup: 2.64.0
       rollup-plugin-dts: 4.1.0
       rollup-plugin-esbuild: 4.8.2
@@ -46,7 +46,7 @@ importers:
       '@validierung/shared': link:packages/shared
       '@validierung/test-utils': link:packages/test-utils
       esbuild: 0.14.11
-      esbuild-node-loader: 0.6.3_typescript@4.5.4
+      esbuild-node-loader: 0.6.4_typescript@4.5.4
       esbuild-register: 3.3.2_esbuild@0.14.11
       eslint: 8.7.0
       execa: 6.0.0
@@ -54,7 +54,7 @@ importers:
       husky: 7.0.4
       jest: 27.4.7
       prettier: 2.5.1
-      puppeteer: 13.1.0
+      puppeteer: 13.1.1
       rollup: 2.64.0
       rollup-plugin-dts: 4.1.0_rollup@2.64.0+typescript@4.5.4
       rollup-plugin-esbuild: 4.8.2_esbuild@0.14.11+rollup@2.64.0
@@ -2954,12 +2954,12 @@ packages:
     dev: false
     optional: true
 
-  /esbuild-node-loader/0.6.3_typescript@4.5.4:
-    resolution: {integrity: sha512-Bf6o8SiMMh5+r20jsjAThNOtzo3t8Ye4Qdzz+twWHnxu28SdkGUr5ahq8iX0qbd+I9ge8sLNX7oQoNW1YzHlqA==}
+  /esbuild-node-loader/0.6.4_typescript@4.5.4:
+    resolution: {integrity: sha512-7Esvc3CWHf+DcXHX+VdIl91s4hPs83wV/DqDbjrR2q5gKjnR4O7NCX2Hw7QVYd8h5Pzc7fIV2z12SMqAcHIyJg==}
     peerDependencies:
       typescript: ^4.0
     dependencies:
-      esbuild: 0.13.15
+      esbuild: 0.14.11
       typescript: 4.5.4
     dev: false
 
@@ -5102,8 +5102,8 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
-  /puppeteer/13.1.0:
-    resolution: {integrity: sha512-6rf16giGGLFMh1VrB89zwaTeA90E+tbpq5o1R1Z+a1z9Hrhrj1MlT8Pe0kaecUV3kjpLRaukCRVXw1dp/gbYEw==}
+  /puppeteer/13.1.1:
+    resolution: {integrity: sha512-GwdFy1JQ43Hhxj6MraXme+XfCX2CKe18MuwToXTMEAk0txg6vUEgwqBnzErTTqDVZ7sWYrDtDaRCfD2y7ZwgGw==}
     engines: {node: '>=10.18.1'}
     requiresBuild: true
     dependencies:

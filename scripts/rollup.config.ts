@@ -28,7 +28,7 @@ type BuildPlugins = {
   readonly replace: {
     readonly esm: Plugin
     readonly dev: Plugin
-    readonly prod: Plugin
+    readonly min: Plugin
   }
 }
 
@@ -74,7 +74,7 @@ const plugin: BuildPlugins = {
       __DEV__: true,
       'process.env.NODE_ENV': null
     }),
-    prod: replace({
+    min: replace({
       preventAssignment: true,
       __DEV__: false,
       'process.env.NODE_ENV': JSON.stringify('production')
@@ -87,7 +87,7 @@ const input = (name: PackageName) => `packages/${name}/src/index.ts`
 type OutputReturn = {
   readonly esm: OutputOptions | OutputOptions[]
   readonly dev: OutputOptions | OutputOptions[]
-  readonly prod: OutputOptions | OutputOptions[]
+  readonly min: OutputOptions | OutputOptions[]
   readonly dts: OutputOptions | OutputOptions[]
 }
 
@@ -98,11 +98,11 @@ const output = (name: PackageName): OutputReturn => ({
   },
   dev: [
     {
-      file: `packages/${name}/dist/index.dev.cjs`,
+      file: `packages/${name}/dist/index.cjs`,
       format: 'cjs'
     },
     {
-      file: `packages/${name}/dist/index.iife.dev.js`,
+      file: `packages/${name}/dist/index.iife.js`,
       format: 'iife',
       name: 'Validierung',
       extend: true,
@@ -112,14 +112,14 @@ const output = (name: PackageName): OutputReturn => ({
       plugins: [plugin.injectVueDemi]
     }
   ],
-  prod: [
+  min: [
     {
-      file: `packages/${name}/dist/index.prod.cjs`,
+      file: `packages/${name}/dist/index.min.cjs`,
       format: 'cjs',
       plugins: [plugin.minify]
     },
     {
-      file: `packages/${name}/dist/index.iife.prod.js`,
+      file: `packages/${name}/dist/index.iife.min.js`,
       format: 'iife',
       name: 'Validierung',
       extend: true,
@@ -161,8 +161,8 @@ const validierungConfigs: RollupOptions[] = [
   },
   {
     input: input('validierung'),
-    output: output('validierung').prod,
-    plugins: [plugin.alias.esm, plugin.replace.prod, plugin.esbuild]
+    output: output('validierung').min,
+    plugins: [plugin.alias.esm, plugin.replace.min, plugin.esbuild]
   },
   {
     input: input('validierung'),

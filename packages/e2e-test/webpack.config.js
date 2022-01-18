@@ -1,17 +1,15 @@
 const path = require('path')
 
-module.exports = env => {
+module.exports = (_, argv) => {
+  const isProd = argv.mode === 'production'
+
   return {
     entry: {
       index: './src/index.js'
     },
     output: {
-      filename: env.DEV ? '[name].dev.js' : '[name].prod.js',
+      filename: isProd ? '[name].min.js' : '[name].js',
       path: path.resolve(__dirname, 'dist')
-    },
-    optimization: {
-      minimize: !env.DEV
-    },
-    externals: {}
+    }
   }
 }
