@@ -2,6 +2,9 @@ import url from 'url'
 
 import puppeteer from 'puppeteer'
 
+// First time launching puppeteer can take some time
+jest.setTimeout(30000)
+
 export function setupPuppeteer(pagePath: string) {
   let browser: puppeteer.Browser
   let page: puppeteer.Page
