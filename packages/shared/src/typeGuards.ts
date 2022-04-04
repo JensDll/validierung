@@ -9,4 +9,4 @@ export const isRecord = (value: unknown): value is AnyObject =>
 export const isArray = (value: unknown): value is any[] => Array.isArray(value)
 
 export const isObject = (value: unknown): value is AnyObject =>
-  typeof value === 'object' && value !== null && !(value instanceof File)
+  typeof value === 'object' && value !== null

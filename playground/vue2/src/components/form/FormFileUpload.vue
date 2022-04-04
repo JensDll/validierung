@@ -15,13 +15,13 @@ export default defineComponent({
     AppIcon
   },
   emits: {
-    'update:modelValue': (files: File[]) => true
+    input: (files: File[]) => true
   },
   props: {
     label: {
       type: String
     },
-    modelValue: {
+    value: {
       type: Array as PropType<File[]>,
       required: true
     },
@@ -43,10 +43,10 @@ export default defineComponent({
     const hasError = computed(() => props.errors.length > 0)
     const files = computed<File[]>({
       get(): File[] {
-        return props.modelValue
+        return props.value
       },
       set(files) {
-        emit('update:modelValue', files)
+        emit('input', files)
       }
     })
     const fileHelpers = computed<FileHelper[]>(() =>
