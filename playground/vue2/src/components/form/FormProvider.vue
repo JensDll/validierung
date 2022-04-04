@@ -5,9 +5,8 @@ import { UseValidation } from 'validierung'
 import PreFormData from './PreFormData.vue'
 
 export default defineComponent({
-  components: {
-    PreFormData
-  },
+  components: { PreFormData },
+  emits: ['submit'],
   props: {
     title: {
       type: String,

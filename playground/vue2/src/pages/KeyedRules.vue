@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent } from '@vue/composition-api'
 import { useValidation, Field } from 'validierung'
 
 import { compare, rules, stringify } from '~/domain'
@@ -37,7 +37,7 @@ const requiredTime = (date: string, time: string) => {
 export default defineComponent({
   components: { FormProvider, AppButton, FormErrors },
   setup() {
-    const val = useValidation<FormData>({
+    const validation = useValidation<FormData>({
       startDate: {
         $value: '',
         $rules: [
@@ -103,13 +103,13 @@ export default defineComponent({
 
     async function handleSubmit() {
       try {
-        const formData = await val.validateFields()
+        const formData = await validation.validateFields()
         alert(stringify(formData))
       } catch {}
     }
 
     return {
-      ...val,
+      ...validation,
       handleSubmit
     }
   }
@@ -181,11 +181,11 @@ export default defineComponent({
         />
       </div>
     </div>
-    <div class="mt-8">
+    <div class="mt-8 flex">
       <AppButton
         class="mr-4"
-        html-type="submit"
-        type="primary"
+        type="submit"
+        variant="primary"
         :disabled="submitting"
       >
         Submit

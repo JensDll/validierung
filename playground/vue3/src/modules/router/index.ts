@@ -1,9 +1,9 @@
 import { RouteRecordRaw, createRouter, createWebHistory } from 'vue-router'
 
-import SignupForm from '~/views/SignupForm.vue'
-import DynamicForm from '~/views/DynamicForm.vue'
-import KeyedRules from '~/views/KeyedRules.vue'
-import FileUploadForm from '~/views/FileUploadForm.vue'
+import SignupForm from '~/pages/SignupForm.vue'
+import DynamicForm from '~/pages/DynamicForm.vue'
+import KeyedRules from '~/pages/KeyedRules.vue'
+import FileUploadForm from '~/pages/FileUploadForm.vue'
 
 const routes: RouteRecordRaw[] = [
   {

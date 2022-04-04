@@ -4,13 +4,14 @@ import VueRouter from 'vue-router'
 
 import App from './App.vue'
 import { router } from './modules/router'
-import { validation } from './modules/validation'
+import { validierung } from './modules/validierung'
 import { pinia } from './modules/pinia'
 import { PiniaVuePlugin } from 'pinia'
+import './main.css'
 
 Vue.use(VueCompositionAPI)
 Vue.use(VueRouter)
-Vue.use(validation)
+Vue.use(validierung)
 Vue.use(PiniaVuePlugin)
 
 const app = new Vue({

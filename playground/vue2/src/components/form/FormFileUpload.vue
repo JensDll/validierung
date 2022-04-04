@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent, computed, PropType } from '@vue/composition-api'
 
-import MinusCircleIcon from '~/components/icon/MinusCircleIcon.vue'
+import AppIcon from '~/components/app/AppIcon.vue'
 import FormErrors from './FormErrors.vue'
 
 type FileHelper = {
@@ -12,7 +12,10 @@ type FileHelper = {
 export default defineComponent({
   components: {
     FormErrors,
-    MinusCircleIcon
+    AppIcon
+  },
+  emits: {
+    input: (files: File[]) => true
   },
   props: {
     label: {
@@ -27,12 +30,10 @@ export default defineComponent({
       default: () => []
     },
     image: {
-      type: Boolean,
-      default: false
+      type: Boolean
     },
     multiple: {
-      type: Boolean,
-      default: false
+      type: Boolean
     },
     accept: {
       type: String
@@ -97,7 +98,7 @@ export default defineComponent({
 
 <template>
   <div>
-    <label v-if="label" class="label" :for="`file-${label}`">{{ label }}</label>
+    <label class="label" :for="`file-${label}`">{{ label }}</label>
     <div
       :class="[
         'input border-2 group relative py-10 border-dashed grid place-items-center',
@@ -128,8 +129,8 @@ export default defineComponent({
         <div v-if="image && isFileSelected" class="flex flex-col items-center">
           <template v-for="{ file, src } in fileHelpers">
             <img
-              :src="src"
               :key="`img-${src}`"
+              :src="src"
               class="w-32 h-32 mx-auto mb-2 mt-8"
             />
             <p :key="`p-${src}`">{{ file.name }}</p>
@@ -145,7 +146,7 @@ export default defineComponent({
         :key="file.name"
         @click="removeFile(i)"
       >
-        <MinusCircleIcon class="mr-2 group-hover:text-red-700" />
+        <AppIcon icon="MinusCircle" class="mr-2 group-hover:text-red-700" />
         <span class="group-hover:line-through">{{ file.name }}</span>
       </li>
     </ul>

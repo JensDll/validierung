@@ -1,6 +1,6 @@
 import { createValidation } from 'validierung'
 
-export const validation = createValidation({
+export const validierung = createValidation({
   defaultValidationBehavior: 'lazier',
   validationBehavior: {
     change: ({ force }) => !force,
@@ -13,9 +13,9 @@ export const validation = createValidation({
 
 declare module 'validierung' {
   interface ValidationBehaviorFunctions {
-    change: any
-    lazy: any
-    lazier: any
-    submit: any
+    change: never
+    lazy: never
+    lazier: never
+    submit: never
   }
 }
