@@ -1,12 +1,12 @@
 <script lang="ts">
 import { Field, useValidation } from 'validierung'
-import { defineComponent } from 'vue'
+import { defineComponent } from '@vue/composition-api'
 
+import { rules, stringify } from '~/domain'
 import PreFormData from '~/components/form/PreFormData.vue'
 import AppButton from '~/components/app/AppButton.vue'
 import FormErrors from '~/components/form/FormErrors.vue'
-import { rules, stringify } from '~/domain'
-import LoadingIcon from '~/components/icon/LoadingIcon.vue'
+import AppIcon from '~/components/app/AppIcon.vue'
 import FormProvider from '~/components/form/FormProvider.vue'
 
 type FormData = {
@@ -41,11 +41,11 @@ export default defineComponent({
     PreFormData,
     AppButton,
     FormErrors,
-    LoadingIcon,
+    AppIcon,
     FormProvider
   },
   setup() {
-    const val = useValidation<FormData>({
+    const validation = useValidation<FormData>({
       name: {
         $value: '',
         $rules: [['change', checkName, 550]]
@@ -84,13 +84,13 @@ export default defineComponent({
 
     async function handleSubmit() {
       try {
-        const formData = await val.validateFields()
+        const formData = await validation.validateFields()
         alert(stringify(formData))
       } catch {}
     }
 
     return {
-      ...val,
+      ...validation,
       handleSubmit
     }
   }
@@ -115,7 +115,8 @@ export default defineComponent({
             placeholder="Alice, Bob, or Oscar"
             v-model="form.name.$value"
           />
-          <LoadingIcon
+          <AppIcon
+            icon="Loading"
             class="w-5 h-5 text-indigo-500 absolute right-3"
             :class="{ 'text-red-500': form.name.$hasError }"
             v-if="form.name.$validating"
@@ -159,11 +160,11 @@ export default defineComponent({
         />
         <FormErrors class="mt-1" :errors="form.confirmPassword.$errors" />
       </div>
-      <div class="mt-6">
+      <div class="mt-6 flex">
         <AppButton
           class="mr-4"
-          html-type="submit"
-          type="primary"
+          type="submit"
+          variant="primary"
           :disabled="submitting"
         >
           Signup
@@ -174,4 +175,4 @@ export default defineComponent({
   </FormProvider>
 </template>
 
-<style lang="postcss" scoped></style>
+<style scoped></style>

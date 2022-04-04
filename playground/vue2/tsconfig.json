@@ -20,5 +20,5 @@
   "vueCompilerOptions": {
     "experimentalCompatMode": 2
   },
-  "include": ["vite.config.*", "env.d.ts", "src/**/*", "src/**/*.vue"]
+  "include": ["*.ts", "src/**/*", "src/**/*.vue"]
 }

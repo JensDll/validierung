@@ -21,7 +21,7 @@ export default defineComponent({
     FormFileUpload
   },
   setup() {
-    const val = useValidation<FormData>({
+    const validation = useValidation<FormData>({
       zip: {
         $value: '',
         $rules: [
@@ -36,13 +36,13 @@ export default defineComponent({
 
     async function handleSubmit() {
       try {
-        const formData = await val.validateFields()
+        const formData = await validation.validateFields()
         alert(stringify(formData))
       } catch {}
     }
 
     return {
-      ...val,
+      ...validation,
       handleSubmit
     }
   }
@@ -75,11 +75,11 @@ export default defineComponent({
         :errors="form.files.$errors"
         v-model="form.files.$value"
       />
-      <div class="mt-6">
+      <div class="mt-6 flex">
         <AppButton
           class="mr-4"
-          html-type="submit"
-          type="primary"
+          type="submit"
+          variant="primary"
           :disabled="submitting"
         >
           Upload

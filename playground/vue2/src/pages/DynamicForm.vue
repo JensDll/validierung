@@ -4,8 +4,7 @@ import { useValidation, Field } from 'validierung'
 
 import FormProvider from '~/components/form/FormProvider.vue'
 import AppButton from '~/components/app/AppButton.vue'
-import PlusCircleIcon from '~/components/icon/PlusCircleIcon.vue'
-import MinusCircleIcon from '~/components/icon/MinusCircleIcon.vue'
+import AppIcon from '~/components/app/AppIcon.vue'
 import { stringify } from '~/domain'
 
 type FormData = {
@@ -22,12 +21,11 @@ type FormData = {
 export default defineComponent({
   components: {
     FormProvider,
-    PlusCircleIcon,
-    MinusCircleIcon,
+    AppIcon,
     AppButton
   },
   setup() {
-    const val = useValidation<FormData>({
+    const validation = useValidation<FormData>({
       a: {
         $value: '',
         $rules: []
@@ -36,7 +34,7 @@ export default defineComponent({
     })
 
     function addOuter() {
-      val.add(['outerList'], {
+      validation.add(['outerList'], {
         b: {
           $value: '',
           $rules: []
@@ -46,7 +44,7 @@ export default defineComponent({
     }
 
     function addInner(outerIndex: number) {
-      val.add(['outerList', outerIndex, 'innerList'], {
+      validation.add(['outerList', outerIndex, 'innerList'], {
         c: {
           $value: '',
           $rules: [
@@ -83,11 +81,11 @@ export default defineComponent({
     }
 
     function removeOuter(outerIndex: number) {
-      val.remove(['outerList', outerIndex])
+      validation.remove(['outerList', outerIndex])
     }
 
     function removeInner(outerIndex: number, innerIndex: number) {
-      val.remove(['outerList', outerIndex, 'innerList', innerIndex])
+      validation.remove(['outerList', outerIndex, 'innerList', innerIndex])
     }
 
     addOuter()
@@ -95,13 +93,13 @@ export default defineComponent({
 
     async function handleSubmit() {
       try {
-        const formData = await val.validateFields()
+        const formData = await validation.validateFields()
         alert(stringify(formData))
       } catch {}
     }
 
     return {
-      ...val,
+      ...validation,
       handleSubmit,
       addOuter,
       addInner,
@@ -128,7 +126,7 @@ export default defineComponent({
           v-model="form.a.$value"
           @blur="form.a.$validate()"
         />
-        <PlusCircleIcon class="ml-6" @click="addOuter()" />
+        <AppIcon icon="PlusCircle" class="ml-6" @click="addOuter()" />
       </div>
     </div>
     <div
@@ -146,8 +144,16 @@ export default defineComponent({
             v-model="outer.b.$value"
             @blur="outer.b.$validate()"
           />
-          <PlusCircleIcon class="ml-6" @click="addInner(outerIndex)" />
-          <MinusCircleIcon class="ml-3" @click="removeOuter(outerIndex)" />
+          <AppIcon
+            icon="PlusCircle"
+            class="ml-6"
+            @click="addInner(outerIndex)"
+          />
+          <AppIcon
+            icon="MinusCircle"
+            class="ml-3"
+            @click="removeOuter(outerIndex)"
+          />
         </div>
       </div>
       <div
@@ -175,7 +181,8 @@ export default defineComponent({
               v-model="inner.d.$value"
               @blur="inner.d.$validate()"
             />
-            <MinusCircleIcon
+            <AppIcon
+              icon="MinusCircle"
               class="ml-6"
               @click="removeInner(outerIndex, innerIndex)"
             />
@@ -183,11 +190,11 @@ export default defineComponent({
         </div>
       </div>
     </div>
-    <div class="mt-12">
+    <div class="mt-12 flex">
       <AppButton
         class="mr-4"
-        html-type="submit"
-        type="primary"
+        type="submit"
+        variant="primary"
         :disabled="submitting"
       >
         Submit

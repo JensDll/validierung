@@ -6,5 +6,6 @@
     "source.fixAll": true
   },
   "volar.completion.preferredTagNameCase": "pascal",
-  "typescript.tsdk": "./node_modules/typescript/lib"
+  "typescript.tsdk": "./node_modules/typescript/lib",
+  "css.validate": false
 }

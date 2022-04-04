@@ -2,11 +2,11 @@
 import { defineComponent } from 'vue'
 
 import { useNavStore } from '~/modules/pinia'
-import MenuIcon from '~/components/icon/MenuIcon.vue'
+import AppIcon from '~/components/app/AppIcon.vue'
 
 export default defineComponent({
   components: {
-    MenuIcon
+    AppIcon
   },
   setup() {
     const navStore = useNavStore()
@@ -24,7 +24,8 @@ export default defineComponent({
       class="px-6 flex items-center justify-between md:px-9 lg:px-12 lg:container lg:mx-auto"
     >
       <div class="flex items-center">
-        <MenuIcon
+        <AppIcon
+          icon="Menu"
           class="w-6 h-6 mr-4 cursor-pointer hover:text-gray-800 lg:hidden"
           @click="navStore.toggleNav()"
         />
