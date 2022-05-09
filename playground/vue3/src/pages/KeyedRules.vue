@@ -139,7 +139,7 @@ export default defineComponent({
           />
           <input
             id="start-time"
-            class="input rounded-l-none ml-[-1px] focus:z-10"
+            class="input ml-[-1px] rounded-l-none focus:z-10"
             :class="{ error: form.startTime.$hasError }"
             type="time"
             v-model="form.startTime.$value"
@@ -151,7 +151,7 @@ export default defineComponent({
           :errors="[...form.startDate.$errors, ...form.startTime.$errors]"
         />
       </div>
-      <div class="hidden md:block mt-[33px] mx-4">-</div>
+      <div class="mx-4 mt-[33px] hidden md:block">-</div>
       <div class="mt-4 md:mt-0">
         <label class="label" for="end-date">Ends By</label>
         <div class="flex">
@@ -168,7 +168,7 @@ export default defineComponent({
           />
           <input
             id="start-time"
-            class="input rounded-l-none ml-[-1px] focus:z-10"
+            class="input ml-[-1px] rounded-l-none focus:z-10"
             :class="{ error: form.endTime.$hasError }"
             type="time"
             v-model="form.endTime.$value"

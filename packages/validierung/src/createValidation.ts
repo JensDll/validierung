@@ -1,5 +1,5 @@
 import { validationConfig } from './validationConfig'
-import {
+import type {
   ValidationBehaviorFunction,
   ValidationBehaviorString
 } from './validationBehavior'

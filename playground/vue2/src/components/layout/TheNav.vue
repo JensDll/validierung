@@ -18,7 +18,7 @@ export default defineComponent({
   <Transition name="slide">
     <nav
       v-show="!navStore.isHidden"
-      class="p-4 fixed bg-white inset-y-0 left-0 z-50 border-r lg:p-0 lg:pr-8 lg:relative lg:!block"
+      class="fixed inset-y-0 left-0 z-50 border-r bg-white p-4 lg:relative lg:!block lg:p-0 lg:pr-8"
     >
       <ul class="space-y-2 lg:sticky lg:top-6">
         <router-link
@@ -30,9 +30,9 @@ export default defineComponent({
         >
           <li
             :class="[
-              'pl-4 pr-10 py-2 rounded-md cursor-pointer whitespace-nowrap hover:text-emerald-600 lg:ml-[-1rem]',
+              'cursor-pointer whitespace-nowrap rounded-md py-2 pl-4 pr-10 hover:text-emerald-600 lg:ml-[-1rem]',
               isActive && 'router-link-active',
-              isExactActive && 'bg-emerald-50 text-emerald-600 font-medium'
+              isExactActive && 'bg-emerald-50 font-medium text-emerald-600'
             ]"
             @click="navigate"
           >

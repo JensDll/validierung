@@ -1,7 +1,9 @@
-export const ValidationConfig = jest.fn<any, any>().mockImplementation(() => {
-  const { ValidationConfig } = jest.requireActual('../validationConfig')
+const { ValidationConfig: ActualValidationConfig } = await vi.importActual(
+  '../validationConfig'
+)
 
-  class MockValidationConfig extends ValidationConfig {}
+export const ValidationConfig = vi.fn(() => {
+  class MockValidationConfig extends ActualValidationConfig {}
 
   return new MockValidationConfig()
 })

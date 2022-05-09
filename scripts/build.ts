@@ -7,7 +7,7 @@ const basePath = 'packages/validierung'
 await run('rollup', ['--config'])
 
 console.log()
-console.log('Formatting type declaration files ...')
+console.log('Formatting declaration files ...')
 await run('pnpm', [
   'exec',
   'prettier',
@@ -31,4 +31,4 @@ await Promise.all([
 ])
 
 console.log()
-console.log('Done!')
+console.log('Done! 🎉')

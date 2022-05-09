@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@validierung/shared",
+  "name": "@internal/shared",
   "repository": {
     "type": "git",
     "url": "https://github.com/JensDll/validierung",

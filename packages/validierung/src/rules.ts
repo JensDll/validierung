@@ -1,6 +1,6 @@
-import { UnwrapRef } from 'vue-demi'
+import type { UnwrapRef } from 'vue-demi'
 
-import {
+import type {
   ValidationBehavior,
   ValidationBehaviorFunction
 } from './validationBehavior'

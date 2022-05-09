@@ -17,11 +17,11 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="h-[100vh] grid grid-rows-[auto_1fr] gap-y-12">
+  <div class="grid h-[100vh] grid-rows-[auto_1fr] gap-y-12">
     <TheNavBackground />
     <TheHeader />
     <div
-      class="px-6 md:px-9 lg:px-12 lg:container lg:mx-auto lg:grid lg:grid-cols-[auto_1fr]"
+      class="px-6 md:px-9 lg:container lg:mx-auto lg:grid lg:grid-cols-[auto_1fr] lg:px-12"
     >
       <TheNav />
       <TheMain />

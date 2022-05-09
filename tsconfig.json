@@ -1,27 +1,35 @@
 {
   "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "dist",
     "target": "ESNext",
     "module": "ESNext",
+    "moduleResolution": "Node",
     "isolatedModules": true,
+    "preserveValueImports": true,
+    "importsNotUsedAsValues": "error",
     "allowJs": false,
-    "checkJs": false,
-    "lib": ["ESNext", "DOM", "DOM.Iterable"],
-    "downlevelIteration": true,
     "strict": true,
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "skipLibCheck": true,
+    "jsx": "preserve",
     "sourceMap": true,
     "resolveJsonModule": true,
-    "forceConsistentCasingInFileNames": true,
-    "baseUrl": ".",
-    "rootDir": ".",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "lib": ["ESNext", "DOM", "DOM.Iterable", "ScriptHost"],
+    "types": ["vitest/globals", "node"],
     "paths": {
-      "@validierung/shared": ["packages/shared/src"],
-      "@validierung/test-utils": ["packages/test-utils/src"],
+      "@internal/shared": ["packages/shared/src"],
+      "@internal/test-utils": ["packages/test-utils/src"],
       "validierung": ["packages/validierung/src"]
     }
   },
-  "include": ["packages/*/src", "packages/*/__tests__", "test-dts", "scripts"],
-  "exclude": ["**/dist", "**/publish", "playground"]
+  "include": [
+    "*.ts",
+    "scripts",
+    "dts",
+    "test-dts",
+    "packages/*/src",
+    "packages/*/tests"
+  ],
+  "exclude": ["**/dist/**/*", "playground"]
 }

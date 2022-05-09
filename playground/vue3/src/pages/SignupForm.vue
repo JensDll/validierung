@@ -6,7 +6,6 @@ import { rules, stringify } from '~/domain'
 import PreFormData from '~/components/form/PreFormData.vue'
 import AppButton from '~/components/app/AppButton.vue'
 import FormErrors from '~/components/form/FormErrors.vue'
-import AppIcon from '~/components/app/AppIcon.vue'
 import FormProvider from '~/components/form/FormProvider.vue'
 
 type FormData = {
@@ -41,7 +40,6 @@ export default defineComponent({
     PreFormData,
     AppButton,
     FormErrors,
-    AppIcon,
     FormProvider
   },
   setup() {
@@ -106,19 +104,18 @@ export default defineComponent({
     <div class="2xl:w-2/3">
       <div>
         <label class="label" for="name">Name</label>
-        <div class="flex items-center relative">
+        <div class="relative flex items-center">
           <input
             id="name"
-            class="w-full input"
+            class="input w-full"
             :class="{ error: form.name.$hasError }"
             type="text"
             placeholder="Alice, Bob, or Oscar"
             v-model="form.name.$value"
           />
-          <AppIcon
-            icon="Loading"
-            class="w-5 h-5 text-indigo-500 absolute right-3"
-            :class="{ 'text-red-500': form.name.$hasError }"
+          <div
+            class="i-custom-loading spin absolute right-3 h-6 w-6 text-indigo-500"
+            :class="{ '!text-red-500': form.name.$hasError }"
             v-if="form.name.$validating"
           />
         </div>
@@ -128,7 +125,7 @@ export default defineComponent({
         <label class="label" for="email">Email</label>
         <input
           id="email"
-          class="w-full input"
+          class="input w-full"
           :class="{ error: form.email.$hasError }"
           type="text"
           v-model="form.email.$value"
@@ -140,7 +137,7 @@ export default defineComponent({
         <label class="label" for="password">Password</label>
         <input
           id="password"
-          class="w-full input"
+          class="input w-full"
           :class="{ error: form.password.$hasError }"
           type="password"
           v-model="form.password.$value"
@@ -152,7 +149,7 @@ export default defineComponent({
         <label class="label" for="confirm-password">Confirm Password</label>
         <input
           id="confirm-password"
-          class="w-full input"
+          class="input w-full"
           :class="{ error: form.confirmPassword.$hasError }"
           type="password"
           v-model="form.confirmPassword.$value"
@@ -175,4 +172,14 @@ export default defineComponent({
   </FormProvider>
 </template>
 
-<style scoped></style>
+<style scoped>
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spin {
+  animation: spin 600ms linear infinite;
+}
+</style>

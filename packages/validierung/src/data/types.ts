@@ -1,7 +1,7 @@
-import { UnwrapRef, Ref } from 'vue-demi'
+import type { UnwrapRef, Ref } from 'vue-demi'
 
-import * as nShared from '@validierung/shared'
-import { FieldRule } from '../rules'
+import * as nShared from '@internal/shared'
+import type { FieldRule } from '../rules'
 
 export const isField = (value: unknown): value is Field<unknown> =>
   nShared.isRecord(value) ? '$value' in value : false

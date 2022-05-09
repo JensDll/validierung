@@ -3,11 +3,14 @@ import path from 'path'
 import fs from 'fs-extra'
 import alias from '@rollup/plugin-alias'
 import replace from '@rollup/plugin-replace'
-import { OutputOptions, RollupOptions, Plugin } from 'rollup'
+import type {
+  OutputOptions,
+  RollupOptions,
+  Plugin,
+  ExternalOption
+} from 'rollup'
 import esbuild, { minify } from 'rollup-plugin-esbuild'
 import dts from 'rollup-plugin-dts'
-
-type PackageName = 'shared' | 'validierung'
 
 const rootDir = path.resolve(__dirname, '..')
 
@@ -16,28 +19,12 @@ const VUE_DEMI_IIFE = fs.readFileSync(
   'utf-8'
 )
 
-type BuildPlugins = {
-  readonly alias: {
-    readonly esm: Plugin
-    readonly dts: Plugin
-  }
-  readonly dts: Plugin
-  readonly esbuild: Plugin
-  readonly minify: Plugin
-  readonly injectVueDemi: Plugin
-  readonly replace: {
-    readonly esm: Plugin
-    readonly dev: Plugin
-    readonly min: Plugin
-  }
-}
-
-const plugin: BuildPlugins = {
+const plugin = {
   alias: {
     esm: alias({
       entries: [
         {
-          find: '@validierung/shared',
+          find: '@internal/shared',
           replacement: path.resolve(rootDir, 'packages/shared/dist/index.mjs')
         }
       ]
@@ -45,7 +32,7 @@ const plugin: BuildPlugins = {
     dts: alias({
       entries: [
         {
-          find: '@validierung/shared',
+          find: '@internal/shared',
           replacement: path.resolve(rootDir, 'packages/shared/dist/index.d.ts')
         }
       ]
@@ -56,7 +43,7 @@ const plugin: BuildPlugins = {
     renderChunk(code) {
       return `${VUE_DEMI_IIFE};\n;${code}`
     }
-  },
+  } as Plugin,
   dts: dts(),
   esbuild: esbuild({
     target: 'ES2019'
@@ -67,28 +54,34 @@ const plugin: BuildPlugins = {
   replace: {
     esm: replace({
       preventAssignment: true,
+      objectGuard: true,
       __DEV__: "(process.env.NODE_ENV !== 'production')"
     }),
     dev: replace({
       preventAssignment: true,
+      objectGuard: true,
       __DEV__: true,
       'process.env.NODE_ENV': null
     }),
-    min: replace({
+    prod: replace({
       preventAssignment: true,
+      objectGuard: true,
       __DEV__: false,
-      'process.env.NODE_ENV': JSON.stringify('production')
+      'process.env.NODE_ENV': "'production'"
     })
   }
-}
+} as const
 
-const input = (name: PackageName) => `packages/${name}/src/index.ts`
+type PackageName = 'shared' | 'validierung' | 'test-utils'
+
+const input = (name: PackageName, file = 'index') =>
+  `packages/${name}/src/${file}.ts`
 
 type OutputReturn = {
-  readonly esm: OutputOptions | OutputOptions[]
-  readonly dev: OutputOptions | OutputOptions[]
-  readonly min: OutputOptions | OutputOptions[]
-  readonly dts: OutputOptions | OutputOptions[]
+  readonly esm: OutputOptions
+  readonly dev: OutputOptions[]
+  readonly prod: OutputOptions[]
+  readonly dts: OutputOptions
 }
 
 const output = (name: PackageName): OutputReturn => ({
@@ -112,7 +105,7 @@ const output = (name: PackageName): OutputReturn => ({
       plugins: [plugin.injectVueDemi]
     }
   ],
-  min: [
+  prod: [
     {
       file: `packages/${name}/dist/index.min.cjs`,
       format: 'cjs',
@@ -135,7 +128,21 @@ const output = (name: PackageName): OutputReturn => ({
   }
 })
 
-const sharedConfigs: RollupOptions[] = [
+const baseExternals: ExternalOption = ['vue-demi', /^node:.+/]
+
+const configs: RollupOptions[] = [
+  {
+    input: input('test-utils'),
+    output: output('test-utils').esm,
+    plugins: [plugin.replace.esm, plugin.esbuild],
+    external: [/^@internal\/.+/, 'puppeteer']
+  },
+  {
+    input: input('test-utils'),
+    output: output('test-utils').dts,
+    plugins: [plugin.dts],
+    external: [/^@internal\/.+/, 'puppeteer']
+  },
   {
     input: input('shared'),
     output: output('shared').esm,
@@ -145,10 +152,7 @@ const sharedConfigs: RollupOptions[] = [
     input: input('shared'),
     output: output('shared').dts,
     plugins: [plugin.dts]
-  }
-]
-
-const validierungConfigs: RollupOptions[] = [
+  },
   {
     input: input('validierung'),
     output: output('validierung').esm,
@@ -161,8 +165,8 @@ const validierungConfigs: RollupOptions[] = [
   },
   {
     input: input('validierung'),
-    output: output('validierung').min,
-    plugins: [plugin.alias.esm, plugin.replace.min, plugin.esbuild]
+    output: output('validierung').prod,
+    plugins: [plugin.alias.esm, plugin.replace.prod, plugin.esbuild]
   },
   {
     input: input('validierung'),
@@ -171,13 +175,15 @@ const validierungConfigs: RollupOptions[] = [
   }
 ]
 
-const configs = [...sharedConfigs, ...validierungConfigs]
-
 configs.forEach(config => {
-  config.treeshake = {
-    moduleSideEffects: false
+  if (config.external) {
+    if (!Array.isArray(config.external)) {
+      throw new Error('External option must be an array')
+    }
+    config.external.push(...baseExternals)
+  } else {
+    config.external = baseExternals
   }
-  config.external = ['vue-demi']
 })
 
 export default configs

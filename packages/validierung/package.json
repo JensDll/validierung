@@ -1,7 +1,7 @@
 {
   "name": "validierung",
   "version": "1.0.1",
-  "description": "Vue Composition Function for Form Validation",
+  "description": "Vue composition function for form validation",
   "license": "MIT",
   "author": {
     "name": "Jens Döllmann",

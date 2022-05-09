@@ -2,7 +2,7 @@ const { createValidation, useValidation } = require('validierung')
 
 window.testCreateValidation = () => {
   createValidation({
-    defaultValidationBehavior: 'foo',
+    defaultValidationBehavior: 'invalid',
     validationBehavior: {}
   }).install()
 }

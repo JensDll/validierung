@@ -1,7 +1,6 @@
 <script lang="ts">
 import { defineComponent, computed, PropType } from 'vue'
 
-import AppIcon from '~/components/app/AppIcon.vue'
 import FormErrors from './FormErrors.vue'
 
 type FileHelper = {
@@ -11,8 +10,7 @@ type FileHelper = {
 
 export default defineComponent({
   components: {
-    FormErrors,
-    AppIcon
+    FormErrors
   },
   emits: {
     'update:modelValue': (files: File[]) => true
@@ -101,13 +99,13 @@ export default defineComponent({
     <label class="label" :for="`file-${label}`">{{ label }}</label>
     <div
       :class="[
-        'input border-2 group relative py-10 border-dashed grid place-items-center',
+        'input group relative grid place-items-center border-2 border-dashed py-10',
         { error: hasError }
       ]"
     >
       <input
         :id="`file-${label}`"
-        class="w-full h-full absolute opacity-0 cursor-pointer"
+        class="absolute h-full w-full cursor-pointer opacity-0"
         type="file"
         :accept="accept"
         :multiple="multiple"
@@ -128,7 +126,7 @@ export default defineComponent({
         <slot></slot>
         <div v-if="image && isFileSelected" class="flex flex-col items-center">
           <template v-for="{ file, src } in fileHelpers" :key="src">
-            <img :src="src" class="w-32 h-32 mx-auto mb-2 mt-8" />
+            <img :src="src" class="mx-auto mb-2 mt-8 h-32 w-32" />
             <p>{{ file.name }}</p>
           </template>
         </div>
@@ -138,11 +136,13 @@ export default defineComponent({
     <ul v-if="files.length" class="mt-2">
       <li
         v-for="(file, i) in files"
-        class="flex items-center cursor-pointer group"
+        class="group flex cursor-pointer items-center"
         :key="file.name"
         @click="removeFile(i)"
       >
-        <AppIcon icon="MinusCircle" class="mr-2 group-hover:text-red-700" />
+        <div
+          class="i-heroicons-outline-minus-circle mr-2 h-5 w-5 text-red-600 group-hover:text-red-700"
+        ></div>
         <span class="group-hover:line-through">{{ file.name }}</span>
       </li>
     </ul>

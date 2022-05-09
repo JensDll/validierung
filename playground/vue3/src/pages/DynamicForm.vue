@@ -4,7 +4,6 @@ import { useValidation, Field } from 'validierung'
 
 import FormProvider from '~/components/form/FormProvider.vue'
 import AppButton from '~/components/app/AppButton.vue'
-import AppIcon from '~/components/app/AppIcon.vue'
 import { stringify } from '~/domain'
 
 type FormData = {
@@ -21,7 +20,6 @@ type FormData = {
 export default defineComponent({
   components: {
     FormProvider,
-    AppIcon,
     AppButton
   },
   setup() {
@@ -126,7 +124,10 @@ export default defineComponent({
           v-model="form.a.$value"
           @blur="form.a.$validate()"
         />
-        <AppIcon icon="PlusCircle" class="ml-6" @click="addOuter()" />
+        <div
+          class="i-heroicons-outline-plus-circle ml-6 h-6 w-6 cursor-pointer text-emerald-600"
+          @click="addOuter()"
+        ></div>
       </div>
     </div>
     <div
@@ -144,16 +145,14 @@ export default defineComponent({
             v-model="outer.b.$value"
             @blur="outer.b.$validate()"
           />
-          <AppIcon
-            icon="PlusCircle"
-            class="ml-6"
+          <div
+            class="i-heroicons-outline-plus-circle ml-6 h-6 w-6 cursor-pointer text-emerald-600"
             @click="addInner(outerIndex)"
-          />
-          <AppIcon
-            icon="MinusCircle"
-            class="ml-3"
+          ></div>
+          <div
+            class="i-heroicons-outline-minus-circle ml-3 h-6 w-6 cursor-pointer text-red-600"
             @click="removeOuter(outerIndex)"
-          />
+          ></div>
         </div>
       </div>
       <div
@@ -176,16 +175,15 @@ export default defineComponent({
           <div class="flex items-center">
             <input
               :id="inner.d.$uid.toString()"
-              class="ml-6 input"
+              class="input ml-6"
               type="text"
               v-model="inner.d.$value"
               @blur="inner.d.$validate()"
             />
-            <AppIcon
-              icon="MinusCircle"
-              class="ml-6"
+            <div
+              class="i-heroicons-outline-minus-circle ml-6 h-6 w-6 cursor-pointer text-red-600"
               @click="removeInner(outerIndex, innerIndex)"
-            />
+            ></div>
           </div>
         </div>
       </div>

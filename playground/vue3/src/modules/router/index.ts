@@ -11,7 +11,7 @@ const routes: RouteRecordRaw[] = [
     name: 'home',
     component: SignupForm,
     meta: {
-      displayName: 'Signup Form'
+      displayName: 'Signup form'
     }
   },
   {
@@ -19,7 +19,7 @@ const routes: RouteRecordRaw[] = [
     name: 'dynamic',
     component: DynamicForm,
     meta: {
-      displayName: 'Dynamic Form'
+      displayName: 'Dynamic form'
     }
   },
   {
@@ -27,7 +27,7 @@ const routes: RouteRecordRaw[] = [
     name: 'keyed',
     component: KeyedRules,
     meta: {
-      displayName: 'More Keyed Rules'
+      displayName: 'Keyed rules'
     }
   },
   {
@@ -35,7 +35,7 @@ const routes: RouteRecordRaw[] = [
     name: 'upload',
     component: FileUploadForm,
     meta: {
-      displayName: 'File Upload Form'
+      displayName: 'File upload form'
     }
   }
 ]

@@ -1,9 +1,20 @@
 {
   "private": true,
-  "name": "@validierung/test-utils",
+  "name": "@internal/test-utils",
   "repository": {
     "type": "git",
     "url": "https://github.com/JensDll/validierung",
     "directory": "packages/test-utils"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "dependencies": {
+    "@internal/shared": "workspace:*"
   }
 }

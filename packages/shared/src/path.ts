@@ -1,4 +1,4 @@
-import { AnyObject } from './types'
+import type { AnyObject } from './types'
 
 export function path(path: readonly PropertyKey[], obj: AnyObject): any {
   let value = obj[path[0]]

@@ -1,17 +1,14 @@
-import url from 'url'
+import url from 'node:url'
 
 import puppeteer from 'puppeteer'
-
-// First time launching puppeteer can take some time
-jest.setTimeout(30000)
 
 export function setupPuppeteer(pagePath: string) {
   let browser: puppeteer.Browser
   let page: puppeteer.Page
 
-  const consoleLogMock = jest.fn<any, string[]>()
-  const consoleWarnMock = jest.fn<any, string[]>()
-  const consoleErrorMock = jest.fn<any, string[]>()
+  const consoleLogMock = vi.fn<any, string[]>()
+  const consoleWarnMock = vi.fn<any, string[]>()
+  const consoleErrorMock = vi.fn<any, string[]>()
 
   beforeAll(async () => {
     browser = await puppeteer.launch({})

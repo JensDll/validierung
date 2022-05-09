@@ -18,7 +18,7 @@ export default defineComponent({
   <transition name="fade">
     <div
       v-if="!navStore.isHidden"
-      class="fixed bg-black inset-0 z-40 bg-opacity-25 lg:hidden"
+      class="fixed inset-0 z-40 bg-black bg-opacity-25 lg:hidden"
       @click="navStore.toggleNav()"
     ></div>
   </transition>

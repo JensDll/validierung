@@ -12,7 +12,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <ul v-show="errors.length" class="text-red-500 text-sm">
+  <ul v-show="errors.length" class="text-sm text-red-500">
     <li v-for="error in errors" :key="error">{{ error }}</li>
   </ul>
 </template>

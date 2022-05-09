@@ -1,6 +1,6 @@
-import * as nShared from '@validierung/shared'
+import * as nShared from '@internal/shared'
 import { isTransformedField } from './types'
-import { Form } from '../form'
+import type { Form } from '../form'
 
 export function disposeForm(form: Form, deletedFormData: nShared.AnyObject) {
   for (const value of Object.values(deletedFormData)) {
