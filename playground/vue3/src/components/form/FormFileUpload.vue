@@ -1,7 +1,6 @@
 <script lang="ts">
 import { defineComponent, computed, PropType } from 'vue'
 
-import AppIcon from '~/components/app/AppIcon.vue'
 import FormErrors from './FormErrors.vue'
 
 type FileHelper = {
@@ -11,8 +10,7 @@ type FileHelper = {
 
 export default defineComponent({
   components: {
-    FormErrors,
-    AppIcon
+    FormErrors
   },
   emits: {
     'update:modelValue': (files: File[]) => true
@@ -142,7 +140,9 @@ export default defineComponent({
         :key="file.name"
         @click="removeFile(i)"
       >
-        <AppIcon icon="MinusCircle" class="mr-2 group-hover:text-red-700" />
+        <div
+          class="i-heroicons-outline-minus-circle mr-2 h-5 w-5 text-red-600 group-hover:text-red-700"
+        ></div>
         <span class="group-hover:line-through">{{ file.name }}</span>
       </li>
     </ul>

@@ -128,20 +128,20 @@ const output = (name: PackageName): OutputReturn => ({
   }
 })
 
-const baseExternals: ExternalOption = ['vue-demi']
+const baseExternals: ExternalOption = ['vue-demi', /^node:.+/]
 
 const configs: RollupOptions[] = [
   {
     input: input('test-utils'),
     output: output('test-utils').esm,
     plugins: [plugin.replace.esm, plugin.esbuild],
-    external: [/@internal\/.+/]
+    external: [/^@internal\/.+/, 'puppeteer']
   },
   {
     input: input('test-utils'),
     output: output('test-utils').dts,
     plugins: [plugin.dts],
-    external: [/@internal\/.+/]
+    external: [/^@internal\/.+/, 'puppeteer']
   },
   {
     input: input('shared'),

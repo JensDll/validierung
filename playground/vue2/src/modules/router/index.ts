@@ -11,7 +11,7 @@ const routes: RouteConfig[] = [
     name: 'home',
     component: SignupForm,
     meta: {
-      displayName: 'Signup Form'
+      displayName: 'Signup form'
     }
   },
   {
@@ -19,7 +19,7 @@ const routes: RouteConfig[] = [
     name: 'dynamic',
     component: DynamicForm,
     meta: {
-      displayName: 'Dynamic Form'
+      displayName: 'Dynamic form'
     }
   },
   {
@@ -27,7 +27,7 @@ const routes: RouteConfig[] = [
     name: 'keyed',
     component: KeyedRules,
     meta: {
-      displayName: 'More Keyed Rules'
+      displayName: 'Keyed rules'
     }
   },
   {
@@ -35,7 +35,7 @@ const routes: RouteConfig[] = [
     name: 'upload',
     component: FileUploadForm,
     meta: {
-      displayName: 'File Upload Form'
+      displayName: 'File upload form'
     }
   }
 ]

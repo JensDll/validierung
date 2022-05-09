@@ -3,8 +3,8 @@
   "scripts": {
     "build": "node --experimental-loader esbuild-node-loader scripts/build.ts",
     "dev": "rollup --config --watch",
-    "dev:2": "pnpm run dev:local --filter \"vue2-playground\"",
-    "dev:3": "pnpm run dev:local --filter \"vue3-playground\"",
+    "dev:2": "pnpm run --filter \"vue2-playground\" dev:local",
+    "dev:3": "pnpm run --filter \"vue3-playground\" dev:local ",
     "test": "pnpm run test:2 && pnpm run test:3",
     "test:2": "vue-demi-switch 2 vue2 && vitest run",
     "test:3": "vue-demi-switch 3 vue3 && vitest run",
@@ -38,6 +38,7 @@
     "jsdom": "19.0.0",
     "prettier": "2.6.2",
     "prettier-plugin-tailwindcss": "0.1.10",
+    "puppeteer": "14.0.0",
     "rollup": "2.72.1",
     "rollup-plugin-dts": "4.2.1",
     "rollup-plugin-esbuild": "4.9.1",

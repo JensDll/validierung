@@ -1,9 +1,10 @@
-import path from 'path'
-import cp from 'child_process'
+import path from 'node:path'
+import cp from 'node:child_process'
+import { fileURLToPath } from 'node:url'
 
 import { isVue2 } from 'vue-demi'
-import { setupPuppeteer } from '@validierung/test-utils'
-import * as Validierung from 'validierung'
+import { setupPuppeteer } from '@internal/test-utils'
+import type * as Validierung from 'validierung'
 
 interface ExtendedWindow extends Window {
   Validierung: typeof Validierung
@@ -38,14 +39,14 @@ describe('iife', () => {
   describe('dev mode', () => {
     beforeEach(async () => {
       await page().addScriptTag({
-        path: require.resolve('validierung/dist/index.iife.js')
+        path: 'node_modules/validierung/dist/index.iife.js'
       })
     })
 
-    it('should warn', async () => {
+    test('should warn', async () => {
       await page().evaluate(() => {
         window.Validierung.createValidation({
-          defaultValidationBehavior: 'foo' as never,
+          defaultValidationBehavior: 'invalid' as never,
           validationBehavior: {}
         }).install()
       })
@@ -56,7 +57,7 @@ describe('iife', () => {
       )
     })
 
-    it('should throw validierung error', async () => {
+    test('should throw validierung error', async () => {
       await expect(
         page().evaluate(() => {
           window.Validierung.useValidation({
@@ -73,14 +74,14 @@ describe('iife', () => {
   describe('prod mode', () => {
     beforeEach(async () => {
       await page().addScriptTag({
-        path: require.resolve('validierung/dist/index.iife.min.js')
+        path: 'node_modules/validierung/dist/index.iife.min.js'
       })
     })
 
-    it('should NOT warn', async () => {
+    test('should NOT warn', async () => {
       await page().evaluate(() => {
         window.Validierung.createValidation({
-          defaultValidationBehavior: 'foo' as never,
+          defaultValidationBehavior: 'invalid' as never,
           validationBehavior: {}
         }).install()
       })
@@ -88,7 +89,7 @@ describe('iife', () => {
       expect(consoleWarnMock).toBeCalledTimes(0)
     })
 
-    it('should NOT throw validierung error', async () => {
+    test('should NOT throw validierung error', async () => {
       await expect(
         page().evaluate(() => {
           const { useValidation } = window.Validierung
@@ -107,17 +108,17 @@ describe('iife', () => {
 
 describe('cjs', () => {
   beforeAll(() => {
-    cp.execSync('pnpm run build --filter "@validierung/e2e-test"')
+    cp.execSync('pnpm run --filter "@internal/e2e-test" build')
   })
 
   describe('dev mode', () => {
     beforeEach(async () => {
       await page().addScriptTag({
-        path: require.resolve('../dist/index.js')
+        path: fileURLToPath(new URL('../dist/index.js', import.meta.url))
       })
     })
 
-    it('should warn', async () => {
+    test('should warn', async () => {
       await page().evaluate(() => {
         window.testCreateValidation()
       })
@@ -128,7 +129,7 @@ describe('cjs', () => {
       )
     })
 
-    it('should throw validierung error', async () => {
+    test('should throw validierung error', async () => {
       await expect(
         page().evaluate(() => {
           window.testUseValidation()
@@ -140,11 +141,11 @@ describe('cjs', () => {
   describe('prod mode', () => {
     beforeEach(async () => {
       await page().addScriptTag({
-        path: require.resolve('../dist/index.min.js')
+        path: fileURLToPath(new URL('../dist/index.min.js', import.meta.url))
       })
     })
 
-    it('should NOT warn', async () => {
+    test('should NOT warn', async () => {
       await page().evaluate(() => {
         window.testCreateValidation()
       })
@@ -152,7 +153,7 @@ describe('cjs', () => {
       expect(consoleWarnMock).toBeCalledTimes(0)
     })
 
-    it('should NOT throw validierung error', async () => {
+    test('should NOT throw validierung error', async () => {
       await expect(
         page().evaluate(() => {
           window.testUseValidation()

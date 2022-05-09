@@ -6,7 +6,6 @@ import { rules, stringify } from '~/domain'
 import PreFormData from '~/components/form/PreFormData.vue'
 import AppButton from '~/components/app/AppButton.vue'
 import FormErrors from '~/components/form/FormErrors.vue'
-import AppIcon from '~/components/app/AppIcon.vue'
 import FormProvider from '~/components/form/FormProvider.vue'
 
 type FormData = {
@@ -41,7 +40,6 @@ export default defineComponent({
     PreFormData,
     AppButton,
     FormErrors,
-    AppIcon,
     FormProvider
   },
   setup() {
@@ -115,10 +113,9 @@ export default defineComponent({
             placeholder="Alice, Bob, or Oscar"
             v-model="form.name.$value"
           />
-          <AppIcon
-            icon="Loading"
-            class="absolute right-3 h-5 w-5 text-indigo-500"
-            :class="{ 'text-red-500': form.name.$hasError }"
+          <div
+            class="i-custom-loading spin absolute right-3 h-6 w-6 text-indigo-500"
+            :class="{ '!text-red-500': form.name.$hasError }"
             v-if="form.name.$validating"
           />
         </div>
@@ -175,4 +172,14 @@ export default defineComponent({
   </FormProvider>
 </template>
 
-<style scoped></style>
+<style scoped>
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spin {
+  animation: spin 600ms linear infinite;
+}
+</style>

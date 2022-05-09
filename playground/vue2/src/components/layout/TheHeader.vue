@@ -2,12 +2,8 @@
 import { defineComponent } from '@vue/composition-api'
 
 import { useNavStore } from '~/modules/pinia'
-import AppIcon from '~/components/app/AppIcon.vue'
 
 export default defineComponent({
-  components: {
-    AppIcon
-  },
   setup() {
     const navStore = useNavStore()
 
@@ -24,11 +20,10 @@ export default defineComponent({
       class="flex items-center justify-between px-6 md:px-9 lg:container lg:mx-auto lg:px-12"
     >
       <div class="flex items-center">
-        <AppIcon
-          icon="Menu"
-          class="mr-4 h-6 w-6 cursor-pointer hover:text-gray-800 lg:hidden"
+        <div
+          class="i-heroicons-solid-menu mr-4 h-6 w-6 cursor-pointer hover:text-gray-800 lg:hidden"
           @click="navStore.toggleNav()"
-        />
+        ></div>
         <div class="text-lg font-semibold">Vue 2 Playground</div>
       </div>
       <a
