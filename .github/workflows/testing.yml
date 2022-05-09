@@ -1,4 +1,4 @@
-name: Testing
+name: Running tests
 
 on:
   push:
@@ -28,7 +28,7 @@ jobs:
           cache-dependency-path: '**/pnpm-lock.yaml'
 
       - name: Installing dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       - name: Building the project
         run: pnpm run build
@@ -58,7 +58,7 @@ jobs:
           cache-dependency-path: '**/pnpm-lock.yaml'
 
       - name: Installing dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       - name: Building the project
         run: pnpm run build
@@ -88,7 +88,7 @@ jobs:
           cache-dependency-path: '**/pnpm-lock.yaml'
 
       - name: Installing dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       - name: Building the project
         run: pnpm run build
