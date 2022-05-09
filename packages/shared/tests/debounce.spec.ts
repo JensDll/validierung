@@ -1,8 +1,8 @@
-import { makePromise } from '@validierung/test-utils'
+import { makePromise } from '@internal/test-utils'
 import { debounce } from '../src/debounce'
 
-it('should debounce the function call', async () => {
-  const target = jest.fn()
+test('should debounce the function call', async () => {
+  const target = vi.fn()
   const debounced = debounce(target, { wait: 50 })
 
   debounced()
@@ -14,8 +14,8 @@ it('should debounce the function call', async () => {
   expect(target).toBeCalledTimes(1)
 })
 
-it('should cancel the function call', async () => {
-  const target = jest.fn()
+test('should cancel the function call', async () => {
+  const target = vi.fn()
   const debounced = debounce(target, { wait: 50 })
 
   debounced()
@@ -28,8 +28,8 @@ it('should cancel the function call', async () => {
   expect(target).toBeCalledTimes(0)
 })
 
-it('should work in tight loop', async () => {
-  const target = jest.fn()
+test('should work in tight loop', async () => {
+  const target = vi.fn()
   const debounced = debounce(target, { wait: 10 })
 
   for (let i = 1; i <= 10; ++i) {

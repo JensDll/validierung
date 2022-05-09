@@ -1,7 +1,8 @@
 import { nextTick } from 'vue-demi'
 
 import { useValidation } from '../../src/useValidation'
-import { Field, TransformFormData } from '../../src/data/types'
+import type { Field, TransformFormData } from '../../src/data/types'
+import type { SpyInstanceFn } from 'vitest'
 
 type FormData = {
   a: Field<string>
@@ -20,7 +21,7 @@ type FormData = {
 }
 
 function setup() {
-  const rule = jest.fn()
+  const rule = vi.fn()
   const $rules = [[() => true, rule]] as any
 
   const val = useValidation<FormData>({
@@ -52,7 +53,7 @@ function setup() {
 
 const changeFormValues = async (
   form: TransformFormData<FormData>,
-  rule: jest.Mock
+  rule: SpyInstanceFn
 ) => {
   form.a.$value = 'x'
   form.bs.$value[0] = -1
@@ -73,7 +74,7 @@ const changeFormValues = async (
   rule.mockReset()
 }
 
-it('should not change result data when changing form after submitting', async () => {
+test('should not change result data when changing form after submitting', async () => {
   const { form, rule, validateFields } = setup()
 
   const promise = validateFields()
@@ -107,7 +108,7 @@ it('should not change result data when changing form after submitting', async ()
   })
 })
 
-it('should reset to default values', async () => {
+test('should reset to default values', async () => {
   const { form, rule, resetFields } = setup()
 
   for (let i = 0; i < 10; i++) {
@@ -132,7 +133,7 @@ it('should reset to default values', async () => {
   }
 })
 
-it('should reset to specific values', async () => {
+test('should reset to specific values', async () => {
   const { form, rule, resetFields } = setup()
 
   for (let i = 0; i < 10; i++) {

@@ -1,6 +1,6 @@
 import { expectType } from 'tsd'
 
-import { FieldNames, Field } from 'validierung'
+import type { FieldNames, Field } from 'validierung'
 
 expectType<'a' | 'c' | 'e'>(
   {} as FieldNames<{

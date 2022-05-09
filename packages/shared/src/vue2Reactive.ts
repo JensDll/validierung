@@ -1,4 +1,4 @@
-import { reactive, isVue2, UnwrapRef, isRef } from 'vue-demi'
+import { reactive, isVue2, isRef, type UnwrapRef } from 'vue-demi'
 
 import { isObject, isArray, isRecord } from './typeGuards'
 

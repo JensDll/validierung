@@ -1,15 +1,14 @@
-import { MockedObject } from 'ts-jest/dist/utils/testing'
+import { vue2Reactive } from '@internal/shared'
 
-import { vue2Reactive } from '@validierung/shared'
 import {
   disposeForm,
   transformFormData,
-  TransformFormData
+  type TransformFormData
 } from '../../src/data'
 import { Form } from '../../src/form'
 import { FormField } from '../../src/formField'
 
-jest.mock('../../src/form')
+vi.mock('../../src/form')
 
 function setup<T extends object>(
   formData: T,
@@ -19,8 +18,8 @@ function setup<T extends object>(
   return vue2Reactive(formData) as any
 }
 
-it('should dispose every field', () => {
-  const form = new Form() as MockedObject<Form>
+test('should dispose every field', () => {
+  const form = vi.mocked(new Form())
   const formData = setup(
     {
       a: {
@@ -82,8 +81,8 @@ it('should dispose every field', () => {
   expect(form.reactiveFieldMap.size).toBe(0)
 })
 
-it('should dispose a subset', () => {
-  const form = new Form() as MockedObject<Form>
+test('should dispose a subset', () => {
+  const form = vi.mocked(new Form())
   const formData = setup(
     {
       a: {

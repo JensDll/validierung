@@ -1,6 +1,6 @@
 import { expectType } from 'tsd'
 
-import { DeepPartial } from '@validierung/shared'
+import type { DeepPartial } from '@internal/shared'
 
 expectType<{
   a?: {

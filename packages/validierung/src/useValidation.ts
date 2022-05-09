@@ -1,17 +1,17 @@
-import { Ref, ComputedRef, isVue2, isVue3, del } from 'vue-demi'
+import { isVue2, isVue3, del, type Ref, type ComputedRef } from 'vue-demi'
 
-import * as nShared from '@validierung/shared'
+import * as nShared from '@internal/shared'
 import { ValidationError } from './validationError'
 import { Form } from './form'
 import {
   disposeForm,
-  FieldNames,
   getResultFormData,
   resetFields,
-  ResultFormData,
-  TransformFormData,
   transformFormData,
-  ValidateFieldsPredicate
+  type FieldNames,
+  type ResultFormData,
+  type TransformFormData,
+  type ValidateFieldsPredicate
 } from './data'
 
 /**

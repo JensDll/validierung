@@ -2,7 +2,7 @@ import { isSimpleRule } from '../src/rules'
 import { isField, isTransformedField } from '../src/data'
 
 describe('isField', () => {
-  it('field -> true', () => {
+  test('field -> true', () => {
     expect(
       isField({
         $value: '',
@@ -13,7 +13,7 @@ describe('isField', () => {
 })
 
 describe('isTransformedField', () => {
-  it('transformedField -> true', () => {
+  test('transformedField -> true', () => {
     expect(
       isTransformedField({
         $uid: 1,
@@ -25,7 +25,7 @@ describe('isTransformedField', () => {
 })
 
 describe('isSimpleRule', () => {
-  it('rule with key -> false', () => {
+  test('rule with key -> false', () => {
     const keyedRule = {
       key: ''
     }
@@ -33,7 +33,7 @@ describe('isSimpleRule', () => {
     expect(isSimpleRule(keyedRule)).toBe(false)
   })
 
-  it('rule with key -> false', () => {
+  test('rule with key -> false', () => {
     const keyedRule = {
       key: '',
       rule: () => {}
@@ -42,7 +42,7 @@ describe('isSimpleRule', () => {
     expect(isSimpleRule(keyedRule)).toBe(false)
   })
 
-  it('rule without key -> true', () => {
+  test('rule without key -> true', () => {
     const simpleRule = () => {}
 
     expect(isSimpleRule(simpleRule)).toBe(true)

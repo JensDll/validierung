@@ -2,7 +2,7 @@ import { reactive, isReactive, watch, nextTick } from 'vue-demi'
 
 import { set } from '../src/set'
 
-it('should do nothing if the path is empty', () => {
+test('should do nothing if the path is empty', () => {
   const obj = { a: 1 }
 
   set(obj, [], 1)
@@ -10,7 +10,7 @@ it('should do nothing if the path is empty', () => {
   expect(obj).toStrictEqual(obj)
 })
 
-it('should create new properties', () => {
+test('should create new properties', () => {
   const obj = {}
 
   set(obj, ['a'], 1)
@@ -18,7 +18,7 @@ it('should create new properties', () => {
   expect(obj).toStrictEqual({ a: 1 })
 })
 
-it('should create new nested properties', () => {
+test('should create new nested properties', () => {
   const obj = {}
 
   set(obj, ['a', 'b'], 1)
@@ -26,7 +26,7 @@ it('should create new nested properties', () => {
   expect(obj).toStrictEqual({ a: { b: 1 } })
 })
 
-it('should not overwrite existing properties', () => {
+test('should not overwrite existing properties', () => {
   const obj = {
     a: 1,
     b: {
@@ -47,7 +47,7 @@ it('should not overwrite existing properties', () => {
   })
 })
 
-it('should create nested properties in arrays', () => {
+test('should create nested properties in arrays', () => {
   const obj: any[] = []
 
   set(obj, [0, 'a'], 1)
@@ -56,7 +56,7 @@ it('should create nested properties in arrays', () => {
   expect(obj).toStrictEqual([{ a: 1 }, { a: 1 }])
 })
 
-it('should create arrays if the path contains a number', () => {
+test('should create arrays if the path contains a number', () => {
   const obj = {}
 
   set(obj, ['as', 0], 1)
@@ -76,7 +76,7 @@ it('should create arrays if the path contains a number', () => {
   })
 })
 
-it('should keep existing arrays', () => {
+test('should keep existing arrays', () => {
   const obj = {}
 
   set(obj, ['a', 0, 'a', 0], 1)
@@ -103,12 +103,12 @@ it('should keep existing arrays', () => {
 })
 
 describe('reactive', () => {
-  it('should trigger watch', async () => {
+  test('should trigger watch', async () => {
     const obj = reactive({
       a: 1,
       bs: []
     })
-    const mock = jest.fn()
+    const mock = vi.fn()
 
     watch(obj, mock, { deep: true })
 
@@ -123,7 +123,7 @@ describe('reactive', () => {
     expect(mock).toBeCalledTimes(2)
   })
 
-  it('should make new objects reactive', async () => {
+  test('should make new objects reactive', async () => {
     const obj: any = reactive({})
 
     set(obj, ['a'], { x: 1 })

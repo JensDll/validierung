@@ -1,15 +1,16 @@
-import { vue2Reactive } from '@validierung/shared'
+import { vue2Reactive } from '@internal/shared'
+
 import {
   transformFormData,
   mapFieldRules
 } from '../../src/data/transformFormData'
 import { createValidation } from '../../src/createValidation'
 import { Form } from '../../src/form'
-import { RuleInformation } from '../../src/rules'
+import type { RuleInformation } from '../../src/rules'
 
-jest.mock('../../src/validationConfig')
+vi.mock('../../src/validationConfig')
 
-it('should transform every field', () => {
+test('should transform every field', () => {
   const form = new Form()
   let formData = {
     a: {
@@ -145,8 +146,8 @@ describe('mapFieldRules', () => {
     }).install()
   })
 
-  it('simple rule', () => {
-    const rule = jest.fn()
+  test('simple rule', () => {
+    const rule = vi.fn()
     const ruleInfo = mapFieldRules([rule])
 
     expect(ruleInfo).toEqual<RuleInformation[]>([
@@ -157,8 +158,8 @@ describe('mapFieldRules', () => {
     ])
   })
 
-  it('keyed rule', () => {
-    const rule = jest.fn()
+  test('keyed rule', () => {
+    const rule = vi.fn()
     const ruleInfo = mapFieldRules([
       {
         key: 'key',
@@ -177,8 +178,8 @@ describe('mapFieldRules', () => {
     ])
   })
 
-  it('validation behavior string + simple rule', () => {
-    const rule = jest.fn()
+  test('validation behavior string + simple rule', () => {
+    const rule = vi.fn()
     const ruleInfo = mapFieldRules([['mock' as never, rule]])
 
     expect(ruleInfo).toEqual<RuleInformation[]>([
@@ -189,8 +190,8 @@ describe('mapFieldRules', () => {
     ])
   })
 
-  it('validation behavior string + keyed rule', () => {
-    const rule = jest.fn()
+  test('validation behavior string + keyed rule', () => {
+    const rule = vi.fn()
     const ruleInfo = mapFieldRules([
       [
         'mock' as never,
@@ -212,9 +213,9 @@ describe('mapFieldRules', () => {
     ])
   })
 
-  it('validation behavior inline + simple rule', () => {
-    const vbf = jest.fn()
-    const rule = jest.fn()
+  test('validation behavior inline + simple rule', () => {
+    const vbf = vi.fn()
+    const rule = vi.fn()
     const ruleInfo = mapFieldRules([[vbf, rule]])
 
     expect(ruleInfo).toEqual<RuleInformation[]>([
@@ -225,9 +226,9 @@ describe('mapFieldRules', () => {
     ])
   })
 
-  it('validation behavior inline + keyed rule', () => {
-    const vbf = jest.fn()
-    const rule = jest.fn()
+  test('validation behavior inline + keyed rule', () => {
+    const vbf = vi.fn()
+    const rule = vi.fn()
     const ruleInfo = mapFieldRules([
       [
         vbf,
@@ -249,8 +250,8 @@ describe('mapFieldRules', () => {
     ])
   })
 
-  it('simple rule + debounce', () => {
-    const rule = jest.fn()
+  test('simple rule + debounce', () => {
+    const rule = vi.fn()
     const ruleInfo = mapFieldRules([[rule, 100]])
 
     expect(ruleInfo).toEqual<RuleInformation[]>([
@@ -262,8 +263,8 @@ describe('mapFieldRules', () => {
     ])
   })
 
-  it('keyed rule + debounce', () => {
-    const rule = jest.fn()
+  test('keyed rule + debounce', () => {
+    const rule = vi.fn()
     const ruleInfo = mapFieldRules([
       [
         {
@@ -286,8 +287,8 @@ describe('mapFieldRules', () => {
     ])
   })
 
-  it('validation behavior string + simple rule + debounce', () => {
-    const rule = jest.fn()
+  test('validation behavior string + simple rule + debounce', () => {
+    const rule = vi.fn()
     const ruleInfo = mapFieldRules([['mock' as never, rule, 100]])
 
     expect(ruleInfo).toEqual<RuleInformation[]>([
@@ -299,8 +300,8 @@ describe('mapFieldRules', () => {
     ])
   })
 
-  it('validation behavior string + keyed rule + debounce', () => {
-    const rule = jest.fn()
+  test('validation behavior string + keyed rule + debounce', () => {
+    const rule = vi.fn()
     const ruleInfo = mapFieldRules([
       [
         'mock' as never,
@@ -324,9 +325,9 @@ describe('mapFieldRules', () => {
     ])
   })
 
-  it('validation behavior inline + simple rule + debounce', () => {
-    const vbf = jest.fn()
-    const rule = jest.fn()
+  test('validation behavior inline + simple rule + debounce', () => {
+    const vbf = vi.fn()
+    const rule = vi.fn()
     const ruleInfo = mapFieldRules([[vbf, rule, 100]])
 
     expect(ruleInfo).toEqual<RuleInformation[]>([
@@ -338,9 +339,9 @@ describe('mapFieldRules', () => {
     ])
   })
 
-  it('validation behavior inline + keyed rule + debounce', () => {
-    const vbf = jest.fn()
-    const rule = jest.fn()
+  test('validation behavior inline + keyed rule + debounce', () => {
+    const vbf = vi.fn()
+    const rule = vi.fn()
     const ruleInfo = mapFieldRules([
       [
         vbf,
@@ -364,8 +365,8 @@ describe('mapFieldRules', () => {
     ])
   })
 
-  it('should throw error for invalid input', () => {
-    const rule = jest.fn()
+  test('should throw error for invalid input', () => {
+    const rule = vi.fn()
 
     expect(() => {
       // @ts-expect-error

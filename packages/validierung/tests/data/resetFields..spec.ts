@@ -1,14 +1,13 @@
-import { MockedObject } from 'ts-jest/dist/utils/testing'
+import { vue2Reactive } from '@internal/shared'
 
-import { vue2Reactive } from '@validierung/shared'
 import { resetFields } from '../../src/data/resetFields'
 import { transformFormData } from '../../src/data/transformFormData'
 import { Form } from '../../src/form'
 
-jest.mock('../../src/form')
+vi.mock('../../src/form')
 
-it.only('should reset fields to passed values and not trigger validation', done => {
-  const form = new Form() as MockedObject<Form>
+test('should reset fields to passed values and not trigger validation', async () => {
+  const form = vi.mocked(new Form())
   let formData = {
     a: {
       $value: 1,
@@ -147,8 +146,10 @@ it.only('should reset fields to passed values and not trigger validation', done 
     j: { k: 1, ls: [1, 2, 3] }
   })
 
-  setTimeout(() => {
-    expect(form.validate).toBeCalledTimes(0)
-    done()
-  }, 0)
+  await new Promise<void>(resolve => {
+    setTimeout(() => {
+      expect(form.validate).toBeCalledTimes(0)
+      resolve()
+    }, 0)
+  })
 })

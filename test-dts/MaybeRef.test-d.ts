@@ -1,7 +1,7 @@
 import { expectType } from 'tsd'
-import { Ref } from 'vue-demi'
+import type { Ref } from 'vue-demi'
 
-import { MaybeRef } from '@validierung/shared'
+import type { MaybeRef } from '@internal/shared'
 
 expectType<number | Ref<number>>({} as MaybeRef<number>)
 

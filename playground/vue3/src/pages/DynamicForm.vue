@@ -176,7 +176,7 @@ export default defineComponent({
           <div class="flex items-center">
             <input
               :id="inner.d.$uid.toString()"
-              class="ml-6 input"
+              class="input ml-6"
               type="text"
               v-model="inner.d.$value"
               @blur="inner.d.$validate()"

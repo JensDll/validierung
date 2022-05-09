@@ -1,16 +1,16 @@
-export const Form = jest.fn<any, any>().mockImplementation(() => {
-  const { Form } = jest.requireActual('../form')
+const { Form: ActualForm } = await vi.importActual('../form')
 
-  class MockForm extends Form {
-    dispose = jest.fn(uid => super.dispose(uid))
+export const Form = vi.fn<any, any>().mockImplementation(() => {
+  class MockForm extends ActualForm {
+    dispose = vi.fn(uid => super.dispose(uid))
 
-    validate = jest.fn(uid => super.validate(uid))
+    validate = vi.fn(uid => super.validate(uid))
 
-    registerField = jest.fn((uid, name, modelValue, ruleInfos) =>
+    registerField = vi.fn((uid, name, modelValue, ruleInfos) =>
       super.registerField(uid, name, modelValue, ruleInfos)
     )
 
-    getField = jest.fn(uid => super.getField(uid))
+    getField = vi.fn(uid => super.getField(uid))
   }
 
   return new MockForm()

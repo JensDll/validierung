@@ -1,6 +1,6 @@
 import { set as vueSet, isVue3 } from 'vue-demi'
 
-import { AnyObject } from './types'
+import type { AnyObject } from './types'
 
 export function set(
   obj: AnyObject,

@@ -1,4 +1,4 @@
-import { execa, Options } from 'execa'
+import { execa, type Options } from 'execa'
 
 export function run(
   file: string,

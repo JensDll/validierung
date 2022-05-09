@@ -1,9 +1,10 @@
 import { ref } from 'vue-demi'
+import { makePromise } from '@internal/test-utils'
+import type { ValidationBehaviorInfo } from 'validierung'
+import type { SpyInstanceFn } from 'vitest'
 
-import { makePromise } from '@validierung/test-utils'
 import { useValidation } from '../../src/useValidation'
 import { ValidationError } from '../../src/validationError'
-import { ValidationBehaviorInfo } from 'validierung'
 import { unpackRule } from '../../src/rules'
 
 test('should prioritize last rule call', async () => {
@@ -11,8 +12,8 @@ test('should prioritize last rule call', async () => {
     const ms = { value: 0 }
     let ruleCalledTimes = 0
 
-    const vbf = jest.fn(() => true)
-    const rule = jest.fn(
+    const vbf = vi.fn(() => true)
+    const rule = vi.fn(
       () =>
         new Promise(ruleResolve => {
           const result = ms.value.toString()
@@ -58,13 +59,13 @@ describe.each([
 ])('$note', ({ debounce }) => {
   type MakeRuleResult = {
     tuple: any
-    vbf: jest.Mock<boolean, ValidationBehaviorInfo[]>
-    rule: jest.Mock
+    vbf: SpyInstanceFn<ValidationBehaviorInfo[], boolean>
+    rule: SpyInstanceFn
   }
 
   const makeRule = (
-    vbf: jest.Mock<boolean, ValidationBehaviorInfo[]>,
-    rule: jest.Mock | { key: string; rule?: jest.Mock }
+    vbf: SpyInstanceFn<ValidationBehaviorInfo[], boolean>,
+    rule: SpyInstanceFn | { key: string; rule?: SpyInstanceFn }
   ): MakeRuleResult => {
     return {
       tuple: debounce ? [vbf, rule, 50] : [vbf, rule],
@@ -75,12 +76,12 @@ describe.each([
 
   test('async rule should set validating', async () => {
     const ruleA = makeRule(
-      jest.fn(() => true),
-      jest.fn(() => makePromise(60, 'a'))
+      vi.fn(() => true),
+      vi.fn(() => makePromise(60, 'a'))
     )
     const ruleB = makeRule(
-      jest.fn(() => true),
-      jest.fn(() => 'b')
+      vi.fn(() => true),
+      vi.fn(() => 'b')
     )
 
     const { form, errors, hasError, submitting, validating } = useValidation({
@@ -137,24 +138,24 @@ describe.each([
 
   test('validateFields should validate all rules and ignore debounce', async () => {
     const ruleA = makeRule(
-      jest.fn(() => true),
-      jest.fn(() => 'a')
+      vi.fn(() => true),
+      vi.fn(() => 'a')
     )
     const ruleB = makeRule(
-      jest.fn(() => true),
-      { key: 'a', rule: jest.fn(() => 'b') }
+      vi.fn(() => true),
+      { key: 'a', rule: vi.fn(() => 'b') }
     )
     const ruleC = makeRule(
-      jest.fn(() => true),
-      { key: 'a', rule: jest.fn(() => 'c') }
+      vi.fn(() => true),
+      { key: 'a', rule: vi.fn(() => 'c') }
     )
     const ruleD = makeRule(
-      jest.fn(() => true),
-      { key: 'b', rule: jest.fn(() => 'd') }
+      vi.fn(() => true),
+      { key: 'b', rule: vi.fn(() => 'd') }
     )
     const ruleE = makeRule(
-      jest.fn(() => true),
-      { key: 'b', rule: jest.fn(() => makePromise(50, 'e')) }
+      vi.fn(() => true),
+      { key: 'b', rule: vi.fn(() => makePromise(50, 'e')) }
     )
 
     const { form, errors, hasError, submitting, validating, validateFields } =
@@ -245,28 +246,28 @@ describe.each([
     let e = false
 
     const ruleA = makeRule(
-      jest.fn(() => a),
-      { key: 'a', rule: jest.fn() }
+      vi.fn(() => a),
+      { key: 'a', rule: vi.fn() }
     )
     const ruleB = makeRule(
-      jest.fn(() => b),
-      { key: 'a', rule: jest.fn() }
+      vi.fn(() => b),
+      { key: 'a', rule: vi.fn() }
     )
     const ruleC = makeRule(
-      jest.fn(() => true),
-      { key: 'a', rule: jest.fn() }
+      vi.fn(() => true),
+      { key: 'a', rule: vi.fn() }
     )
     const ruleD = makeRule(
-      jest.fn(() => true),
-      { key: 'a', rule: jest.fn() }
+      vi.fn(() => true),
+      { key: 'a', rule: vi.fn() }
     )
     const ruleE = makeRule(
-      jest.fn(() => e),
-      { key: 'b', rule: jest.fn() }
+      vi.fn(() => e),
+      { key: 'b', rule: vi.fn() }
     )
     const ruleF = makeRule(
-      jest.fn(() => true),
-      { key: 'b', rule: jest.fn() }
+      vi.fn(() => true),
+      { key: 'b', rule: vi.fn() }
     )
 
     const { form } = useValidation({
@@ -342,28 +343,28 @@ describe.each([
 
   test('validateFields should only validate fields with given name', async () => {
     const ruleA = makeRule(
-      jest.fn(() => true),
-      jest.fn(() => 'a')
+      vi.fn(() => true),
+      vi.fn(() => 'a')
     )
     const ruleB = makeRule(
-      jest.fn(() => true),
-      { key: 'a', rule: jest.fn(() => 'b') }
+      vi.fn(() => true),
+      { key: 'a', rule: vi.fn(() => 'b') }
     )
     const ruleC = makeRule(
-      jest.fn(() => true),
-      { key: 'a', rule: jest.fn(() => 'c') }
+      vi.fn(() => true),
+      { key: 'a', rule: vi.fn(() => 'c') }
     )
     const ruleD = makeRule(
-      jest.fn(() => true),
-      jest.fn(() => 'd')
+      vi.fn(() => true),
+      vi.fn(() => 'd')
     )
     const ruleE = makeRule(
-      jest.fn(() => true),
-      jest.fn(() => 'e')
+      vi.fn(() => true),
+      vi.fn(() => 'e')
     )
     const ruleF = makeRule(
-      jest.fn(() => true),
-      { key: 'a', rule: jest.fn(() => 'f') }
+      vi.fn(() => true),
+      { key: 'a', rule: vi.fn(() => 'f') }
     )
 
     const { form, validateFields } = useValidation({
@@ -548,15 +549,15 @@ describe.each([
 
   test('should not brake when keyed rule is undefined', async () => {
     const ruleA = makeRule(
-      jest.fn(() => true),
-      { key: 'a', rule: jest.fn() }
+      vi.fn(() => true),
+      { key: 'a', rule: vi.fn() }
     )
     const ruleB = makeRule(
-      jest.fn(() => true),
+      vi.fn(() => true),
       { key: 'a' }
     )
     const ruleC = makeRule(
-      jest.fn(() => true),
+      vi.fn(() => true),
       { key: 'a' }
     )
 
@@ -601,8 +602,8 @@ describe.each([
 
   test('changing form values during validation should throw validation error accordingly', async () => {
     const rule = makeRule(
-      jest.fn(() => true),
-      jest.fn((foo: boolean) => makePromise(100, foo && 'a'))
+      vi.fn(() => true),
+      vi.fn((foo: boolean) => makePromise(100, foo && 'a'))
     )
 
     const { form, validateFields } = useValidation({
@@ -634,8 +635,8 @@ describe.each([
 
   test('resetFields should cancel validation', async () => {
     const rule = makeRule(
-      jest.fn(() => true),
-      jest.fn(() => makePromise(100, 'a'))
+      vi.fn(() => true),
+      vi.fn(() => makePromise(100, 'a'))
     )
 
     const { form, validating, validateFields, resetFields } = useValidation({
@@ -692,8 +693,8 @@ describe.each([
     let returnSymbol = true
 
     const rule = makeRule(
-      jest.fn(() => true),
-      jest.fn(() => returnSymbol && Symbol())
+      vi.fn(() => true),
+      vi.fn(() => returnSymbol && Symbol())
     )
 
     const { form, validateFields } = useValidation({

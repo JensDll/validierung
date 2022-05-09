@@ -1,7 +1,7 @@
 import { watch, nextTick } from 'vue-demi'
 
 import { useValidation } from '../../src/useValidation'
-import { Field } from '../../src/data/types'
+import type { Field } from '../../src/data/types'
 
 type FormData = {
   a?: Field<string>
@@ -11,10 +11,10 @@ type FormData = {
   }[]
 }
 
-it('should add and remove and trigger reactive effects', async () => {
+test('should add and remove and trigger reactive effects', async () => {
   const { form, add, remove } = useValidation<FormData>({ xs: [] })
 
-  const mock = jest.fn()
+  const mock = vi.fn()
   watch(form, mock, { deep: true })
 
   add(['a'], {

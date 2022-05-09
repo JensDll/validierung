@@ -1,4 +1,5 @@
-import { Tuple } from '@validierung/shared'
+import type { Tuple } from '@internal/shared'
+import type { SpyInstanceFn } from 'vitest'
 
 export const makePromise = <T = undefined>(
   timeout: number,
@@ -26,19 +27,19 @@ type MakeMockOptions = {
 export function makeMocks<N extends number>(
   amount: N,
   { mockReturn, timeout, increasing, mode }: MakeMockOptions | undefined = {}
-): Tuple<jest.Mock, N> {
+): Tuple<SpyInstanceFn, N> {
   mockReturn ??= () => undefined
   increasing ??= 0
   mode ??= 'resolve'
 
   const mapping = (_: never, i: number) =>
     timeout
-      ? jest.fn(value =>
-          // @ts-expect-error TS should figure this out
+      ? vi.fn(value =>
+          // @ts-expect-error TypeScript should figure this out
           makePromise(timeout + i * increasing, mockReturn(value, i), mode)
         )
-      : // @ts-expect-error  This as well
-        jest.fn(value => mockReturn(value, i))
+      : // @ts-expect-error This as well
+        vi.fn(value => mockReturn(value, i))
 
   return Array.from({ length: amount }, mapping) as any
 }

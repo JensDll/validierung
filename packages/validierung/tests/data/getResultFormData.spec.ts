@@ -1,10 +1,12 @@
-import { vue2Reactive } from '@validierung/shared'
+import { vue2Reactive } from '@internal/shared'
+import type { SpyInstanceFn } from 'vitest'
+
 import {
   getResultFormData,
   transformFormData,
-  ResultFormData,
-  TransformFormData,
-  ValidateFieldsPredicateParameter
+  type ResultFormData,
+  type TransformFormData,
+  type ValidateFieldsPredicateParameter
 } from '../../src/data'
 import { Form } from '../../src/form'
 
@@ -13,7 +15,7 @@ function setup<T extends object>(formData: T): TransformFormData<T> {
   return vue2Reactive(formData) as any
 }
 
-it('should only keep the $value properties', () => {
+test('should only keep the $value properties', () => {
   const formData = setup({
     a: {
       $value: [new File([], '')]
@@ -48,9 +50,12 @@ it('should only keep the $value properties', () => {
 })
 
 describe('predicate', () => {
-  type MockPredicate = jest.Mock<boolean, ValidateFieldsPredicateParameter[]>
+  type MockPredicate = SpyInstanceFn<
+    ValidateFieldsPredicateParameter[],
+    boolean
+  >
 
-  it('should be called for every key', () => {
+  test('should be called for every key', () => {
     const formData = setup({
       a: {
         $value: 1
@@ -60,7 +65,7 @@ describe('predicate', () => {
       }
     } as const)
 
-    const predicate: MockPredicate = jest.fn(() => true)
+    const predicate: MockPredicate = vi.fn(() => true)
     getResultFormData(formData, predicate)
 
     expect(predicate).toBeCalledTimes(7)
@@ -97,7 +102,7 @@ describe('predicate', () => {
     })
   })
 
-  it('filter object', () => {
+  test('filter object', () => {
     const formData = setup({
       a: {
         $value: 1
@@ -107,7 +112,7 @@ describe('predicate', () => {
       }
     } as const)
 
-    const predicate: MockPredicate = jest.fn(({ key }) => key !== 'cs')
+    const predicate: MockPredicate = vi.fn(({ key }) => key !== 'cs')
     const result = getResultFormData(formData, predicate)
 
     expect(predicate).toBeCalledTimes(3)
@@ -128,10 +133,10 @@ describe('predicate', () => {
     })
   })
 
-  it('filter array (start)', () => {
+  test('filter array (start)', () => {
     const formData = setup([1, 2, { d: { $value: { foo: 1 } } }] as const)
 
-    const predicate: MockPredicate = jest.fn(({ key }) => key !== '0')
+    const predicate: MockPredicate = vi.fn(({ key }) => key !== '0')
     const result = getResultFormData(formData, predicate)
 
     expect(predicate).toBeCalledTimes(4)
@@ -158,10 +163,10 @@ describe('predicate', () => {
     expect(result).toStrictEqual([2, { d: { foo: 1 } }])
   })
 
-  it('filter array (middle)', () => {
+  test('filter array (middle)', () => {
     const formData = setup([1, 2, { d: { $value: { foo: 1 } } }] as const)
 
-    const predicate: MockPredicate = jest.fn(({ key }) => key !== '1')
+    const predicate: MockPredicate = vi.fn(({ key }) => key !== '1')
     const result = getResultFormData(formData, predicate)
 
     expect(predicate).toBeCalledTimes(4)
@@ -188,10 +193,10 @@ describe('predicate', () => {
     expect(result).toStrictEqual([1, { d: { foo: 1 } }])
   })
 
-  it('filter array (end)', () => {
+  test('filter array (end)', () => {
     const formData = setup([1, 2, { d: { $value: { foo: 1 } } }] as const)
 
-    const predicate: MockPredicate = jest.fn(({ key }) => key !== '2')
+    const predicate: MockPredicate = vi.fn(({ key }) => key !== '2')
     const result = getResultFormData(formData, predicate)
 
     expect(predicate).toBeCalledTimes(3)

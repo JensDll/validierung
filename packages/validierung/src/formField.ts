@@ -2,18 +2,18 @@ import {
   computed,
   ref,
   watch,
-  WatchStopHandle,
   isVue3,
   set,
-  Ref,
-  ComputedRef,
-  isRef
+  isRef,
+  type WatchStopHandle,
+  type Ref,
+  type ComputedRef
 } from 'vue-demi'
 
-import { Form } from './form'
-import { ValidationBehaviorFunction } from './validationBehavior'
-import { SimpleRule, RuleInformation, unpackRule } from './rules'
-import * as nShared from '@validierung/shared'
+import type { Form } from './form'
+import type { ValidationBehaviorFunction } from './validationBehavior'
+import { unpackRule, type SimpleRule, type RuleInformation } from './rules'
+import * as nShared from '@internal/shared'
 
 export type ValidatorReturn = Promise<void> | void
 export type Validator = (

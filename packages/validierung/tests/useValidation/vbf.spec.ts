@@ -2,19 +2,15 @@ import { ref, nextTick } from 'vue-demi'
 
 import { createValidation } from '../../src/createValidation'
 import { useValidation } from '../../src/useValidation'
-import { ValidationBehaviorInfo } from '../../src/validationBehavior'
+import type { ValidationBehaviorInfo } from '../../src/validationBehavior'
 
-jest.mock('../../src/validationConfig')
+vi.mock('../../src/validationConfig')
 
-const consoleWarnMock = jest.spyOn(console, 'warn').mockImplementation()
+const consoleWarnMock = vi.spyOn(console, 'warn')
 
-beforeEach(() => {
-  consoleWarnMock.mockClear()
-})
-
-it('when touched', async () => {
-  const vbf = jest.fn()
-  const rule = jest.fn()
+test('when touched', async () => {
+  const vbf = vi.fn()
+  const rule = vi.fn()
 
   const { form } = useValidation({
     a: {
@@ -36,9 +32,9 @@ it('when touched', async () => {
   })
 })
 
-it('when dirty', async () => {
-  const vbf = jest.fn()
-  const rule = jest.fn()
+test('when dirty', async () => {
+  const vbf = vi.fn()
+  const rule = vi.fn()
 
   const { form } = useValidation({
     a: {
@@ -61,9 +57,9 @@ it('when dirty', async () => {
   })
 })
 
-it('with force', async () => {
-  const vbf = jest.fn()
-  const rule = jest.fn()
+test('with force', async () => {
+  const vbf = vi.fn()
+  const rule = vi.fn()
 
   const { form } = useValidation({
     a: {
@@ -85,9 +81,9 @@ it('with force', async () => {
   })
 })
 
-it('with submit', async () => {
-  const vbf = jest.fn()
-  const rule = jest.fn()
+test('with submit', async () => {
+  const vbf = vi.fn()
+  const rule = vi.fn()
 
   const { validateFields } = useValidation({
     a: {
@@ -109,9 +105,9 @@ it('with submit', async () => {
   })
 })
 
-it('with error', async () => {
-  const vbf = jest.fn(() => true)
-  const rule = jest.fn(() => '')
+test('with error', async () => {
+  const vbf = vi.fn(() => true)
+  const rule = vi.fn(() => '')
 
   const { form } = useValidation({
     a: {
@@ -142,9 +138,9 @@ it('with error', async () => {
   })
 })
 
-it('should use default', async () => {
-  const vbf = jest.fn()
-  const rule = jest.fn()
+test('should use default', async () => {
+  const vbf = vi.fn()
+  const rule = vi.fn()
 
   createValidation({
     defaultValidationBehavior: 'mock' as never,
@@ -173,7 +169,7 @@ it('should use default', async () => {
   })
 })
 
-it('should warn with invalid default', () => {
+test('should warn with invalid default', () => {
   createValidation({
     defaultValidationBehavior: 'invalid' as never,
     validationBehavior: {}
@@ -185,7 +181,7 @@ it('should warn with invalid default', () => {
   )
 })
 
-it('should throw error with invalid vbf', () => {
+test('should throw error with invalid vbf', () => {
   expect(() =>
     useValidation({
       a: {
@@ -196,13 +192,13 @@ it('should throw error with invalid vbf', () => {
   ).toThrow('[validierung]')
 })
 
-it.each([
+test.each([
   { debounce: true, note: 'with debounce' },
   { debounce: false, note: 'without debounce' }
 ])('should only call rule when VBF is true ($note)', async ({ debounce }) => {
   let vbfReturn = false
-  const vbf = jest.fn(() => vbfReturn)
-  const rule = jest.fn()
+  const vbf = vi.fn(() => vbfReturn)
+  const rule = vi.fn()
 
   const { form } = useValidation({
     a: {

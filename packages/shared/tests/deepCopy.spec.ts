@@ -1,6 +1,6 @@
 import { deepCopy } from '../src/deepCopy'
 
-it('should copy nested object and leave no reference', () => {
+test('should copy nested object and leave no reference', () => {
   const original = {
     a: 1,
     b: 2,

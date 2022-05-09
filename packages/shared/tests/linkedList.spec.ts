@@ -21,7 +21,7 @@ const iterationValuesBackwards = <T>(linkedList: LinkedList<T>) => {
 
 describe('Adding nodes', () => {
   describe('Add first by value', () => {
-    it('should prepend the passed value and return the newly created node', () => {
+    test('should prepend the passed value and return the newly created node', () => {
       const n1 = linkedList.addFirst(1)
       const n2 = linkedList.addFirst(2)
       const n3 = linkedList.addFirst(3)
@@ -38,7 +38,7 @@ describe('Adding nodes', () => {
   })
 
   describe('Add last by value', () => {
-    it('should append the passed value and return the newly created node', () => {
+    test('should append the passed value and return the newly created node', () => {
       const n1 = linkedList.addLast(1)
       const n2 = linkedList.addLast(2)
       const n3 = linkedList.addLast(3)
@@ -57,7 +57,7 @@ describe('Adding nodes', () => {
 
 describe('Removing nodes', () => {
   describe('Remove first', () => {
-    it('should remove the first node', () => {
+    test('should remove the first node', () => {
       linkedList.addLast(1)
       linkedList.addLast(2)
       linkedList.addLast(3)
@@ -73,7 +73,7 @@ describe('Removing nodes', () => {
       expect(iterationValuesBackwards(linkedList)).toStrictEqual([])
     })
 
-    it('should do nothing if there are no nodes to remove', () => {
+    test('should do nothing if there are no nodes to remove', () => {
       linkedList.addLast(1)
 
       linkedList.removeFirst()
@@ -86,7 +86,7 @@ describe('Removing nodes', () => {
   })
 
   describe('Remove last', () => {
-    it('should remove the last node', () => {
+    test('should remove the last node', () => {
       linkedList.addLast(1)
       linkedList.addLast(2)
       linkedList.addLast(3)
@@ -102,7 +102,7 @@ describe('Removing nodes', () => {
       expect(iterationValuesBackwards(linkedList)).toStrictEqual([])
     })
 
-    it('should do nothing if there are no nodes to remove', () => {
+    test('should do nothing if there are no nodes to remove', () => {
       linkedList.addLast(1)
 
       linkedList.removeLast()
@@ -115,7 +115,7 @@ describe('Removing nodes', () => {
   })
 
   describe('Remove by node', () => {
-    it('should correctly remove the head', () => {
+    test('should correctly remove the head', () => {
       const head = linkedList.addLast(1)
       linkedList.addLast(2)
       linkedList.addLast(3)
@@ -125,7 +125,7 @@ describe('Removing nodes', () => {
       expect(iterationValuesBackwards(linkedList)).toStrictEqual([3, 2])
     })
 
-    it('should correctly remove the tail', () => {
+    test('should correctly remove the tail', () => {
       linkedList.addLast(1)
       linkedList.addLast(2)
       const tail = linkedList.addLast(3)
@@ -135,7 +135,7 @@ describe('Removing nodes', () => {
       expect(iterationValuesBackwards(linkedList)).toStrictEqual([2, 1])
     })
 
-    it('should correctly remove nodes in between', () => {
+    test('should correctly remove nodes in between', () => {
       const n1 = linkedList.addLast(1)
       const n2 = linkedList.addLast(2)
       const n3 = linkedList.addLast(3)
@@ -159,7 +159,7 @@ describe('Removing nodes', () => {
       expect(iterationValuesBackwards(linkedList)).toStrictEqual([])
     })
 
-    it('should do nothing if there are no nodes to remove', () => {
+    test('should do nothing if there are no nodes to remove', () => {
       const n1 = linkedList.addLast(1)
 
       linkedList.remove(n1)
@@ -173,7 +173,7 @@ describe('Removing nodes', () => {
 })
 
 describe('Node count', () => {
-  it('should always be accurate', () => {
+  test('should always be accurate', () => {
     expect(linkedList.count).toBe(0)
 
     for (let i = 1; i <= 1000; i++) {
@@ -190,7 +190,7 @@ describe('Node count', () => {
 })
 
 describe('First and last properties', () => {
-  it('should always point to the first and last node', () => {
+  test('should always point to the first and last node', () => {
     expect(linkedList.first).toStrictEqual(null)
     expect(linkedList.last).toStrictEqual(null)
     const n1 = linkedList.addFirst(1) // <= 1 =>

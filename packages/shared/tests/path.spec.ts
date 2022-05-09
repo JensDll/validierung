@@ -47,7 +47,7 @@ beforeEach(() => {
   }
 })
 
-it('should work for nested paths', () => {
+test('should work for nested paths', () => {
   expect(path(['a'], obj)).toBe(1)
   expect(path(['b', 'c'], obj)).toBe(2)
   expect(path(['b', 'ds', 0, 'e'], obj)).toBe(3)
@@ -58,7 +58,7 @@ it('should work for nested paths', () => {
   expect(path(['is', 0, 'k'], obj)).toBe(8)
 })
 
-it("should be undefined for paths that don't exist", () => {
+test("should be undefined for paths that don't exist", () => {
   expect(path([], obj)).toBe(undefined)
   expect(path(['x'], obj)).toBe(undefined)
   expect(path(['a', 'x'], obj)).toBe(undefined)

@@ -1,8 +1,8 @@
-import { computed, ref, shallowReactive, Ref } from 'vue-demi'
+import { computed, ref, shallowReactive, type Ref } from 'vue-demi'
 
-import { FormField, ValidatorReturn } from './formField'
+import { FormField, type ValidatorReturn } from './formField'
 import { ValidationError } from './validationError'
-import { RuleInformation, unpackRule } from './rules'
+import { unpackRule, type RuleInformation } from './rules'
 
 export type SimpleEntry = {
   field: FormField
