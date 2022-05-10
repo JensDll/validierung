@@ -1,6 +1,6 @@
 {
   "name": "validierung",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Vue composition function for form validation",
   "license": "MIT",
   "author": {
