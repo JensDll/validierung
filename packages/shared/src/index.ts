@@ -14,7 +14,7 @@ export { LinkedList } from './linkedList'
 
 export { PromiseCancel, CancelError } from './promiseCancel'
 
-export { isArray, isDefined, isObject, isRecord } from './typeGuards'
+export { isArray, isDefined, isObject, isRecord, isPromise } from './typeGuards'
 
 export type {
   MaybeRef,

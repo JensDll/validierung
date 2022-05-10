@@ -7,6 +7,7 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
+    include: ['**/*.spec.ts'],
     clearMocks: true
   },
   plugins: [

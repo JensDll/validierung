@@ -67,25 +67,12 @@ export class Form {
         keysSeen.add(key)
 
         const rollback = () => {
-          let fieldIndex = -1
-          let modelValueIndex = -1
-
           for (let i = 0; i < keyedEntry.fields.length; ++i) {
             if (keyedEntry.fields[i] === field) {
-              fieldIndex = i
+              keyedEntry.fields.splice(i, 1)
+              keyedEntry.modelValues.splice(i, 1)
+              break
             }
-
-            if (keyedEntry.modelValues[i] === field.modelValue) {
-              modelValueIndex = i
-            }
-          }
-
-          if (fieldIndex >= 0) {
-            keyedEntry.fields.splice(fieldIndex, 1)
-          }
-
-          if (modelValueIndex >= 0) {
-            keyedEntry.modelValues.splice(modelValueIndex, 1)
           }
 
           if (keyedEntry.fields.length === 0) {
@@ -153,33 +140,35 @@ export class Form {
     field: FormField,
     force: boolean,
     submit: boolean,
-    keys: string[] = Object.keys(field.keyedValidators)
+    keys: Iterable<string> = field.keyedValidators.keys()
   ): Iterable<ValidatorReturn> {
-    for (let i = 0; i < keys.length; ++i) {
-      const { fields, modelValues } = this.keyedMap.get(keys[i])!
+    for (const key of keys) {
+      const { fields, modelValues } = this.keyedMap.get(key)!
 
       if (
-        this.isEveryOtherFieldTouched(field, fields) &&
-        field.shouldValidateForKey(keys[i], force, submit)
+        !this.isEveryOtherFieldTouched(field, fields) ||
+        !field.shouldValidateForKey(key, force, submit)
       ) {
-        for (let j = 0; j < fields.length; ++j) {
-          const keyedValidators = fields[j].keyedValidators[keys[i]]
+        return
+      }
 
-          for (let k = 0; k < keyedValidators.length; ++k) {
-            yield submit
-              ? keyedValidators[k].validatorNotDebounced(
-                  force,
-                  submit,
-                  modelValues,
-                  fields[j] === field
-                )
-              : keyedValidators[k].validator(
-                  force,
-                  submit,
-                  modelValues,
-                  fields[j] === field
-                )
-          }
+      for (let i = 0; i < fields.length; ++i) {
+        const keyedValidators = fields[i].keyedValidators.get(key)!
+
+        for (let j = 0; j < keyedValidators.length; ++j) {
+          yield submit
+            ? keyedValidators[j].validatorNotDebounced(
+                force,
+                submit,
+                modelValues,
+                fields[j] === field
+              )
+            : keyedValidators[j].validator(
+                force,
+                submit,
+                modelValues,
+                fields[j] === field
+              )
         }
       }
     }
@@ -199,7 +188,8 @@ export class Form {
 
       for (const [key, { fields, modelValues }] of this.keyedMap.entries()) {
         for (let i = 0; i < fields.length; ++i) {
-          const keyedValidators = fields[i].keyedValidators[key]
+          const keyedValidators = fields[i].keyedValidators.get(key)!
+
           for (let j = 0; j < keyedValidators.length; ++j) {
             yield keyedValidators[j].validatorNotDebounced(
               false,
@@ -220,19 +210,21 @@ export class Form {
       }
 
       for (const { field } of this.simpleMap.values()) {
-        if (uniqueNames.has(field.name)) {
-          for (let i = 0; i < field.simpleValidators.length; ++i) {
-            yield field.simpleValidators[i].validatorNotDebounced(false, true)
+        if (!uniqueNames.has(field.name)) {
+          continue
+        }
+
+        for (let i = 0; i < field.simpleValidators.length; ++i) {
+          yield field.simpleValidators[i].validatorNotDebounced(false, true)
+        }
+
+        for (const key of field.keyedValidators.keys()) {
+          if (validatedKeys.has(key)) {
+            continue
           }
 
-          for (const key of Object.keys(field.keyedValidators)) {
-            if (!validatedKeys.has(key)) {
-              validatedKeys.add(key)
-              yield* this.collectValidatorResultsForKeys(field, false, true, [
-                key
-              ])
-            }
-          }
+          validatedKeys.add(key)
+          yield* this.collectValidatorResultsForKeys(field, false, true, [key])
         }
       }
     }

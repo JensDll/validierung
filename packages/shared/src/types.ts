@@ -1,5 +1,7 @@
 import type { Ref } from 'vue-demi'
 
+export type Awaitable<T> = Promise<T> | T
+
 export type AnyObject = Record<PropertyKey, any>
 
 export type AnyFunction = (...args: any[]) => any

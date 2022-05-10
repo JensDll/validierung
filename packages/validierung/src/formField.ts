@@ -65,7 +65,7 @@ export class FormField {
 
   form: Form
   simpleValidators: ValidatorTuple[] = []
-  keyedValidators: Record<string, ValidatorTuple[]> = {}
+  keyedValidators: Map<string, ValidatorTuple[]> = new Map()
   ruleInfos: MappedRuleInformation[]
   watchStopHandle: WatchStopHandle
 
@@ -87,22 +87,27 @@ export class FormField {
     this.ruleInfos = ruleInfos.map((info, ruleNumber) => {
       const [rule, key] = unpackRule(info.rule)
 
-      const validatorNotDebounced: Validator = (
-        force,
-        submit,
-        modelValues = this.modelValue,
-        skipShouldValidate = false
-      ) => {
-        if (
-          rule &&
-          (skipShouldValidate || this.shouldValidate(ruleNumber, force, submit))
-        ) {
-          return this.validate(ruleNumber, modelValues)
-        }
-      }
-      let validator: Validator = validatorNotDebounced
+      let validator: Validator
+      let validatorNotDebounced: Validator
 
-      let debouncedValidator: DebouncedValidator
+      validator = validatorNotDebounced =
+        rule === undefined
+          ? () => {}
+          : (
+              force,
+              submit,
+              modelValues = this.modelValue,
+              skipShouldValidate = false
+            ) => {
+              if (
+                skipShouldValidate ||
+                this.shouldValidate(ruleNumber, force, submit)
+              ) {
+                return this.validate(ruleNumber, modelValues)
+              }
+            }
+
+      let debouncedValidator: DebouncedValidator | undefined = undefined
       let debounceInvokedTimes = 0
       let debounceResolve: (value: void | PromiseLike<void>) => void
 
@@ -119,28 +124,30 @@ export class FormField {
           }
         )
 
-        validator = (
-          force,
-          submit,
-          modelValues = this.modelValue,
-          skipShouldValidate = false
-        ) => {
-          if (
-            rule &&
-            (skipShouldValidate ||
-              this.shouldValidate(ruleNumber, force, submit))
-          ) {
-            debounceInvokedTimes++
-            this.rulesValidating.value++
-            this.form.rulesValidating.value++
+        validator =
+          rule === undefined
+            ? () => {}
+            : (
+                force,
+                submit,
+                modelValues = this.modelValue,
+                skipShouldValidate = false
+              ) => {
+                if (
+                  skipShouldValidate ||
+                  this.shouldValidate(ruleNumber, force, submit)
+                ) {
+                  debounceInvokedTimes++
+                  this.rulesValidating.value++
+                  this.form.rulesValidating.value++
 
-            return new Promise(resolve => {
-              debounceResolve?.()
-              debounceResolve = resolve
-              debouncedValidator(modelValues)
-            })
-          }
-        }
+                  return new Promise(resolve => {
+                    debounceResolve?.()
+                    debounceResolve = resolve
+                    debouncedValidator!(modelValues)
+                  })
+                }
+              }
       }
 
       const validatorTuple: ValidatorTuple = {
@@ -150,9 +157,10 @@ export class FormField {
       }
 
       if (key) {
-        const keyedValidators = this.keyedValidators[key]
+        const keyedValidators = this.keyedValidators.get(key)
+
         if (keyedValidators === undefined) {
-          this.keyedValidators[key] = rule ? [validatorTuple] : []
+          this.keyedValidators.set(key, rule ? [validatorTuple] : [])
         } else {
           rule && keyedValidators.push(validatorTuple)
         }
@@ -166,13 +174,14 @@ export class FormField {
         validator,
         validatorNotDebounced,
         vbf: info.vbf,
-        cancelDebounce: () => {
-          if (debouncedValidator) {
-            debounceInvokedTimes = 0
-            debouncedValidator.cancel()
-            debounceResolve?.()
-          }
-        }
+        cancelDebounce:
+          debouncedValidator === undefined
+            ? () => {}
+            : () => {
+                debounceInvokedTimes = 0
+                debouncedValidator!.cancel()
+                debounceResolve?.()
+              }
       }
     })
 
@@ -197,7 +206,7 @@ export class FormField {
       this.form.rulesValidating.value--
     }
 
-    if (typeof ruleResult?.then === 'function') {
+    if (nShared.isPromise(ruleResult)) {
       const shouldSetError = buffer.addLast(true)
 
       this.rulesValidating.value++
@@ -217,10 +226,10 @@ export class FormField {
         this.setError(ruleNumber, error)
       } else {
         // This branch is reached in one of two cases:
-        // 1. While this rule was validating the same async rule was invoked again.
-        // 2. While this rule was validating the field was reset.
+        // 1. While this rule is validating, the same async rule was invoked again.
+        // 2. While this rule is validating, the field was reset.
         //
-        // In both cases, no error is to be set but the promise should still reject
+        // In both cases, no error is to be set, but the promise should still reject
         // if the rule returns a string or symbol.
         if (typeof error === 'string' || typeof error === 'symbol') {
           throw error
@@ -270,9 +279,11 @@ export class FormField {
   }
 
   shouldValidateForKey(key: string, force: boolean, submit: boolean): boolean {
-    for (let i = 0; i < this.keyedValidators[key].length; ++i) {
+    const keyedValidators = this.keyedValidators.get(key)!
+
+    for (let i = 0; i < keyedValidators.length; ++i) {
       const shouldValidateResult = this.shouldValidate(
-        this.keyedValidators[key][i].ruleNumber,
+        keyedValidators[i].ruleNumber,
         force,
         submit
       )
