@@ -106,8 +106,8 @@ export class Form {
       this.collectValidatorResultsForNames(names)
     )
 
-    for (const result of settledResults) {
-      if (result.status === 'rejected') {
+    for (let i = 0; i < settledResults.length; ++i) {
+      if (settledResults[i].status === 'rejected') {
         throw new ValidationError()
       }
     }
