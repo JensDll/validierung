@@ -45,29 +45,29 @@ export class FormField {
   name: string
   touched: Ref<boolean> = ref(false)
   dirty: Ref<boolean> = ref(false)
-  initialModelValue: unknown
+  private initialModelValue: unknown
   modelValue: Ref<unknown>
 
-  rulesValidating = ref(0)
+  private rulesValidating = ref(0)
   validating: ComputedRef<boolean> = computed(
     () => this.rulesValidating.value > 0
   )
 
-  rawErrors: Ref<(string | null)[]>
+  private rawErrors: Ref<(string | null)[]>
   errors: ComputedRef<string[]> = computed(() =>
     this.rawErrors.value.filter(nShared.isDefined)
   )
 
-  hasErrors: Ref<boolean[]>
+  private hasErrors: Ref<boolean[]>
   hasError: ComputedRef<boolean> = computed(() =>
     this.hasErrors.value.some(e => e)
   )
 
-  form: Form
+  private form: Form
   simpleValidators: ValidatorTuple[] = []
   keyedValidators: Map<string, ValidatorTuple[]> = new Map()
-  ruleInfos: MappedRuleInformation[]
-  watchStopHandle: WatchStopHandle
+  private ruleInfos: (MappedRuleInformation | undefined)[]
+  private watchStopHandle: WatchStopHandle
 
   constructor(
     form: Form,
@@ -87,25 +87,30 @@ export class FormField {
     this.ruleInfos = ruleInfos.map((info, ruleNumber) => {
       const [rule, key] = unpackRule(info.rule)
 
+      if (!rule) {
+        if (key && this.keyedValidators.get(key) === undefined) {
+          this.keyedValidators.set(key, [])
+        }
+
+        return
+      }
+
       let validator: Validator
       let validatorNotDebounced: Validator
 
-      validator = validatorNotDebounced =
-        rule === undefined
-          ? () => {}
-          : (
-              force,
-              submit,
-              modelValues = this.modelValue,
-              skipShouldValidate = false
-            ) => {
-              if (
-                skipShouldValidate ||
-                this.shouldValidate(ruleNumber, force, submit)
-              ) {
-                return this.validate(ruleNumber, modelValues)
-              }
-            }
+      validator = validatorNotDebounced = (
+        force,
+        submit,
+        modelValues = this.modelValue,
+        skipShouldValidate = false
+      ) => {
+        if (
+          skipShouldValidate ||
+          this.shouldValidate(ruleNumber, force, submit)
+        ) {
+          return this.validate(ruleNumber, modelValues)
+        }
+      }
 
       let debouncedValidator: DebouncedValidator | undefined = undefined
       let debounceInvokedTimes = 0
@@ -124,30 +129,27 @@ export class FormField {
           }
         )
 
-        validator =
-          rule === undefined
-            ? () => {}
-            : (
-                force,
-                submit,
-                modelValues = this.modelValue,
-                skipShouldValidate = false
-              ) => {
-                if (
-                  skipShouldValidate ||
-                  this.shouldValidate(ruleNumber, force, submit)
-                ) {
-                  debounceInvokedTimes++
-                  this.rulesValidating.value++
-                  this.form.rulesValidating.value++
+        validator = (
+          force,
+          submit,
+          modelValues = this.modelValue,
+          skipShouldValidate = false
+        ) => {
+          if (
+            skipShouldValidate ||
+            this.shouldValidate(ruleNumber, force, submit)
+          ) {
+            debounceInvokedTimes++
+            this.rulesValidating.value++
+            this.form.rulesValidating.value++
 
-                  return new Promise(resolve => {
-                    debounceResolve?.()
-                    debounceResolve = resolve
-                    debouncedValidator!(modelValues)
-                  })
-                }
-              }
+            return new Promise(resolve => {
+              debounceResolve?.()
+              debounceResolve = resolve
+              debouncedValidator!(modelValues)
+            })
+          }
+        }
       }
 
       const validatorTuple: ValidatorTuple = {
@@ -160,9 +162,9 @@ export class FormField {
         const keyedValidators = this.keyedValidators.get(key)
 
         if (keyedValidators === undefined) {
-          this.keyedValidators.set(key, rule ? [validatorTuple] : [])
+          this.keyedValidators.set(key, [validatorTuple])
         } else {
-          rule && keyedValidators.push(validatorTuple)
+          keyedValidators.push(validatorTuple)
         }
       } else {
         this.simpleValidators.push(validatorTuple)
@@ -174,14 +176,13 @@ export class FormField {
         validator,
         validatorNotDebounced,
         vbf: info.vbf,
-        cancelDebounce:
-          debouncedValidator === undefined
-            ? () => {}
-            : () => {
-                debounceInvokedTimes = 0
-                debouncedValidator!.cancel()
-                debounceResolve?.()
-              }
+        cancelDebounce: !debouncedValidator
+          ? () => {}
+          : () => {
+              debounceInvokedTimes = 0
+              debouncedValidator!.cancel()
+              debounceResolve?.()
+            }
       }
     })
 
@@ -192,12 +193,11 @@ export class FormField {
     ruleNumber: number,
     modelValues: Ref<unknown> | Ref<unknown>[]
   ) {
-    const { rule, buffer } = this.ruleInfos[ruleNumber]
+    const { rule, buffer } = this.ruleInfos[ruleNumber]!
 
     let error: unknown
     const ruleResult = isRef(modelValues)
-      ? // It is made sure that the rule is defined at this point
-        rule!(modelValues.value)
+      ? rule!(modelValues.value)
       : rule!(...modelValues.map(r => r.value))
 
     if (buffer.last?.value) {
@@ -257,9 +257,14 @@ export class FormField {
         set(this.rawErrors.value, i, null)
         set(this.hasErrors.value, i, false)
       }
-      this.ruleInfos[i].cancelDebounce()
-      for (const shouldSetError of this.ruleInfos[i].buffer) {
-        shouldSetError.value = false
+
+      const ruleInfos = this.ruleInfos[i]
+
+      if (ruleInfos) {
+        ruleInfos.cancelDebounce()
+        for (const shouldSetError of ruleInfos.buffer) {
+          shouldSetError.value = false
+        }
       }
     }
 
@@ -297,7 +302,7 @@ export class FormField {
   }
 
   private shouldValidate(ruleNumber: number, force: boolean, submit: boolean) {
-    return this.ruleInfos[ruleNumber].vbf({
+    return this.ruleInfos[ruleNumber]!.vbf({
       hasError: this.rawErrors.value[ruleNumber] !== null,
       touched: this.touched.value,
       dirty: this.dirty.value,

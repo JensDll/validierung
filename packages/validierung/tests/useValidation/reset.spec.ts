@@ -33,7 +33,7 @@ function setup() {
         e: { $value: '', $rules },
         fs: [
           {
-            g: { $value: { a: { bs: [4, 5, 6] } }, $rules }
+            g: { $value: { a: { bs: [4, 5, 6] } }, $rules: [{ key: 'key' }] }
           }
         ]
       },
@@ -41,7 +41,7 @@ function setup() {
         e: { $value: '', $rules },
         fs: [
           {
-            g: { $value: { a: { bs: [7, 8, 9] } }, $rules }
+            g: { $value: { a: { bs: [7, 8, 9] } }, $rules: [{ key: 'key' }] }
           }
         ]
       }

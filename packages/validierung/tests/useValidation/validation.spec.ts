@@ -592,10 +592,17 @@ describe.each([
     expect(ruleB.vbf).toBeCalledTimes(0)
     expect(ruleC.vbf).toBeCalledTimes(0)
 
-    await validateFields()
+    await form.b.$validate()
 
     expect(ruleA.rule).toBeCalledTimes(2)
     expect(ruleA.vbf).toBeCalledTimes(2)
+    expect(ruleB.vbf).toBeCalledTimes(0)
+    expect(ruleC.vbf).toBeCalledTimes(0)
+
+    await validateFields()
+
+    expect(ruleA.rule).toBeCalledTimes(3)
+    expect(ruleA.vbf).toBeCalledTimes(3)
     expect(ruleB.vbf).toBeCalledTimes(0)
     expect(ruleC.vbf).toBeCalledTimes(0)
   })
