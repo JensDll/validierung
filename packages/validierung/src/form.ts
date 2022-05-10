@@ -47,42 +47,44 @@ export class Form {
     }
     const keysSeen = new Set<string>()
 
-    ruleInfos.forEach(info => {
-      const key = unpackRule(info.rule)[1]
+    for (let i = 0; i < ruleInfos.length; ++i) {
+      const key = unpackRule(ruleInfos[i].rule)[1]
 
-      if (key) {
-        let keyedEntry = this.keyedMap.get(key)!
-
-        if (keyedEntry === undefined) {
-          this.keyedMap.set(key, {
-            fields: [field],
-            modelValues: [field.modelValue]
-          })
-        } else if (!keysSeen.has(key)) {
-          keyedEntry.fields.push(field)
-          keyedEntry.modelValues.push(field.modelValue)
-        }
-
-        keyedEntry = this.keyedMap.get(key)!
-        keysSeen.add(key)
-
-        const rollback = () => {
-          for (let i = 0; i < keyedEntry.fields.length; ++i) {
-            if (keyedEntry.fields[i] === field) {
-              keyedEntry.fields.splice(i, 1)
-              keyedEntry.modelValues.splice(i, 1)
-              break
-            }
-          }
-
-          if (keyedEntry.fields.length === 0) {
-            this.keyedMap.delete(key)
-          }
-        }
-
-        simpleEntry.rollbacks.push(rollback)
+      if (key === undefined) {
+        continue
       }
-    })
+
+      let keyedEntry = this.keyedMap.get(key)!
+
+      if (keyedEntry === undefined) {
+        this.keyedMap.set(key, {
+          fields: [field],
+          modelValues: [field.modelValue]
+        })
+      } else if (!keysSeen.has(key)) {
+        keyedEntry.fields.push(field)
+        keyedEntry.modelValues.push(field.modelValue)
+      }
+
+      keyedEntry = this.keyedMap.get(key)!
+      keysSeen.add(key)
+
+      const rollback = () => {
+        for (let i = 0; i < keyedEntry.fields.length; ++i) {
+          if (keyedEntry.fields[i] === field) {
+            keyedEntry.fields.splice(i, 1)
+            keyedEntry.modelValues.splice(i, 1)
+            break
+          }
+        }
+
+        if (keyedEntry.fields.length === 0) {
+          this.keyedMap.delete(key)
+        }
+      }
+
+      simpleEntry.rollbacks.push(rollback)
+    }
 
     this.simpleMap.set(uid, simpleEntry)
     this.reactiveFieldMap.set(uid, field)
