@@ -34,7 +34,7 @@ jobs:
         run: pnpm run build
 
       - name: Running tests
-        run: pnpm run test:2
+        run: pnpm run test:2-run
 
       - name: Running lint
         run: pnpm run lint
@@ -64,7 +64,7 @@ jobs:
         run: pnpm run build
 
       - name: Running tests
-        run: pnpm run test:2
+        run: pnpm run test:3-run
 
       - name: Running lint
         run: pnpm run lint
