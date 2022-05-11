@@ -1,5 +1,3 @@
-export class CancelError extends Error {}
-
 export class PromiseCancel<T = unknown> {
   private promise!: Promise<T>
   private resolve!: (value: T | PromiseLike<T>) => void
@@ -27,9 +25,18 @@ export class PromiseCancel<T = unknown> {
     }
   }
 
-  race<Ps extends readonly Promise<any>[]>(...promises: [...Ps]) {
+  async race<Ps extends readonly Promise<any>[]>(...promises: [...Ps]) {
     this.isRacing = true
-    return Promise.race([this.promise, ...promises])
+
+    let result
+
+    try {
+      result = await Promise.race([this.promise, ...promises])
+    } finally {
+      this.isRacing = false
+    }
+
+    return result
   }
 
   private assign() {

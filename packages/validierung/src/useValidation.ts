@@ -76,6 +76,7 @@ export function useValidation<FormData extends object>(
 
     resetFields(formData) {
       promiseCancel.cancelReject(new ValidationError())
+
       if (formData === undefined) {
         form.resetFields()
       } else {

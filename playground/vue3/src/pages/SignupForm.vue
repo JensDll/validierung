@@ -31,7 +31,7 @@ const checkName = (name: string) => {
           }" is not available`
         )
       }
-    }, 300)
+    }, 700)
   })
 }
 
