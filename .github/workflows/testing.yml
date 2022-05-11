@@ -67,6 +67,8 @@ jobs:
         run: pnpm run debug
 
       - name: Running tests
+        env:
+          VITEST_MIN_THREADS: 4
         run: pnpm run test:3-run
 
       - name: Running lint
