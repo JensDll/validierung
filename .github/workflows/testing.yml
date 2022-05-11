@@ -63,6 +63,9 @@ jobs:
       - name: Building the project
         run: pnpm run build
 
+      - name: Debugging information
+        run: pnpm run debug
+
       - name: Running tests
         run: pnpm run test:3-run
 
