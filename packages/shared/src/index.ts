@@ -12,7 +12,7 @@ export { debounce, type Debounced } from './debounce'
 
 export { LinkedList } from './linkedList'
 
-export { PromiseCancel, CancelError } from './promiseCancel'
+export { PromiseCancel } from './promiseCancel'
 
 export { isArray, isDefined, isObject, isRecord, isPromise } from './typeGuards'
 
