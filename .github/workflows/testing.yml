@@ -68,6 +68,7 @@ jobs:
 
       - name: Running tests
         env:
+          VITEST_MAX_THREADS: 16
           VITEST_MIN_THREADS: 4
         run: pnpm run test:3-run
 
