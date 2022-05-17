@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@tailwindcss/forms": "0.5.1",
-    "@vitejs/plugin-vue": "2.3.2",
+    "@vitejs/plugin-vue": "2.3.3",
     "autoprefixer": "10.4.7",
     "pinia": "2.0.14",
     "postcss": "8.4.13",
@@ -16,7 +16,7 @@
     "tailwindcss-plugin-icons": "1.0.5",
     "typescript": "4.6.4",
     "validierung": "latest",
-    "vite": "2.9.8",
+    "vite": "2.9.9",
     "vue": "3.2.33",
     "vue-router": "4.0.15"
   }

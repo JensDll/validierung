@@ -254,7 +254,7 @@ describe('mapFieldRules', () => {
     const rule = vi.fn()
     const ruleInfo = mapFieldRules([[rule, 100]])
 
-    expect(ruleInfo).toEqual<RuleInformation[]>([
+    expect(ruleInfo).toStrictEqual<RuleInformation[]>([
       {
         vbf: expect.any(Function),
         rule,
@@ -275,7 +275,7 @@ describe('mapFieldRules', () => {
       ]
     ])
 
-    expect(ruleInfo).toEqual<RuleInformation[]>([
+    expect(ruleInfo).toStrictEqual<RuleInformation[]>([
       {
         vbf: expect.any(Function),
         rule: {
@@ -291,7 +291,7 @@ describe('mapFieldRules', () => {
     const rule = vi.fn()
     const ruleInfo = mapFieldRules([['mock' as never, rule, 100]])
 
-    expect(ruleInfo).toEqual<RuleInformation[]>([
+    expect(ruleInfo).toStrictEqual<RuleInformation[]>([
       {
         vbf: expect.any(Function),
         rule,
@@ -313,7 +313,7 @@ describe('mapFieldRules', () => {
       ]
     ])
 
-    expect(ruleInfo).toEqual<RuleInformation[]>([
+    expect(ruleInfo).toStrictEqual<RuleInformation[]>([
       {
         vbf: expect.any(Function),
         rule: {
@@ -330,7 +330,7 @@ describe('mapFieldRules', () => {
     const rule = vi.fn()
     const ruleInfo = mapFieldRules([[vbf, rule, 100]])
 
-    expect(ruleInfo).toEqual<RuleInformation[]>([
+    expect(ruleInfo).toStrictEqual<RuleInformation[]>([
       {
         vbf,
         rule,
@@ -353,7 +353,7 @@ describe('mapFieldRules', () => {
       ]
     ])
 
-    expect(ruleInfo).toEqual<RuleInformation[]>([
+    expect(ruleInfo).toStrictEqual<RuleInformation[]>([
       {
         vbf,
         rule: {

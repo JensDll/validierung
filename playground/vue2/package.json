@@ -18,7 +18,7 @@
     "tailwindcss-plugin-icons": "1.0.5",
     "typescript": "4.6.4",
     "validierung": "latest",
-    "vite": "2.9.8",
+    "vite": "2.9.9",
     "vite-plugin-vue2": "2.0.0",
     "vue": "2.6.14",
     "vue-router": "3.5.3",
