@@ -33,7 +33,7 @@ export default defineComponent({
     <button
       :type="type"
       :class="[
-        `relative block rounded border-2 py-1 px-4 font-medium outline-offset-[2.5px] focus:outline focus:outline-2`,
+        'relative block rounded border-2 py-1 px-4 font-medium outline-offset-[2.5px] focus:outline focus:outline-2',
         {
           default: `border-gray-300 hover:bg-gray-100 focus:outline-gray-300`,
           primary: `border-indigo-500 bg-indigo-500 text-white hover:border-indigo-400 hover:bg-indigo-400 focus:outline-indigo-400
