@@ -46,7 +46,8 @@ const plugin = {
   } as Plugin,
   dts: dts(),
   esbuild: esbuild({
-    target: 'ES2019'
+    target: 'ES2019',
+    include: [path.resolve(rootDir, 'packages/*/src/**')]
   }),
   minify: minify({
     target: 'ES2019'

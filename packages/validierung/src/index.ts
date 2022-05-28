@@ -15,7 +15,12 @@ export type {
   ValidateFieldsPredicate
 } from './data'
 
-export type { SimpleRule, KeyedRule } from './rules'
+export type {
+  SimpleRule,
+  KeyedRule,
+  FieldSimpleRule,
+  FieldKeyedRule
+} from './rules'
 
 export type {
   ValidationBehaviorFunctions,
@@ -25,4 +30,8 @@ export type {
   ValidationBehaviorInfo
 } from './validationBehavior'
 
-export { type DeepPartial } from '@internal/shared'
+export type {
+  DeepPartial,
+  AnyFunction,
+  ExcludePrimitives
+} from '@internal/shared'

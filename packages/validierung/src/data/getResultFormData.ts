@@ -1,11 +1,12 @@
 import { unref } from 'vue-demi'
 
 import * as nShared from '@internal/shared'
+import type { AnyObject } from '@internal/shared'
 import { isTransformedField } from './types'
 
 function getResultFormDataImpl(
-  formData: nShared.AnyObject,
-  resultFormData: nShared.AnyObject,
+  formData: AnyObject,
+  resultFormData: AnyObject,
   path: string[],
   predicate: ValidateFieldsPredicate
 ) {
@@ -43,7 +44,7 @@ function getResultFormDataImpl(
 }
 
 export function getResultFormData(
-  transformedFormData: nShared.AnyObject,
+  transformedFormData: AnyObject,
   predicate: ValidateFieldsPredicate = () => true
 ): any {
   const resultFormData = nShared.isArray(transformedFormData) ? [] : {}

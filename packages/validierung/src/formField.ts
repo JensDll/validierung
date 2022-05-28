@@ -12,8 +12,9 @@ import {
 
 import type { Form } from './form'
 import type { ValidationBehaviorFunction } from './validationBehavior'
-import { unpackRule, type SimpleRule, type RuleInformation } from './rules'
+import { unpackRule, type RuleInformation } from './rules'
 import * as nShared from '@internal/shared'
+import type { LinkedList, AnyFunction, Debounced } from '@internal/shared'
 
 export type ValidatorReturn = Promise<void> | void
 export type Validator = (
@@ -30,15 +31,15 @@ export type ValidatorTuple = {
 }
 
 type MappedRuleInformation = {
-  buffer: nShared.LinkedList<boolean>
-  rule?: SimpleRule
+  buffer: LinkedList<boolean>
+  rule?: AnyFunction
   validator: Validator
   validatorNotDebounced: Validator
   vbf: ValidationBehaviorFunction
   cancelDebounce: () => void
 }
 
-type DebouncedValidator = nShared.Debounced<[Ref<unknown> | Ref<unknown>[]]>
+type DebouncedValidator = Debounced<[Ref<unknown> | Ref<unknown>[]]>
 
 export class FormField {
   uid: number

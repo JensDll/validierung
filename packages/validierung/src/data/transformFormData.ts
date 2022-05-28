@@ -1,6 +1,7 @@
 import type { ComputedRef, Ref } from 'vue-demi'
 
 import * as nShared from '@internal/shared'
+import type { AnyObject } from '@internal/shared'
 import type { FieldRule, RuleInformation } from '../rules'
 import { validationConfig } from '../validationConfig'
 import type { Form } from '../form'
@@ -96,7 +97,7 @@ export function registerField(
   }
 }
 
-export function transformFormData(form: Form, formData: nShared.AnyObject) {
+export function transformFormData(form: Form, formData: AnyObject) {
   for (const [key, value] of Object.entries(formData)) {
     if (isField(value)) {
       const transformedField = registerField(form, key, value)

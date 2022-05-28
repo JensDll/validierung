@@ -1,6 +1,7 @@
 import { isVue2, isVue3, del, type Ref, type ComputedRef } from 'vue-demi'
 
 import * as nShared from '@internal/shared'
+import type { DeepIndex, DeepPartial } from '@internal/shared'
 import { ValidationError } from './validationError'
 import { Form } from './form'
 import {
@@ -190,7 +191,7 @@ export type UseValidation<FormData extends object> = {
    *
    * @param formData - Form data to set specific values. It has the same structure as the object passed to `useValidation`
    */
-  resetFields(formData?: nShared.DeepPartial<ResultFormData<FormData>>): void
+  resetFields(formData?: DeepPartial<ResultFormData<FormData>>): void
   /**
    * Adds a new property to the form data.
    * Fields with a `$value` are transformed.
@@ -200,9 +201,9 @@ export type UseValidation<FormData extends object> = {
    */
   add<Keys extends readonly (string | number)[]>(
     path: readonly [...Keys],
-    value: nShared.DeepIndex<FormData, Keys> extends (infer TArray)[]
+    value: DeepIndex<FormData, Keys> extends (infer TArray)[]
       ? TArray
-      : nShared.DeepIndex<FormData, Keys>
+      : DeepIndex<FormData, Keys>
   ): void
   /**
    * Removes a property from the form data.

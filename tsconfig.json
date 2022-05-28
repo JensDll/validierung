@@ -31,5 +31,5 @@
     "packages/*/src",
     "packages/*/tests"
   ],
-  "exclude": ["**/dist/**/*", "playground"]
+  "exclude": ["**/dist/**", "playground"]
 }

@@ -1,11 +1,12 @@
 import * as nShared from '@internal/shared'
+import type { AnyObject } from '@internal/shared'
 import type { Form } from '../form'
 import { isTransformedField } from './types'
 
 export function resetFields(
   form: Form,
-  data: nShared.AnyObject,
-  transformedFormData: nShared.AnyObject
+  data: AnyObject,
+  transformedFormData: AnyObject
 ) {
   Object.entries(data).forEach(([key, value]) => {
     const transformedValue = transformedFormData[key]

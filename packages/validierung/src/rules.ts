@@ -14,37 +14,37 @@ export const unpackRule = (
 ): [rule: SimpleRule | undefined, key: string | undefined] =>
   isSimpleRule(rule) ? [rule, undefined] : [rule.rule, rule.key]
 
-export type SimpleRule<Param = any> = (...value: Param[]) => any
-export type KeyedRule<Params extends readonly any[] = any[]> = (
-  ...values: [...Params]
+export type SimpleRule<TParam = any> = (value: TParam) => any
+export type KeyedRule<TParams extends readonly any[] = any[]> = (
+  ...values: [...TParams]
 ) => any
 export type RuleWithKey<T extends readonly any[] = any[]> = {
   key: string
   rule?: KeyedRule<T>
 }
 
-export type FieldSimpleRule<Param = any> =
-  | SimpleRule<Param>
+export type FieldSimpleRule<TParam = any> =
+  | SimpleRule<TParam>
   | [
       validationBehavior: ValidationBehavior,
-      rule: SimpleRule<Param>,
+      rule: SimpleRule<TParam>,
       debounce?: number
     ]
-  | [rule: SimpleRule<Param>, debounce: number]
+  | [rule: SimpleRule<TParam>, debounce: number]
 
-export type FieldRuleWithKey<Params extends readonly any[]> =
-  | RuleWithKey<Params>
+export type FieldKeyedRule<TParams extends readonly any[]> =
+  | RuleWithKey<TParams>
   | [
       validationBehavior: ValidationBehavior,
-      rule: RuleWithKey<Params>,
+      rule: RuleWithKey<TParams>,
       debounce?: number
     ]
-  | [rule: RuleWithKey<Params>, debounce: number]
+  | [rule: RuleWithKey<TParams>, debounce: number]
 
 export type FieldRule<
-  SimpleParam,
-  KeyedParams extends readonly any[] = any[]
-> = FieldSimpleRule<UnwrapRef<SimpleParam>> | FieldRuleWithKey<KeyedParams>
+  TSimpleParams,
+  TKeyedParams extends readonly any[] = any[]
+> = FieldSimpleRule<UnwrapRef<TSimpleParams>> | FieldKeyedRule<TKeyedParams>
 
 export type RuleInformation = {
   vbf: ValidationBehaviorFunction

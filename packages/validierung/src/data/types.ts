@@ -1,6 +1,7 @@
 import type { UnwrapRef, Ref } from 'vue-demi'
 
 import * as nShared from '@internal/shared'
+import type { MaybeRef, ExcludePrimitives } from '@internal/shared'
 import type { FieldRule } from '../rules'
 
 export const isField = (value: unknown): value is Field<unknown> =>
@@ -15,7 +16,7 @@ export type Field<T, E extends object = Record<string, never>> = {
   /**
    * The field's default value.
    */
-  $value: nShared.MaybeRef<T>
+  $value: MaybeRef<T>
   /**
    * Rules to use for validation.
    */
@@ -92,7 +93,7 @@ export type ResultFormData<FormData> = FormData extends any
 type ResultFormDataImpl<T> = T extends {
   $value: infer V
 }
-  ? UnwrapRef<Exclude<nShared.MaybeRef<V>, Ref>>
+  ? UnwrapRef<Exclude<MaybeRef<V>, Ref>>
   : T extends object
   ? ResultFormData<T>
   : T
@@ -105,22 +106,19 @@ export type FieldNames<FormData extends object> = FieldNamesImpl<
   never
 >
 
-type FieldNamesImpl<FormData, K> =
-  nShared.ExcludePrimitives<FormData> extends never
-    ? never
-    : FormData extends { $value: any }
-    ? K
-    : FormData extends readonly (infer A)[]
-    ? FieldNamesImpl<A, K>
-    : {
-        [K in keyof FormData]-?: nShared.ExcludePrimitives<
-          FormData[K]
-        > extends {
-          $value: any
-        }
-          ? K
-          : FieldNamesImpl<nShared.ExcludePrimitives<FormData[K]>, K>
-      }[keyof FormData]
+type FieldNamesImpl<FormData, K> = ExcludePrimitives<FormData> extends never
+  ? never
+  : FormData extends { $value: any }
+  ? K
+  : FormData extends readonly (infer A)[]
+  ? FieldNamesImpl<A, K>
+  : {
+      [K in keyof FormData]-?: ExcludePrimitives<FormData[K]> extends {
+        $value: any
+      }
+        ? K
+        : FieldNamesImpl<ExcludePrimitives<FormData[K]>, K>
+    }[keyof FormData]
 
 /**
  * Transforms every field in `FormData` into transformed fields.
@@ -135,7 +133,7 @@ type TransformFormDataImpl<T> = T extends {
   $value: infer V
 }
   ? TransformedField<
-      UnwrapRef<Exclude<nShared.MaybeRef<V>, Ref>>,
+      UnwrapRef<Exclude<MaybeRef<V>, Ref>>,
       Omit<T, '$value' | '$rules'>
     >
   : T extends object
