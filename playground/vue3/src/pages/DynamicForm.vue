@@ -1,205 +1,179 @@
-<script lang="ts">
-import { defineComponent } from 'vue'
-import { useValidation, Field } from 'validierung'
+<script setup lang="ts">
+import { useValidation, ValidationError, type Field } from 'validierung'
+import { useRoute } from 'vue-router'
 
-import FormProvider from '~/components/form/FormProvider.vue'
-import AppButton from '~/components/app/AppButton.vue'
-import { stringify } from '~/domain'
+import { rules, stringify } from '~/domain'
+
+const route = useRoute()
 
 type FormData = {
-  a: Field<string>
-  outerList: {
-    b: Field<string>
-    innerList: {
-      c: Field<string>
-      d: Field<string>
+  alfa: Field<string>
+  outer: {
+    bravo: Field<string>
+    inner: {
+      charlie: Field<string>
+      delta: Field<number>
     }[]
   }[]
 }
 
-export default defineComponent({
-  components: {
-    FormProvider,
-    AppButton
+const {
+  form,
+  validating,
+  submitting,
+  hasError,
+  errors,
+  validateFields,
+  resetFields,
+  add,
+  remove
+} = useValidation<FormData>({
+  alfa: {
+    $value: ''
   },
-  setup() {
-    const validation = useValidation<FormData>({
-      a: {
-        $value: '',
-        $rules: []
+  outer: [
+    {
+      bravo: {
+        $value: ''
       },
-      outerList: []
-    })
-
-    function addOuter() {
-      validation.add(['outerList'], {
-        b: {
-          $value: '',
-          $rules: []
-        },
-        innerList: []
-      })
+      inner: []
     }
+  ]
+})
 
-    function addInner(outerIndex: number) {
-      validation.add(['outerList', outerIndex, 'innerList'], {
-        c: {
-          $value: '',
-          $rules: [
-            {
-              key: 'a',
-              rule() {}
-            },
-            {
-              key: 'a',
-              rule() {}
-            },
-            {
-              key: 'a',
-              rule() {}
-            }
-          ]
-        },
-        d: {
-          $value: '',
-          $rules: [
-            {
-              key: 'a',
-              rule() {}
-            },
-            {
-              key: 'a',
-              rule(...values) {
-                console.log(values)
-              }
-            }
-          ]
-        }
-      })
+addInner(0, '', 42)
+
+function addOuter() {
+  add(['outer'], {
+    bravo: {
+      $value: ''
+    },
+    inner: []
+  })
+}
+
+function removeOuter(outerIdx: number) {
+  remove(['outer', outerIdx])
+}
+
+function addInner(
+  outerIdx: number,
+  charlie = '',
+  delta: number | undefined = undefined
+) {
+  add(['outer', outerIdx, 'inner'], {
+    charlie: {
+      $value: charlie
+    },
+    delta: {
+      $value: delta as never,
+      $rules: [rules.required('This field is required')]
     }
+  })
+}
 
-    function removeOuter(outerIndex: number) {
-      validation.remove(['outerList', outerIndex])
-    }
+function removeInner(outerIdx: number, innerIdx: number) {
+  remove(['outer', outerIdx, 'inner', innerIdx])
+}
 
-    function removeInner(outerIndex: number, innerIndex: number) {
-      validation.remove(['outerList', outerIndex, 'innerList', innerIndex])
-    }
-
-    addOuter()
-    addInner(0)
-
-    async function handleSubmit() {
-      try {
-        const formData = await validation.validateFields()
-        alert(stringify(formData))
-      } catch {}
-    }
-
-    return {
-      ...validation,
-      handleSubmit,
-      addOuter,
-      addInner,
-      removeOuter,
-      removeInner
+async function handleSubmit() {
+  try {
+    const formData = await validateFields()
+    alert(stringify(formData))
+  } catch (e) {
+    if (e instanceof ValidationError) {
+      console.log(e.message)
     }
   }
-})
+}
 </script>
 
 <template>
   <FormProvider
-    title="Dynamic Form"
-    :val="{ form, validating, submitting, errors, hasError }"
+    :title="route.meta.title"
+    :validation="{ form, validating, submitting, hasError, errors }"
     @submit="handleSubmit()"
   >
-    <div>
-      <label class="label" :for="form.a.$uid.toString()">A</label>
-      <div class="flex items-center">
-        <input
-          :id="form.a.$uid.toString()"
-          class="input"
-          type="text"
-          v-model="form.a.$value"
-          @blur="form.a.$validate()"
-        />
-        <div
-          class="i-heroicons-outline-plus-circle ml-6 h-6 w-6 cursor-pointer text-emerald-600"
-          @click="addOuter()"
-        ></div>
-      </div>
-    </div>
-    <div
-      v-for="(outer, outerIndex) in form.outerList"
-      :key="outer.b.$uid"
-      class="mt-6"
-    >
-      <div>
-        <label class="label" :for="outer.b.$uid.toString()"> B </label>
-        <div class="flex items-center">
-          <input
-            :id="outer.b.$uid.toString()"
-            class="input"
-            type="text"
-            v-model="outer.b.$value"
-            @blur="outer.b.$validate()"
-          />
-          <div
-            class="i-heroicons-outline-plus-circle ml-6 h-6 w-6 cursor-pointer text-emerald-600"
-            @click="addInner(outerIndex)"
-          ></div>
-          <div
-            class="i-heroicons-outline-minus-circle ml-3 h-6 w-6 cursor-pointer text-red-600"
-            @click="removeOuter(outerIndex)"
-          ></div>
+    <section>
+      <section class="entry">
+        <div class="col-span-2">
+          <label for="alfa">Alfa</label>
+          <input id="alfa" type="text" v-model="form.alfa.$value" />
         </div>
-      </div>
-      <div
-        v-for="(inner, innerIndex) in outer.innerList"
-        :key="inner.c.$uid"
-        class="mt-2 flex"
+        <div class="i-plus" @click="addOuter()"></div>
+      </section>
+      <section
+        class="mt-8"
+        v-for="(outer, outerIdx) in form.outer"
+        :key="outer.bravo.$uid"
       >
-        <div>
-          <label class="label" :for="inner.c.$uid.toString()"> C </label>
-          <input
-            :id="inner.c.$uid.toString()"
-            class="input"
-            type="text"
-            v-model="inner.c.$value"
-            @blur="inner.c.$validate()"
-          />
-        </div>
-        <div>
-          <label class="label ml-6" :for="inner.d.$uid.toString()"> D </label>
-          <div class="flex items-center">
+        <section class="entry">
+          <div class="col-span-2">
+            <label :for="`bravo${outer.bravo.$uid}`">Bravo</label>
             <input
-              :id="inner.d.$uid.toString()"
-              class="input ml-6"
+              :id="`bravo${outer.bravo.$uid}`"
               type="text"
-              v-model="inner.d.$value"
-              @blur="inner.d.$validate()"
+              v-model="outer.bravo.$value"
             />
-            <div
-              class="i-heroicons-outline-minus-circle ml-6 h-6 w-6 cursor-pointer text-red-600"
-              @click="removeInner(outerIndex, innerIndex)"
-            ></div>
           </div>
-        </div>
+          <div class="i-minus" @click="removeOuter(outerIdx)"></div>
+          <div class="i-plus" @click="addInner(outerIdx)"></div>
+        </section>
+        <section
+          class="mt-4"
+          v-for="(inner, innerIdx) in outer.inner"
+          :key="inner.charlie.$uid"
+        >
+          <section class="entry">
+            <div>
+              <label :for="`charlie${inner.charlie.$uid}`">Charlie</label>
+              <input
+                :id="`charlie${inner.charlie.$uid}`"
+                type="text"
+                v-model="inner.charlie.$value"
+              />
+            </div>
+            <div>
+              <label :for="`delta${inner.delta.$uid}`">Delta</label>
+              <input
+                :id="`delta${inner.delta.$uid}`"
+                type="number"
+                v-model="inner.delta.$value"
+                @blur="inner.delta.$validate()"
+              />
+              <FormErrors :errors="inner.delta.$errors" />
+            </div>
+            <div class="i-minus" @click="removeInner(outerIdx, innerIdx)"></div>
+          </section>
+        </section>
+      </section>
+      <div>
+        <button class="mt-10" type="submit">Submit</button>
+        <button type="button" class="ml-2" @click="resetFields()">Reset</button>
       </div>
-    </div>
-    <div class="mt-12 flex">
-      <AppButton
-        class="mr-4"
-        type="submit"
-        variant="primary"
-        :disabled="submitting"
-      >
-        Submit
-      </AppButton>
-      <AppButton @click="resetFields()">Reset</AppButton>
-    </div>
+    </section>
   </FormProvider>
 </template>
 
-<style lang="postcss" scoped></style>
+<style scoped>
+.entry {
+  display: grid;
+  grid-template-columns: 1fr 1fr 3rem 1.5rem;
+  grid-template-areas: '. . minus plus';
+  column-gap: 1rem;
+}
+
+.i-minus,
+.i-plus {
+  justify-self: end;
+  margin-top: 29px;
+}
+
+.i-plus {
+  grid-area: plus;
+}
+
+.i-minus {
+  grid-area: minus;
+}
+</style>

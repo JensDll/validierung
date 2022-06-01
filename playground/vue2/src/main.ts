@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import VueCompositionAPI from '@vue/composition-api'
 import VueRouter from 'vue-router'
+import { PiniaVuePlugin } from 'pinia'
 
 import App from './App.vue'
 import { router } from './modules/router'
 import { validierung } from './modules/validierung'
 import { pinia } from './modules/pinia'
-import { PiniaVuePlugin } from 'pinia'
 import './main.css'
 
 Vue.use(VueCompositionAPI)

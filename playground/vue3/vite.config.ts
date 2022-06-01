@@ -1,17 +1,23 @@
-import { fileURLToPath } from 'url'
-import path from 'path'
+import url from 'node:url'
+import path from 'node:path'
 
-import { defineConfig, AliasOptions } from 'vite'
-import vue from '@vitejs/plugin-vue'
+import { defineConfig, type AliasOptions } from 'vite'
+import Vue from '@vitejs/plugin-vue'
+import Components from 'unplugin-vue-components/vite'
 
-const baseDir = fileURLToPath(new URL('.', import.meta.url))
+const baseDir = url.fileURLToPath(new url.URL('.', import.meta.url))
 
 const alias: AliasOptions = {
   '~': path.resolve(baseDir, 'src')
 }
 
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [
+    Vue(),
+    Components({
+      dts: './dts/components.d.ts'
+    })
+  ],
   resolve: {
     alias
   }

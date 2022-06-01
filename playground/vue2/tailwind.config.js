@@ -1,16 +1,18 @@
-const Form = require('@tailwindcss/forms')
 const { Icons } = require('tailwindcss-plugin-icons')
+const defaultTheme = require('tailwindcss/defaultTheme')
+
+const { Utilities } = require('./tailwind/utilities')
 
 module.exports = {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
     fontFamily: {
-      sans: ['Montserrat', 'sans-serif']
+      sans: ['Montserrat', ...defaultTheme.fontFamily.sans]
     },
     extend: {}
   },
   plugins: [
-    Form,
+    Utilities(),
     Icons({
       heroiconsSolid: {
         icons: ['menu'],
@@ -29,5 +31,7 @@ module.exports = {
       }
     })
   ],
-  corePlugins: {}
+  corePlugins: {
+    preflight: false
+  }
 }

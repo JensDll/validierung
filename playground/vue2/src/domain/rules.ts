@@ -1,6 +1,6 @@
-import { SimpleRule, KeyedRule } from 'validierung'
+import type { SimpleRule, KeyedRule } from 'validierung'
 
-import { Lengthy } from './types'
+import type { Lengthy } from './types'
 
 export const rules = {
   required:

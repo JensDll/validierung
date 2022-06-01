@@ -3,8 +3,15 @@
 @tailwind utilities;
 
 @layer base {
+  ol,
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
   body {
-    @apply font-sans;
+    @apply m-0 font-sans;
   }
 
   h1 {
@@ -17,29 +24,5 @@
 
   pre {
     white-space: pre-wrap;
-  }
-}
-
-@layer components {
-  .label {
-    @apply mb-1 block font-medium text-gray-700;
-  }
-
-  .input {
-    @apply block rounded-md border border-gray-300 py-2 px-3 shadow-sm;
-  }
-
-  .input:focus,
-  .input:focus-within {
-    @apply border-indigo-300 ring ring-indigo-200 ring-opacity-50;
-  }
-
-  .input.error {
-    @apply border-red-400;
-  }
-
-  .input.error:focus,
-  .input.error:focus-within {
-    @apply border-red-300 ring ring-red-200 ring-opacity-50;
   }
 }

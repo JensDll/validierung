@@ -1,17 +1,19 @@
-import { RouteRecordRaw, createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 
 import SignupForm from '~/pages/SignupForm.vue'
 import DynamicForm from '~/pages/DynamicForm.vue'
-import KeyedRules from '~/pages/KeyedRules.vue'
-import FileUploadForm from '~/pages/FileUploadForm.vue'
 
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    name: 'home',
+    redirect: '/signup'
+  },
+  {
+    path: '/signup',
+    name: 'signup',
     component: SignupForm,
     meta: {
-      displayName: 'Signup form'
+      title: 'Signup'
     }
   },
   {
@@ -19,23 +21,7 @@ const routes: RouteRecordRaw[] = [
     name: 'dynamic',
     component: DynamicForm,
     meta: {
-      displayName: 'Dynamic form'
-    }
-  },
-  {
-    path: '/keyed',
-    name: 'keyed',
-    component: KeyedRules,
-    meta: {
-      displayName: 'Keyed rules'
-    }
-  },
-  {
-    path: '/upload',
-    name: 'upload',
-    component: FileUploadForm,
-    meta: {
-      displayName: 'File upload form'
+      title: 'Dynamic'
     }
   }
 ]
@@ -47,6 +33,6 @@ export const router = createRouter({
 
 declare module 'vue-router' {
   interface RouteMeta {
-    displayName: string
+    title: string
   }
 }
