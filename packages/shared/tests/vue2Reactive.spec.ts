@@ -13,7 +13,7 @@ vi.mock('vue-demi', async () => {
 
 const mockReactive = vi.mocked(reactive)
 
-test.only('should make simple object reactive', () => {
+test('should make simple object reactive', () => {
   const obj = { a: { b: { c: 1 } } }
   const result = vue2Reactive(obj)
 
