@@ -1,31 +1,28 @@
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
+import { useRouter } from 'vue-router'
 
-import TheNav from './components/layout/TheNav.vue'
-import TheNavBackground from './components/layout/TheNavBackground.vue'
-import TheHeader from './components/layout/TheHeader.vue'
-import TheMain from './components/layout/TheMain.vue'
+const router = useRouter()
 
-export default defineComponent({
-  components: {
-    TheNav,
-    TheHeader,
-    TheMain,
-    TheNavBackground
-  }
-})
+const routes = router
+  .getRoutes()
+  .filter(route => route.meta.title !== undefined)
 </script>
 
 <template>
-  <div class="grid h-[100vh] grid-rows-[auto_1fr] gap-y-12">
-    <TheNavBackground />
-    <TheHeader />
-    <div
-      class="px-6 md:px-9 lg:container lg:mx-auto lg:grid lg:grid-cols-[auto_1fr] lg:px-12"
-    >
-      <TheNav />
-      <TheMain />
-    </div>
+  <div>
+    <header class="mb-12 py-6">
+      <nav class="container space-x-4">
+        <RouterLink
+          v-for="route in routes"
+          :to="{ name: route.name }"
+          :key="route.name"
+          >{{ route.meta.title }}</RouterLink
+        >
+      </nav>
+    </header>
+    <main class="pb-24">
+      <RouterView></RouterView>
+    </main>
   </div>
 </template>
 

@@ -1,12 +1,7 @@
-<script lang="ts">
-import { Field, useValidation } from 'validierung'
-import { defineComponent } from '@vue/composition-api'
+<script setup lang="ts">
+import { useValidation, ValidationError, type Field } from 'validierung'
 
-import { rules, stringify } from '~/domain'
-import PreFormData from '~/components/form/PreFormData.vue'
-import AppButton from '~/components/app/AppButton.vue'
-import FormErrors from '~/components/form/FormErrors.vue'
-import FormProvider from '~/components/form/FormProvider.vue'
+import { stringify, rules } from '~/domain'
 
 type FormData = {
   name: Field<string>
@@ -19,7 +14,6 @@ const checkName = (name: string) => {
   if (!name) {
     return 'Please input your name'
   }
-
   return new Promise<void | string>(resolve => {
     setTimeout(() => {
       if (['alice', 'bob', 'oscar'].includes(name.toLocaleLowerCase())) {
@@ -31,155 +25,115 @@ const checkName = (name: string) => {
           }" is not available`
         )
       }
-    }, 300)
+    }, 700)
   })
 }
 
-export default defineComponent({
-  components: {
-    PreFormData,
-    AppButton,
-    FormErrors,
-    FormProvider
+const {
+  form,
+  validating,
+  submitting,
+  hasError,
+  errors,
+  validateFields,
+  resetFields
+} = useValidation<FormData>({
+  name: {
+    $value: '',
+    $rules: [['change', checkName, 500]]
   },
-  setup() {
-    const validation = useValidation<FormData>({
-      name: {
-        $value: '',
-        $rules: [['change', checkName, 550]]
-      },
-      email: {
-        $value: '',
-        $rules: [rules.email('Please use a valid email address')]
-      },
-      password: {
-        $value: '',
-        $rules: [
-          rules.min(8)('Password has to be longer than 8 characters'),
-          [
-            'lazy',
-            {
-              key: 'pw',
-              rule: rules.equal('Passwords do not match')
-            }
-          ]
-        ]
-      },
-      confirmPassword: {
-        $value: '',
-        $rules: [
-          rules.min(8)('Password has to be longer than 8 characters'),
-          [
-            'lazy',
-            {
-              key: 'pw',
-              rule: rules.equal('Passwords do not match')
-            }
-          ]
-        ]
-      }
-    })
-
-    async function handleSubmit() {
-      try {
-        const formData = await validation.validateFields()
-        alert(stringify(formData))
-      } catch {}
-    }
-
-    return {
-      ...validation,
-      handleSubmit
-    }
+  email: {
+    $value: '',
+    $rules: [rules.email('Please use a valid email address')]
+  },
+  password: {
+    $value: '',
+    $rules: [
+      rules.min(8)('Password has to be longer than 8 characters'),
+      [
+        'lazy',
+        {
+          key: 'pw',
+          rule: rules.equal('Passwords do not match')
+        }
+      ]
+    ]
+  },
+  confirmPassword: {
+    $value: '',
+    $rules: [
+      rules.min(8)('Password has to be longer than 8 characters'),
+      [
+        'lazy',
+        {
+          key: 'pw',
+          rule: rules.equal('Passwords do not match')
+        }
+      ]
+    ]
   }
 })
+
+async function handleSubmit() {
+  try {
+    const formData = await validateFields()
+    alert(stringify(formData))
+  } catch (e) {
+    if (e instanceof ValidationError) {
+      console.log(e.message)
+    }
+  }
+}
 </script>
 
 <template>
   <FormProvider
-    title="Signup"
-    :val="{ form, validating, submitting, errors, hasError }"
+    :title="$route.meta.title"
+    :validation="{ form, validating, submitting, hasError, errors }"
     @submit="handleSubmit()"
   >
-    <div class="2xl:w-2/3">
+    <section class="space-y-2 xl:w-2/3">
       <div>
-        <label class="label" for="name">Name</label>
+        <label for="name">Name</label>
         <div class="relative flex items-center">
           <input
             id="name"
-            class="input w-full"
-            :class="{ error: form.name.$hasError }"
             type="text"
-            placeholder="Alice, Bob, or Oscar"
             v-model="form.name.$value"
+            placeholder="Alice, Bob, or Oscar"
           />
           <div
-            class="i-custom-loading spin absolute right-3 h-6 w-6 text-indigo-500"
-            :class="{ '!text-red-500': form.name.$hasError }"
-            v-if="form.name.$validating"
+            class="i-custom-loading spin absolute right-3 h-5 w-5 animate-spin"
+            v-show="form.name.$validating"
           />
         </div>
-        <FormErrors class="mt-1" :errors="form.name.$errors" />
+        <FormErrors :errors="form.name.$errors"></FormErrors>
       </div>
-      <div class="mt-2">
-        <label class="label" for="email">Email</label>
-        <input
-          id="email"
-          class="input w-full"
-          :class="{ error: form.email.$hasError }"
-          type="text"
-          v-model="form.email.$value"
-          @blur="form.email.$validate()"
-        />
-        <FormErrors class="mt-1" :errors="form.email.$errors" />
+      <div>
+        <label for="email">Email</label>
+        <input id="email" type="email" v-model="form.email.$value" />
+        <FormErrors :errors="form.email.$errors"></FormErrors>
       </div>
-      <div class="mt-2">
-        <label class="label" for="password">Password</label>
-        <input
-          id="password"
-          class="input w-full"
-          :class="{ error: form.password.$hasError }"
-          type="password"
-          v-model="form.password.$value"
-          @blur="form.password.$validate()"
-        />
-        <FormErrors class="mt-1" :errors="form.password.$errors" />
+      <div>
+        <label for="password">Password</label>
+        <input id="password" type="password" v-model="form.password.$value" />
+        <FormErrors :errors="form.password.$errors"></FormErrors>
       </div>
-      <div class="mt-2">
-        <label class="label" for="confirm-password">Confirm Password</label>
+      <div>
+        <label for="confirm-password">Confirm password</label>
         <input
           id="confirm-password"
-          class="input w-full"
-          :class="{ error: form.confirmPassword.$hasError }"
           type="password"
           v-model="form.confirmPassword.$value"
-          @blur="form.confirmPassword.$validate()"
         />
-        <FormErrors class="mt-1" :errors="form.confirmPassword.$errors" />
+        <FormErrors :errors="form.confirmPassword.$errors"></FormErrors>
       </div>
-      <div class="mt-6 flex">
-        <AppButton
-          class="mr-4"
-          type="submit"
-          variant="primary"
-          :disabled="submitting"
-        >
-          Signup
-        </AppButton>
-        <AppButton @click="resetFields()">Reset</AppButton>
+      <div>
+        <button class="mt-4" type="submit">Signup</button>
+        <button type="button" class="ml-2" @click="resetFields()">Reset</button>
       </div>
-    </div>
+    </section>
   </FormProvider>
 </template>
 
-<style scoped>
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.spin {
-  animation: spin 600ms linear infinite;
-}
-</style>
+<style scoped></style>

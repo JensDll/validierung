@@ -34,7 +34,7 @@
   "unpkg": "./dist/index.iife.min.js",
   "jsdelivr": "./dist/index.iife.min.js",
   "dependencies": {
-    "vue-demi": "*"
+    "vue-demi": "0.12.5"
   },
   "peerDependencies": {
     "@vue/composition-api": "^1.4.4",

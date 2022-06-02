@@ -1,24 +1,28 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "./",
+    "outDir": "dist",
     "target": "ESNext",
-    "useDefineForClassFields": true,
     "module": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
     "isolatedModules": true,
+    "preserveValueImports": true,
+    "importsNotUsedAsValues": "error",
+    "allowJs": false,
     "strict": true,
     "jsx": "preserve",
     "sourceMap": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
+    "skipLibCheck": true,
+    "types": ["unplugin-vue2-script-setup/types"],
+    "lib": ["ESNext", "DOM", "DOM.Iterable", "ScriptHost"],
     "paths": {
       "~/*": ["src/*"]
-    },
-    "lib": ["ESNext", "DOM", "DOM.Iterable", "ScriptHost"],
-    "skipLibCheck": true
+    }
   },
   "vueCompilerOptions": {
     "experimentalCompatMode": 2
   },
-  "include": ["*.ts", "src/**/*", "src/**/*.vue"]
+  "include": ["*.ts", "dts/*.d.ts", "src/**/*", "src/**/*.vue"]
 }

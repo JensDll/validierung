@@ -15,6 +15,6 @@ Vue composition function for form validation. The word _validierung_ is the germ
 npm install validierung
 ```
 
-### 👉 [Check out the Documentation](https://github.com/JensDll/validierung/wiki/Documentation)
+### 👉 [Documentation](https://github.com/JensDll/validierung/wiki/Documentation)
 
-### 👉 [Vue 3 Playground on StackBlitz](https://stackblitz.com/github/JensDll/validierung/tree/main/playground/vue3?file=src%2Fviews%2FSignupForm.vue)
+### 👉 [Example](https://stackblitz.com/github/JensDll/validierung/tree/main/playground/vue3?file=src%2Fviews%2FSignupForm.vue)

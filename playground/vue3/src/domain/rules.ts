@@ -1,42 +1,42 @@
-import { SimpleRule, KeyedRule } from 'validierung'
+import type { SimpleRule, KeyedRule } from 'validierung'
 
-import { Lengthy } from './types'
+import type { Lengthy } from './types'
 
 export const rules = {
   required:
-    (msg: string): SimpleRule =>
-    x =>
-      !x && msg,
+    (message: string): SimpleRule =>
+    value =>
+      !value && message,
   min:
     (min: number) =>
-    (msg: string): SimpleRule<Lengthy> =>
-    x =>
-      x.length >= min || msg,
+    (message: string): SimpleRule<Lengthy> =>
+    value =>
+      value.length >= min || message,
   max:
     (max: number) =>
-    (msg: string): SimpleRule<Lengthy> =>
-    x =>
-      x.length <= max || msg,
+    (message: string): SimpleRule<Lengthy> =>
+    value =>
+      value.length <= max || message,
   minMax:
     (min: number, max: number) =>
-    (msg: string): SimpleRule<Lengthy> =>
-    x =>
-      (min <= x.length && x.length <= max) || msg,
+    (message: string): SimpleRule<Lengthy> =>
+    value =>
+      (min <= value.length && value.length <= max) || message,
   email:
-    (msg: string): SimpleRule<string> =>
-    x =>
-      /\S+@\S+\.\S+/.test(x) || msg,
+    (message: string): SimpleRule<string> =>
+    value =>
+      /\S+@\S+\.\S+/.test(value) || message,
   equal:
-    (msg: string): KeyedRule =>
-    (...xs) =>
-      xs.every(x => x === xs[0]) || msg,
+    (message: string): KeyedRule =>
+    (...values) =>
+      values.every(value => value === values[0]) || message,
   inTheFuture:
-    (msg: string): SimpleRule<string> =>
+    (message: string): SimpleRule<string> =>
     startDate => {
       const now = new Date().toLocaleDateString('en-CA')
 
       if (startDate && startDate.length <= now.length && startDate < now) {
-        return msg
+        return message
       }
     }
 }
