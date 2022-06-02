@@ -29,7 +29,8 @@ const {
   remove
 } = useValidation<FormData>({
   alfa: {
-    $value: ''
+    $value: '',
+    $rules: [rules.required('Alfa is required')]
   },
   outer: [
     {
@@ -67,7 +68,7 @@ function addInner(
     },
     delta: {
       $value: delta as never,
-      $rules: [rules.required('This field is required')]
+      $rules: [rules.required('Delta is required')]
     }
   })
 }
@@ -98,7 +99,14 @@ async function handleSubmit() {
       <section class="entry">
         <div class="col-span-2">
           <label for="alfa">Alfa</label>
-          <input id="alfa" type="text" v-model="form.alfa.$value" />
+          <input
+            id="alfa"
+            :class="{ 'border-red-500': form.alfa.$hasError }"
+            type="text"
+            v-model="form.alfa.$value"
+            @blur="form.alfa.$validate()"
+          />
+          <FormErrors :errors="form.alfa.$errors" />
         </div>
         <div class="i-plus" @click="addOuter()"></div>
       </section>
@@ -137,6 +145,7 @@ async function handleSubmit() {
               <label :for="`delta${inner.delta.$uid}`">Delta</label>
               <input
                 :id="`delta${inner.delta.$uid}`"
+                :class="{ 'border-red-500': inner.delta.$hasError }"
                 type="number"
                 v-model="inner.delta.$value"
                 @blur="inner.delta.$validate()"

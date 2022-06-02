@@ -76,9 +76,9 @@ importers:
 
   packages/shared:
     specifiers:
-      vue-demi: 0.12.5
+      vue-demi: '*'
     dependencies:
-      vue-demi: 0.12.5
+      vue-demi: 0.13.1
 
   packages/test-utils:
     specifiers:
@@ -88,13 +88,12 @@ importers:
 
   packages/validierung:
     specifiers:
-      vue-demi: 0.12.5
+      vue-demi: '*'
     dependencies:
-      vue-demi: 0.12.5
+      vue-demi: 0.13.1
 
   playground/vue2:
     specifiers:
-      '@tailwindcss/forms': 0.5.2
       '@vitejs/plugin-legacy': 1.8.2
       '@vue/composition-api': 1.6.2
       '@vue/runtime-dom': 3.2.36
@@ -112,7 +111,6 @@ importers:
       vue-router: 3.5.4
       vue-template-compiler: 2.6.14
     dependencies:
-      '@tailwindcss/forms': 0.5.2_tailwindcss@3.0.24
       '@vitejs/plugin-legacy': 1.8.2_vite@2.9.9
       '@vue/composition-api': 1.6.2_vue@2.6.14
       '@vue/runtime-dom': 3.2.36
@@ -132,7 +130,6 @@ importers:
 
   playground/vue3:
     specifiers:
-      '@tailwindcss/forms': 0.5.2
       '@vitejs/plugin-vue': 2.3.3
       autoprefixer: 10.4.7
       postcss: 8.4.14
@@ -145,7 +142,6 @@ importers:
       vue: 3.2.36
       vue-router: 4.0.15
     dependencies:
-      '@tailwindcss/forms': 0.5.2_tailwindcss@3.0.24
       '@vitejs/plugin-vue': 2.3.3_vite@2.9.9+vue@3.2.36
       autoprefixer: 10.4.7_postcss@8.4.14
       postcss: 8.4.14
@@ -808,15 +804,6 @@ packages:
       picomatch: 2.3.1
     dev: false
 
-  /@tailwindcss/forms/0.5.2_tailwindcss@3.0.24:
-    resolution: {integrity: sha512-pSrFeJB6Bg1Mrg9CdQW3+hqZXAKsBrSG9MAfFLKy1pVA4Mb4W7C0k7mEhlmS2Dfo/otxrQOET7NJiJ9RrS563w==}
-    peerDependencies:
-      tailwindcss: '>=3.0.0 || >= 3.0.0-alpha.1'
-    dependencies:
-      mini-svg-data-uri: 1.4.4
-      tailwindcss: 3.0.24
-    dev: false
-
   /@tootallnate/once/2.0.0:
     resolution: {integrity: sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==}
     engines: {node: '>= 10'}
@@ -1039,7 +1026,7 @@ packages:
       vite: ^2.8.0
     dependencies:
       '@babel/standalone': 7.18.4
-      core-js: 3.22.7
+      core-js: 3.22.8
       magic-string: 0.26.2
       regenerator-runtime: 0.13.9
       systemjs: 6.12.1
@@ -1616,7 +1603,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       browserslist: 4.20.3
-      caniuse-lite: 1.0.30001344
+      caniuse-lite: 1.0.30001346
       fraction.js: 4.2.0
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -1678,8 +1665,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001344
-      electron-to-chromium: 1.4.143
+      caniuse-lite: 1.0.30001346
+      electron-to-chromium: 1.4.144
       escalade: 3.1.1
       node-releases: 2.0.5
       picocolors: 1.0.0
@@ -1748,8 +1735,8 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
-  /caniuse-lite/1.0.30001344:
-    resolution: {integrity: sha512-0ZFjnlCaXNOAYcV7i+TtdKBp0L/3XEU2MF/x6Du1lrh+SRX4IfzIVL4HNJg5pB2PmFb8rszIGyOvsZnqqRoc2g==}
+  /caniuse-lite/1.0.30001346:
+    resolution: {integrity: sha512-q6ibZUO2t88QCIPayP/euuDREq+aMAxFE5S70PkrLh0iTDj/zEhgvJRKC2+CvXY6EWc6oQwUR48lL5vCW6jiXQ==}
     dev: false
 
   /chai/4.3.6:
@@ -2219,8 +2206,8 @@ packages:
       safe-buffer: 5.1.2
     dev: false
 
-  /core-js/3.22.7:
-    resolution: {integrity: sha512-Jt8SReuDKVNZnZEzyEQT5eK6T2RRCXkfTq7Lo09kpm+fHjgGewSbNjV+Wt4yZMhPDdzz2x1ulI5z/w4nxpBseg==}
+  /core-js/3.22.8:
+    resolution: {integrity: sha512-UoGQ/cfzGYIuiq6Z7vWL1HfkE9U9IZ4Ub+0XSiJTCzvbZzgPA69oDF2f+lgJ6dFFLEdjW5O6svvoKzXX23xFkA==}
     requiresBuild: true
     dev: false
 
@@ -2380,8 +2367,8 @@ packages:
       webidl-conversions: 7.0.0
     dev: false
 
-  /electron-to-chromium/1.4.143:
-    resolution: {integrity: sha512-2hIgvu0+pDfXIqmVmV5X6iwMjQ2KxDsWKwM+oI1fABEOy/Dqmll0QJRmIQ3rm+XaoUa/qKrmy5h7LSTFQ6Ldzg==}
+  /electron-to-chromium/1.4.144:
+    resolution: {integrity: sha512-R3RV3rU1xWwFJlSClVWDvARaOk6VUO/FubHLodIASDB3Mc2dzuWvNdfOgH9bwHUTqT79u92qw60NWfwUdzAqdg==}
     dev: false
 
   /emoji-regex/8.0.0:
@@ -3861,11 +3848,6 @@ packages:
     engines: {node: '>=4'}
     dev: false
 
-  /mini-svg-data-uri/1.4.4:
-    resolution: {integrity: sha512-r9deDe9p5FJUPZAk3A59wGH7Ii9YrjjWw0jmw/liSbHl2CHiyXj6FcDXDu2K3TjVAXqiJdaw3xxwlZZr9E6nHg==}
-    hasBin: true
-    dev: false
-
   /minimatch/3.1.2:
     resolution: {integrity: sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==}
     dependencies:
@@ -4211,7 +4193,7 @@ packages:
     dev: false
 
   /prelude-ls/1.1.2:
-    resolution: {integrity: sha1-IZMqVJ9eUv/ZqCf1cOBL5iqX2lQ=}
+    resolution: {integrity: sha512-ESF23V4SKG6lVSGZgYNpbsiaAkdab6ZgOxe52p7+Kid3W3u3bxR4Vfd/o21dmN7jSt0IwgZ4v5MUd26FEtXE9w==}
     engines: {node: '>= 0.8.0'}
     dev: false
 
@@ -4245,7 +4227,7 @@ packages:
     dev: false
 
   /pseudomap/1.0.2:
-    resolution: {integrity: sha1-8FKijacOYYkX7wqKw0wa5aaChrM=}
+    resolution: {integrity: sha512-b/YwNhb8lk1Zz2+bXXpS/LK9OisiZZ1SNsSLxN1x2OXVEhW2Ckr/7mWE5vrC1ZTiJlD9g19jWszTmJsB+oEpFQ==}
     dev: false
 
   /psl/1.8.0:
@@ -4743,8 +4725,8 @@ packages:
       readable-stream: 3.6.0
     dev: false
 
-  /terser-webpack-plugin/5.3.1_webpack@5.72.1:
-    resolution: {integrity: sha512-GvlZdT6wPQKbDNW/GDQzZFg/j4vKU96yl2q6mcUkzKOgW4gwf1Z8cZToUCrz31XHlPWH8MVb1r2tFtdDtTGJ7g==}
+  /terser-webpack-plugin/5.3.3_webpack@5.72.1:
+    resolution: {integrity: sha512-Fx60G5HNYknNTNQnzQ1VePRuu89ZVYWfjRAeT5rITuCY/1b08s49e5kSQwHDirKZWuoKOBRFS98EUUoZ9kLEwQ==}
     engines: {node: '>= 10.13.0'}
     peerDependencies:
       '@swc/core': '*'
@@ -4759,10 +4741,10 @@ packages:
       uglify-js:
         optional: true
     dependencies:
+      '@jridgewell/trace-mapping': 0.3.13
       jest-worker: 27.5.1
       schema-utils: 3.1.1
       serialize-javascript: 6.0.0
-      source-map: 0.6.1
       terser: 5.14.0
       webpack: 5.72.1_webpack-cli@4.9.2
     dev: false
@@ -5245,8 +5227,8 @@ packages:
       - supports-color
     dev: false
 
-  /vue-demi/0.12.5:
-    resolution: {integrity: sha512-BREuTgTYlUr0zw0EZn3hnhC3I6gPWv+Kwh4MCih6QcAeaTlaIX0DwOVN0wHej7hSvDPecz4jygy/idsgKfW58Q==}
+  /vue-demi/0.13.1:
+    resolution: {integrity: sha512-xmkJ56koG3ptpLnpgmIzk9/4nFf4CqduSJbUM0OdPoU87NwRuZ6x49OLhjSa/fC15fV+5CbEnrxU4oyE022svg==}
     engines: {node: '>=12'}
     hasBin: true
     requiresBuild: true
@@ -5437,7 +5419,7 @@ packages:
       neo-async: 2.6.2
       schema-utils: 3.1.1
       tapable: 2.2.1
-      terser-webpack-plugin: 5.3.1_webpack@5.72.1
+      terser-webpack-plugin: 5.3.3_webpack@5.72.1
       watchpack: 2.3.1
       webpack-cli: 4.9.2_webpack@5.72.1
       webpack-sources: 3.2.3

@@ -16,8 +16,9 @@ const routes = router
           v-for="route in routes"
           :to="{ name: route.name }"
           :key="route.name"
-          >{{ route.meta.title }}</RouterLink
         >
+          {{ route.meta.title }}
+        </RouterLink>
       </nav>
     </header>
     <main class="pb-24">

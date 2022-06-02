@@ -15,10 +15,10 @@
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "dependencies": {
-    "vue-demi": "0.12.5"
+    "vue-demi": "*"
   },
   "peerDependencies": {
-    "@vue/composition-api": "^1.4.4",
+    "@vue/composition-api": "1.x",
     "vue": "2.x || 3.x"
   },
   "peerDependenciesMeta": {
