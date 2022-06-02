@@ -9,16 +9,21 @@ const routes = router
 </script>
 
 <template>
-  <header class="mb-12 border-b py-6 xl:mx-auto xl:max-w-6xl">
-    <nav class="container space-x-4">
-      <RouterLink v-for="route in routes" :to="{ name: route.name }">{{
-        route.meta.title
-      }}</RouterLink>
-    </nav>
-  </header>
-  <main class="pb-24">
-    <RouterView></RouterView>
-  </main>
+  <div>
+    <header class="mb-12 py-6">
+      <nav class="container space-x-4">
+        <RouterLink
+          v-for="route in routes"
+          :to="{ name: route.name }"
+          :key="route.name"
+          >{{ route.meta.title }}</RouterLink
+        >
+      </nav>
+    </header>
+    <main class="pb-24">
+      <RouterView></RouterView>
+    </main>
+  </div>
 </template>
 
 <style></style>

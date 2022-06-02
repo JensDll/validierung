@@ -95,7 +95,7 @@ async function handleSubmit() {
     :validation="{ form, validating, submitting, hasError, errors }"
     @submit="handleSubmit()"
   >
-    <section class="space-y-2 xl:w-2/3">
+    <section class="space-y-2 lg:w-2/3">
       <div>
         <label for="name">Name</label>
         <div class="relative flex items-center">

@@ -9,8 +9,8 @@ export const compare = {
       (start.length === end.length && start < end)
     ) {
       return -1
-    } else {
-      return 1
     }
+
+    return 1
   }
 }

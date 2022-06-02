@@ -10,6 +10,25 @@ type FormData = {
   confirmPassword: Field<string>
 }
 
+const checkName = (name: string) => {
+  if (!name) {
+    return 'Please input your name'
+  }
+  return new Promise<void | string>(resolve => {
+    setTimeout(() => {
+      if (['alice', 'bob', 'oscar'].includes(name.toLocaleLowerCase())) {
+        resolve()
+      } else {
+        resolve(
+          `Name "${
+            name.length < 30 ? name : `${name.slice(0, 31)}...`
+          }" is not available`
+        )
+      }
+    }, 700)
+  })
+}
+
 const {
   form,
   validating,
@@ -21,7 +40,7 @@ const {
 } = useValidation<FormData>({
   name: {
     $value: '',
-    $rules: [rules.required('Name is required')]
+    $rules: [['change', checkName, 500]]
   },
   email: {
     $value: '',
@@ -69,39 +88,51 @@ async function handleSubmit() {
 
 <template>
   <FormProvider
-    class="container"
-    title="Signup"
+    :title="$route.meta.title"
     :validation="{ form, validating, submitting, hasError, errors }"
     @submit="handleSubmit()"
   >
-    <div>
-      <label class="block" for="name">Name</label>
-      <input id="name" type="text" v-model="form.name.$value" />
-      <FormErrors :errors="form.name.$errors"></FormErrors>
-    </div>
-    <div>
-      <label class="block" for="email">Email</label>
-      <input id="email" type="email" v-model="form.email.$value" />
-      <FormErrors :errors="form.email.$errors"></FormErrors>
-    </div>
-    <div>
-      <label class="block" for="password">Password</label>
-      <input id="password" type="password" v-model="form.password.$value" />
-      <FormErrors :errors="form.password.$errors"></FormErrors>
-    </div>
-    <div>
-      <label class="block" for="confirm-password">Confirm password</label>
-      <input
-        id="confirm-password"
-        type="password"
-        v-model="form.confirmPassword.$value"
-      />
-      <FormErrors :errors="form.confirmPassword.$errors"></FormErrors>
-    </div>
-    <div class="mt-4">
-      <button type="submit">Signup</button>
-      <button type="button" class="ml-2" @click="resetFields()">Reset</button>
-    </div>
+    <section class="space-y-2 xl:w-2/3">
+      <div>
+        <label for="name">Name</label>
+        <div class="relative flex items-center">
+          <input
+            id="name"
+            type="text"
+            v-model="form.name.$value"
+            placeholder="Alice, Bob, or Oscar"
+          />
+          <div
+            class="i-custom-loading spin absolute right-3 h-5 w-5 animate-spin"
+            v-show="form.name.$validating"
+          />
+        </div>
+        <FormErrors :errors="form.name.$errors"></FormErrors>
+      </div>
+      <div>
+        <label for="email">Email</label>
+        <input id="email" type="email" v-model="form.email.$value" />
+        <FormErrors :errors="form.email.$errors"></FormErrors>
+      </div>
+      <div>
+        <label for="password">Password</label>
+        <input id="password" type="password" v-model="form.password.$value" />
+        <FormErrors :errors="form.password.$errors"></FormErrors>
+      </div>
+      <div>
+        <label for="confirm-password">Confirm password</label>
+        <input
+          id="confirm-password"
+          type="password"
+          v-model="form.confirmPassword.$value"
+        />
+        <FormErrors :errors="form.confirmPassword.$errors"></FormErrors>
+      </div>
+      <div>
+        <button class="mt-4" type="submit">Signup</button>
+        <button type="button" class="ml-2" @click="resetFields()">Reset</button>
+      </div>
+    </section>
   </FormProvider>
 </template>
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, type PropType, type UnwrapRef } from '@vue/composition-api'
+import { type PropType, type UnwrapRef, computed } from '@vue/composition-api'
 import type { UseValidation } from 'validierung'
 
 import { stringify } from '~/domain'

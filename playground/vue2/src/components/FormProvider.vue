@@ -3,6 +3,7 @@ import type { PropType, UnwrapRef } from '@vue/composition-api'
 import type { UseValidation } from 'validierung'
 
 defineEmits(['submit'])
+
 defineProps({
   title: {
     type: String,
@@ -24,11 +25,15 @@ defineProps({
 
 <template>
   <div>
-    <h1>{{ title }}</h1>
-    <form autocomplete="off" @submit.prevent.self="$emit('submit')">
-      <slot></slot>
-    </form>
-    <PreFormData class="mt-12" :validation="validation" />
+    <section class="container mb-12">
+      <h1>{{ title }}</h1>
+      <form autocomplete="off" @submit.prevent.self="$emit('submit')">
+        <slot></slot>
+      </form>
+    </section>
+    <section class="container">
+      <PreFormData :validation="validation" />
+    </section>
   </div>
 </template>
 

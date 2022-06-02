@@ -2,10 +2,12 @@ const { Icons } = require('tailwindcss-plugin-icons')
 const defaultTheme = require('tailwindcss/defaultTheme')
 
 const { Utilities } = require('./tailwind/utilities')
+const { colors } = require('./tailwind/colors')
 
 module.exports = {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
+    colors,
     fontFamily: {
       sans: ['Montserrat', ...defaultTheme.fontFamily.sans]
     },
