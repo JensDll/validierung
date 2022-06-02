@@ -42,7 +42,7 @@ const {
   ]
 })
 
-addInner(0, 'default', 42)
+addInner(0, 'DEFAULT', 42)
 
 function addOuter() {
   add(['outer'], {
@@ -101,7 +101,6 @@ async function handleSubmit() {
           <label for="alfa">Alfa</label>
           <input
             id="alfa"
-            :class="{ 'border-red-500': form.alfa.$hasError }"
             type="text"
             v-model="form.alfa.$value"
             @blur="form.alfa.$validate()"
@@ -145,7 +144,6 @@ async function handleSubmit() {
               <label :for="`delta${inner.delta.$uid}`">Delta</label>
               <input
                 :id="`delta${inner.delta.$uid}`"
-                :class="{ 'border-red-500': inner.delta.$hasError }"
                 type="number"
                 v-model="inner.delta.$value"
                 @blur="inner.delta.$validate()"
@@ -167,7 +165,7 @@ async function handleSubmit() {
 <style scoped>
 .entry {
   display: grid;
-  grid-template-columns: 1fr 1fr 3rem 1.5rem;
+  grid-template-columns: 1fr 1fr 2rem 1.5rem;
   grid-template-areas: '. . minus plus';
   column-gap: 1rem;
 }
@@ -183,6 +181,7 @@ async function handleSubmit() {
 }
 
 .i-minus {
+  transform: translateX(6px);
   grid-area: minus;
 }
 </style>

@@ -101,13 +101,12 @@ async function handleSubmit() {
         <div class="relative flex items-center">
           <input
             id="name"
-            :class="{ 'border-red-500': form.name.$hasError }"
             type="text"
             v-model="form.name.$value"
             placeholder="Alice, Bob, or Oscar"
           />
           <div
-            class="i-custom-loading spin absolute right-3 h-5 w-5 animate-spin"
+            class="i-loading absolute right-3"
             v-show="form.name.$validating"
           />
         </div>
@@ -117,7 +116,6 @@ async function handleSubmit() {
         <label for="email">Email</label>
         <input
           id="email"
-          :class="{ 'border-red-500': form.email.$hasError }"
           type="email"
           v-model="form.email.$value"
           @blur="form.email.$validate()"
@@ -128,7 +126,6 @@ async function handleSubmit() {
         <label for="password">Password</label>
         <input
           id="password"
-          :class="{ 'border-red-500': form.password.$hasError }"
           type="password"
           v-model="form.password.$value"
           @blur="form.password.$validate()"
@@ -139,7 +136,6 @@ async function handleSubmit() {
         <label for="confirm-password">Confirm password</label>
         <input
           id="confirm-password"
-          :class="{ 'border-red-500': form.confirmPassword.$hasError }"
           type="password"
           v-model="form.confirmPassword.$value"
           @blur="form.confirmPassword.$validate()"
