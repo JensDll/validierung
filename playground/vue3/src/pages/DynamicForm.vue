@@ -41,7 +41,7 @@ const {
   ]
 })
 
-addInner(0, '', 42)
+addInner(0, 'default', 42)
 
 function addOuter() {
   add(['outer'], {
