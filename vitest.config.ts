@@ -1,6 +1,6 @@
 /// <reference types="vitest" />
 
-import { defineConfig } from 'vitest/config'
+import { defineConfig, configDefaults } from 'vitest/config'
 import replace from '@rollup/plugin-replace'
 
 export default defineConfig({
@@ -8,6 +8,7 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     include: ['**/*.spec.ts'],
+    exclude: ['test-dts', ...configDefaults.exclude],
     clearMocks: true
   },
   plugins: [

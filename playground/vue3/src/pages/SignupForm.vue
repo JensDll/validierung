@@ -95,12 +95,13 @@ async function handleSubmit() {
     :validation="{ form, validating, submitting, hasError, errors }"
     @submit="handleSubmit()"
   >
-    <section class="space-y-2 lg:w-2/3">
+    <section class="space-y-2">
       <div>
         <label for="name">Name</label>
         <div class="relative flex items-center">
           <input
             id="name"
+            :class="{ error: form.name.$hasError }"
             type="text"
             v-model="form.name.$value"
             placeholder="Alice, Bob, or Oscar"
@@ -116,6 +117,7 @@ async function handleSubmit() {
         <label for="email">Email</label>
         <input
           id="email"
+          :class="{ error: form.email.$hasError }"
           type="email"
           v-model="form.email.$value"
           @blur="form.email.$validate()"
@@ -126,6 +128,7 @@ async function handleSubmit() {
         <label for="password">Password</label>
         <input
           id="password"
+          :class="{ error: form.password.$hasError }"
           type="password"
           v-model="form.password.$value"
           @blur="form.password.$validate()"
@@ -136,6 +139,7 @@ async function handleSubmit() {
         <label for="confirm-password">Confirm password</label>
         <input
           id="confirm-password"
+          :class="{ error: form.confirmPassword.$hasError }"
           type="password"
           v-model="form.confirmPassword.$value"
           @blur="form.confirmPassword.$validate()"
@@ -143,7 +147,7 @@ async function handleSubmit() {
         <FormErrors :errors="form.confirmPassword.$errors"></FormErrors>
       </div>
       <div>
-        <button class="mt-4" type="submit">Signup</button>
+        <button class="mt-6" type="submit">Signup</button>
         <button type="button" class="ml-2" @click="resetFields()">Reset</button>
       </div>
     </section>

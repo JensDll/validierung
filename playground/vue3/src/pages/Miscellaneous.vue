@@ -132,7 +132,7 @@ async function handleSubmit() {
       <label class="grid-area-[start-label]" for="start-date">Starts</label>
       <input
         class="grid-area-[start-date]"
-        :class="{ 'border-red-500': form.startDate.$hasError }"
+        :class="{ error: form.startDate.$hasError }"
         id="start-date"
         type="date"
         v-model="form.startDate.$value"
@@ -142,7 +142,7 @@ async function handleSubmit() {
       />
       <input
         class="grid-area-[start-time]"
-        :class="{ 'border-red-500': form.startTime.$hasError }"
+        :class="{ error: form.startTime.$hasError }"
         type="time"
         v-model="form.startTime.$value"
         @blur="form.startTime.$validate()"
@@ -151,13 +151,13 @@ async function handleSubmit() {
         class="grid-area-[start-error]"
         :errors="[...form.startDate.$errors, ...form.startTime.$errors]"
       />
-      <div class="grid-area-[hyphen] hidden place-self-center md:block">-</div>
-      <label class="grid-area-[end-label] mt-4 md:mt-0" for="end-date">
+      <div class="grid-area-[hyphen] hidden place-self-center xl:block">-</div>
+      <label class="grid-area-[end-label] mt-4 xl:mt-0" for="end-date">
         Ends by
       </label>
       <input
         class="grid-area-[end-date]"
-        :class="{ 'border-red-500': form.endDate.$hasError }"
+        :class="{ error: form.endDate.$hasError }"
         id="end-date"
         type="date"
         v-model="form.endDate.$value"
@@ -166,7 +166,7 @@ async function handleSubmit() {
       />
       <input
         class="grid-area-[end-time]"
-        :class="{ 'border-red-500': form.endTime.$hasError }"
+        :class="{ error: form.endTime.$hasError }"
         type="time"
         v-model="form.endTime.$value"
         @blur="form.endTime.$validate()"
@@ -177,7 +177,7 @@ async function handleSubmit() {
       />
     </section>
     <div class="clear-left">
-      <button class="mt-8" type="submit">Submit</button>
+      <button class="mt-10" type="submit">Submit</button>
       <button type="button" class="ml-2" @click="resetFields()">Reset</button>
     </div>
   </FormProvider>
@@ -186,7 +186,7 @@ async function handleSubmit() {
 <style scoped>
 .datetime-range {
   display: grid;
-  grid-template-columns: 9rem 6rem;
+  grid-template-columns: 1.5fr 1fr;
   grid-template-areas:
     'start-label start-label'
     'start-date start-time'
@@ -197,10 +197,9 @@ async function handleSubmit() {
   @apply gap-x-4;
 }
 
-@screen md {
+@screen xl {
   .datetime-range {
-    @apply float-left;
-    grid-template-columns: 9rem 6rem auto 9rem 6rem;
+    grid-template-columns: 1.5fr 1fr auto 1.5fr 1fr;
     grid-template-areas:
       'start-label start-label . end-label end-label'
       'start-date start-time hyphen end-date end-time'

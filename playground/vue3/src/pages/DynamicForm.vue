@@ -7,12 +7,12 @@ import { rules, stringify } from '~/domain'
 const route = useRoute()
 
 type FormData = {
-  alfa: Field<string>
+  a: Field<string>
   outer: {
-    bravo: Field<string>
+    b: Field<string>
     inner: {
-      charlie: Field<string>
-      delta: Field<number>
+      c: Field<string>
+      d: Field<number>
     }[]
   }[]
 }
@@ -28,26 +28,21 @@ const {
   add,
   remove
 } = useValidation<FormData>({
-  alfa: {
+  a: {
     $value: '',
-    $rules: [rules.required('Alfa is required')]
+    $rules: [rules.required('A is required')]
   },
-  outer: [
-    {
-      bravo: {
-        $value: ''
-      },
-      inner: []
-    }
-  ]
+  outer: []
 })
 
-addInner(0, 'DEFAULT', 42)
+addOuter()
+addInner(0)
 
 function addOuter() {
   add(['outer'], {
-    bravo: {
-      $value: ''
+    b: {
+      $value: '',
+      $rules: [rules.required('B is required')]
     },
     inner: []
   })
@@ -57,18 +52,15 @@ function removeOuter(outerIdx: number) {
   remove(['outer', outerIdx])
 }
 
-function addInner(
-  outerIdx: number,
-  charlie = '',
-  delta: number | undefined = undefined
-) {
+function addInner(outerIdx: number, c = '', d: number | undefined = undefined) {
   add(['outer', outerIdx, 'inner'], {
-    charlie: {
-      $value: charlie
+    c: {
+      $value: c,
+      $rules: [rules.required('C is required')]
     },
-    delta: {
-      $value: delta as never,
-      $rules: [rules.required('Delta is required')]
+    d: {
+      $value: d as never,
+      $rules: [rules.required('D is required')]
     }
   })
 }
@@ -96,62 +88,65 @@ async function handleSubmit() {
     @submit="handleSubmit()"
   >
     <section>
-      <section class="entry">
-        <div class="col-span-2">
-          <label for="alfa">Alfa</label>
-          <input
-            id="alfa"
-            type="text"
-            v-model="form.alfa.$value"
-            @blur="form.alfa.$validate()"
-          />
-          <FormErrors :errors="form.alfa.$errors" />
-        </div>
+      <div class="entry">
+        <label class="label-a" for="a">A</label>
+        <input
+          id="a"
+          class="input-a"
+          :class="{ error: form.a.$hasError }"
+          type="text"
+          v-model="form.a.$value"
+          @blur="form.a.$validate()"
+        />
+        <FormErrors class="error-a" :errors="form.a.$errors" />
         <div class="i-plus" @click="addOuter()"></div>
-      </section>
+      </div>
+
       <section
         class="mt-8"
         v-for="(outer, outerIdx) in form.outer"
-        :key="outer.bravo.$uid"
+        :key="outer.b.$uid"
       >
-        <section class="entry">
-          <div class="col-span-2">
-            <label :for="`bravo${outer.bravo.$uid}`">Bravo</label>
-            <input
-              :id="`bravo${outer.bravo.$uid}`"
-              type="text"
-              v-model="outer.bravo.$value"
-            />
-          </div>
+        <div class="entry">
+          <label class="label-b" :for="`b${outer.b.$uid}`">B</label>
+          <input
+            :id="`b${outer.b.$uid}`"
+            class="input-b"
+            :class="{ error: outer.b.$hasError }"
+            type="text"
+            v-model="outer.b.$value"
+          />
+          <FormErrors class="error-b" :errors="outer.b.$errors" />
           <div class="i-minus" @click="removeOuter(outerIdx)"></div>
           <div class="i-plus" @click="addInner(outerIdx)"></div>
-        </section>
+        </div>
         <section
           class="mt-4"
           v-for="(inner, innerIdx) in outer.inner"
-          :key="inner.charlie.$uid"
+          :key="inner.c.$uid"
         >
-          <section class="entry">
-            <div>
-              <label :for="`charlie${inner.charlie.$uid}`">Charlie</label>
-              <input
-                :id="`charlie${inner.charlie.$uid}`"
-                type="text"
-                v-model="inner.charlie.$value"
-              />
-            </div>
-            <div>
-              <label :for="`delta${inner.delta.$uid}`">Delta</label>
-              <input
-                :id="`delta${inner.delta.$uid}`"
-                type="number"
-                v-model="inner.delta.$value"
-                @blur="inner.delta.$validate()"
-              />
-              <FormErrors :errors="inner.delta.$errors" />
-            </div>
+          <div class="entry">
+            <label class="label-c" :for="`c${inner.c.$uid}`">C</label>
+            <label class="label-d" :for="`d${inner.d.$uid}`">D</label>
+            <input
+              :id="`c${inner.c.$uid}`"
+              class="input-c"
+              :class="{ error: inner.c.$hasError }"
+              type="text"
+              v-model="inner.c.$value"
+            />
+            <input
+              :id="`d${inner.d.$uid}`"
+              class="input-d"
+              :class="{ error: inner.d.$hasError }"
+              type="number"
+              v-model="inner.d.$value"
+              @blur="inner.d.$validate()"
+            />
+            <FormErrors class="error-c" :errors="inner.c.$errors" />
+            <FormErrors class="error-d" :errors="inner.d.$errors" />
             <div class="i-minus" @click="removeInner(outerIdx, innerIdx)"></div>
-          </section>
+          </div>
         </section>
       </section>
       <div>
@@ -166,14 +161,55 @@ async function handleSubmit() {
 .entry {
   display: grid;
   grid-template-columns: 1fr 1fr 2rem 1.5rem;
-  grid-template-areas: '. . minus plus';
+  grid-template-areas:
+    'label-1 label-2 . .'
+    'input-1 input-2 minus plus'
+    'error-1 error-2 . .';
   column-gap: 1rem;
 }
 
-.i-minus,
-.i-plus {
-  justify-self: end;
-  margin-top: 29px;
+.label-a,
+.label-b {
+  grid-area: label-1 / label-1 / label-2 / label-2;
+}
+
+.input-a,
+.input-b {
+  grid-area: input-1 / input-1 / input-2 / input-2;
+}
+
+.error-a,
+.error-b {
+  grid-area: error-1 / error-1 / error-2 / error-2;
+}
+
+.label-c {
+  grid-area: label-1;
+}
+
+.label-d {
+  grid-area: label-2;
+}
+
+.input-c {
+  grid-area: input-1;
+}
+
+.input-d {
+  grid-area: input-2;
+}
+
+.error-c {
+  grid-area: error-1;
+}
+
+.error-d {
+  grid-area: error-2;
+}
+
+.i-plus,
+.i-minus {
+  align-self: center;
 }
 
 .i-plus {
@@ -181,7 +217,13 @@ async function handleSubmit() {
 }
 
 .i-minus {
-  transform: translateX(6px);
   grid-area: minus;
+  justify-self: end;
+}
+
+@screen md {
+  .entry {
+    grid-template-columns: 1fr 1fr 3rem 1.5rem;
+  }
 }
 </style>

@@ -1,3 +1,5 @@
+const Forms = require('@tailwindcss/forms')
+const Typography = require('@tailwindcss/typography')
 const { Icons } = require('tailwindcss-plugin-icons')
 const defaultTheme = require('tailwindcss/defaultTheme')
 
@@ -9,12 +11,13 @@ module.exports = {
   theme: {
     colors,
     fontFamily: {
-      sans: ['Montserrat', ...defaultTheme.fontFamily.sans]
+      sans: [...defaultTheme.fontFamily.sans]
     },
     extend: {}
   },
   plugins: [
-    Utilities(),
+    Forms(),
+    Typography(),
     Icons({
       heroiconsSolid: {
         icons: ['menu'],
@@ -31,9 +34,7 @@ module.exports = {
         location:
           'https://gist.githubusercontent.com/JensDll/4e59cf6005f585581975941a94bc1d88/raw/0e70bdac81224add27d8f0576ab15406709e5938/icons.json'
       }
-    })
-  ],
-  corePlugins: {
-    preflight: false
-  }
+    }),
+    Utilities()
+  ]
 }
