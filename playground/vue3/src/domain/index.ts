@@ -1,7 +1,7 @@
 export { rules } from './rules'
 export { compare } from './compare'
 export { guards } from './typeGuards'
-export { type Lengthy } from './types'
+export type { Lengthy } from './types'
 
 export const stringify = (value: unknown) =>
   JSON.stringify(

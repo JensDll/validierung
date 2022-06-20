@@ -176,7 +176,7 @@ async function handleSubmit() {
         :errors="[...form.endDate.$errors, ...form.endTime.$errors]"
       />
     </section>
-    <div class="clear-left">
+    <div>
       <button class="mt-10" type="submit">Submit</button>
       <button type="button" class="ml-2" @click="resetFields()">Reset</button>
     </div>

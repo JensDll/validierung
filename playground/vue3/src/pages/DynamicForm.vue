@@ -87,73 +87,68 @@ async function handleSubmit() {
     :validation="{ form, validating, submitting, hasError, errors }"
     @submit="handleSubmit()"
   >
-    <section>
+    <div class="entry">
+      <label class="label-a" for="a">A</label>
+      <input
+        id="a"
+        class="input-a"
+        :class="{ error: form.a.$hasError }"
+        type="text"
+        v-model="form.a.$value"
+        @blur="form.a.$validate()"
+      />
+      <FormErrors class="error-a" :errors="form.a.$errors" />
+      <div class="i-plus" @click="addOuter()"></div>
+    </div>
+    <section
+      class="mt-8"
+      v-for="(outer, outerIdx) in form.outer"
+      :key="outer.b.$uid"
+    >
       <div class="entry">
-        <label class="label-a" for="a">A</label>
+        <label class="label-b" :for="`b${outer.b.$uid}`">B</label>
         <input
-          id="a"
-          class="input-a"
-          :class="{ error: form.a.$hasError }"
+          :id="`b${outer.b.$uid}`"
+          class="input-b"
+          :class="{ error: outer.b.$hasError }"
           type="text"
-          v-model="form.a.$value"
-          @blur="form.a.$validate()"
+          v-model="outer.b.$value"
         />
-        <FormErrors class="error-a" :errors="form.a.$errors" />
-        <div class="i-plus" @click="addOuter()"></div>
+        <FormErrors class="error-b" :errors="outer.b.$errors" />
+        <div class="i-minus" @click="removeOuter(outerIdx)"></div>
+        <div class="i-plus" @click="addInner(outerIdx)"></div>
       </div>
-
-      <section
-        class="mt-8"
-        v-for="(outer, outerIdx) in form.outer"
-        :key="outer.b.$uid"
+      <div
+        class="entry mt-4"
+        v-for="(inner, innerIdx) in outer.inner"
+        :key="inner.c.$uid"
       >
-        <div class="entry">
-          <label class="label-b" :for="`b${outer.b.$uid}`">B</label>
-          <input
-            :id="`b${outer.b.$uid}`"
-            class="input-b"
-            :class="{ error: outer.b.$hasError }"
-            type="text"
-            v-model="outer.b.$value"
-          />
-          <FormErrors class="error-b" :errors="outer.b.$errors" />
-          <div class="i-minus" @click="removeOuter(outerIdx)"></div>
-          <div class="i-plus" @click="addInner(outerIdx)"></div>
-        </div>
-        <section
-          class="mt-4"
-          v-for="(inner, innerIdx) in outer.inner"
-          :key="inner.c.$uid"
-        >
-          <div class="entry">
-            <label class="label-c" :for="`c${inner.c.$uid}`">C</label>
-            <label class="label-d" :for="`d${inner.d.$uid}`">D</label>
-            <input
-              :id="`c${inner.c.$uid}`"
-              class="input-c"
-              :class="{ error: inner.c.$hasError }"
-              type="text"
-              v-model="inner.c.$value"
-            />
-            <input
-              :id="`d${inner.d.$uid}`"
-              class="input-d"
-              :class="{ error: inner.d.$hasError }"
-              type="number"
-              v-model="inner.d.$value"
-              @blur="inner.d.$validate()"
-            />
-            <FormErrors class="error-c" :errors="inner.c.$errors" />
-            <FormErrors class="error-d" :errors="inner.d.$errors" />
-            <div class="i-minus" @click="removeInner(outerIdx, innerIdx)"></div>
-          </div>
-        </section>
-      </section>
-      <div>
-        <button class="mt-10" type="submit">Submit</button>
-        <button type="button" class="ml-2" @click="resetFields()">Reset</button>
+        <label class="label-c" :for="`c${inner.c.$uid}`">C</label>
+        <label class="label-d" :for="`d${inner.d.$uid}`">D</label>
+        <input
+          :id="`c${inner.c.$uid}`"
+          class="input-c"
+          :class="{ error: inner.c.$hasError }"
+          type="text"
+          v-model="inner.c.$value"
+        />
+        <input
+          :id="`d${inner.d.$uid}`"
+          class="input-d"
+          :class="{ error: inner.d.$hasError }"
+          type="number"
+          v-model="inner.d.$value"
+          @blur="inner.d.$validate()"
+        />
+        <FormErrors class="error-c" :errors="inner.c.$errors" />
+        <FormErrors class="error-d" :errors="inner.d.$errors" />
+        <div class="i-minus" @click="removeInner(outerIdx, innerIdx)"></div>
       </div>
     </section>
+    <div>
+      <button class="mt-10" type="submit">Submit</button>
+      <button type="button" class="ml-2" @click="resetFields()">Reset</button>
+    </div>
   </FormProvider>
 </template>
 

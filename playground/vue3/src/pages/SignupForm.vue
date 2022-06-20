@@ -17,6 +17,7 @@ const checkName = (name: string) => {
   if (!name) {
     return 'Please input your name'
   }
+
   return new Promise<void | string>(resolve => {
     setTimeout(() => {
       if (['alice', 'bob', 'oscar'].includes(name.toLocaleLowerCase())) {
@@ -146,11 +147,11 @@ async function handleSubmit() {
         />
         <FormErrors :errors="form.confirmPassword.$errors"></FormErrors>
       </div>
-      <div>
-        <button class="mt-6" type="submit">Signup</button>
-        <button type="button" class="ml-2" @click="resetFields()">Reset</button>
-      </div>
     </section>
+    <div>
+      <button class="mt-10" type="submit">Signup</button>
+      <button type="button" class="ml-2" @click="resetFields()">Reset</button>
+    </div>
   </FormProvider>
 </template>
 

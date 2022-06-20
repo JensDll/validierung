@@ -1,0 +1,22 @@
+@layer base {
+  html {
+    @apply prose-slate;
+
+    --color-text-error: theme('colors.rgb.red.500');
+
+    --color-fill: theme('colors.rgb.gray.50');
+    --color-form-fill: theme('colors.rgb.white');
+
+    --color-border-base: theme('colors.rgb.gray.200');
+    --color-border-form-base: theme('colors.rgb.gray.300');
+    --color-border-form-highlight: theme('colors.rgb.emerald.500');
+  }
+
+  body {
+    @apply bg-bg-base text-text-base font-sans;
+  }
+
+  button {
+    @apply relative inline-flex rounded border-2 border-blue-600 !bg-blue-600 px-4 py-1 font-medium text-white outline-none outline-offset-[2.5px] hover:border-blue-500 hover:!bg-blue-500;
+  }
+}
