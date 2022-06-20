@@ -48,7 +48,12 @@ module.exports.Utilities = function () {
     },
     {
       corePlugins: {
-        container: false
+        container: false,
+        ringColor: false,
+        ringOffsetColor: false,
+        ringOffsetWidth: false,
+        ringOpacity: false,
+        ringWidth: false
       }
     }
   )

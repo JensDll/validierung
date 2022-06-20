@@ -1,0 +1,87 @@
+@layer base {
+  label {
+    @apply mb-1 block font-medium;
+  }
+
+  textarea {
+    display: block;
+  }
+
+  [type='file'] {
+    appearance: none;
+    cursor: pointer;
+    font-size: 0;
+  }
+
+  [type='radio'] {
+    @apply border-border-form-base bg-bg-form-base text-border-form-highlight;
+  }
+
+  [type='text'],
+  [type='email'],
+  [type='url'],
+  [type='password'],
+  [type='number'],
+  [type='date'],
+  [type='datetime-local'],
+  [type='month'],
+  [type='search'],
+  [type='tel'],
+  [type='time'],
+  [type='week'],
+  [type='checkbox'],
+  [type='radio'] [multiple],
+  textarea,
+  select {
+    @apply border-border-form-base bg-bg-form-base w-full rounded-md border;
+    line-height: inherit;
+  }
+
+  .custom-file-input {
+    @apply border-border-form-base bg-bg-form-base rounded-md border-2 border-dashed;
+  }
+
+  [type='text'].error,
+  [type='email'].error,
+  [type='url'].error,
+  [type='password'].error,
+  [type='number'].error,
+  [type='date'].error,
+  [type='datetime-local'].error,
+  [type='month'].error,
+  [type='search'].error,
+  [type='tel'].error,
+  [type='time'].error,
+  [type='week'].error,
+  [type='checkbox'].error,
+  [type='radio'].error,
+  [type='radio'] [multiple].error,
+  textarea.error,
+  select.error,
+  .custom-file-input.error {
+    --color-border-form-base: theme('colors.rgb.red.300');
+    --color-border-form-highlight: var(--color-text-error);
+  }
+
+  [type='text']:focus,
+  [type='email']:focus,
+  [type='url']:focus,
+  [type='password']:focus,
+  [type='number']:focus,
+  [type='date']:focus,
+  [type='datetime-local']:focus,
+  [type='month']:focus,
+  [type='search']:focus,
+  [type='tel']:focus,
+  [type='time']:focus,
+  [type='week']:focus,
+  [type='checkbox'],
+  [type='radio']:focus,
+  [type='radio'] [multiple]:focus,
+  textarea:focus,
+  select:focus,
+  .custom-file-input:focus-within {
+    border-color: theme('colors.border.form.highlight' / 1);
+    box-shadow: 0 0 0 4px theme('colors.border.form.highlight' / 0.12);
+  }
+}

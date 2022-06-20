@@ -24,14 +24,14 @@ defineProps({
 </script>
 
 <template>
-  <div>
-    <section class="container mb-12">
+  <div class="container mx-auto">
+    <section class="mb-12">
       <h1>{{ title }}</h1>
       <form autocomplete="off" @submit.prevent.self="$emit('submit')">
         <slot></slot>
       </form>
     </section>
-    <section class="container">
+    <section>
       <PreFormData :validation="validation" />
     </section>
   </div>
