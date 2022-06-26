@@ -2,36 +2,38 @@ import type { SimpleRule, KeyedRule } from 'validierung'
 
 import type { Lengthy } from './types'
 
+type RuleMessage = string | symbol
+
 export const rules = {
   required:
-    (message: string): SimpleRule =>
+    (message: RuleMessage): SimpleRule =>
     value =>
       !value && message,
   min:
     (min: number) =>
-    (message: string): SimpleRule<Lengthy> =>
+    (message: RuleMessage): SimpleRule<Lengthy> =>
     value =>
       value.length >= min || message,
   max:
     (max: number) =>
-    (message: string): SimpleRule<Lengthy> =>
+    (message: RuleMessage): SimpleRule<Lengthy> =>
     value =>
       value.length <= max || message,
   minMax:
     (min: number, max: number) =>
-    (message: string): SimpleRule<Lengthy> =>
+    (message: RuleMessage): SimpleRule<Lengthy> =>
     value =>
       (min <= value.length && value.length <= max) || message,
   email:
-    (message: string): SimpleRule<string> =>
+    (message: RuleMessage): SimpleRule<string> =>
     value =>
       /\S+@\S+\.\S+/.test(value) || message,
   equal:
-    (message: string): KeyedRule =>
+    (message: RuleMessage): KeyedRule =>
     (...values) =>
       values.every(value => value === values[0]) || message,
   inTheFuture:
-    (message: string): SimpleRule<string> =>
+    (message: RuleMessage): SimpleRule<string> =>
     startDate => {
       const now = new Date().toLocaleDateString('en-CA')
 

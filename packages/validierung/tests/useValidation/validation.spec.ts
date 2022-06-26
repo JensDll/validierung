@@ -1,7 +1,7 @@
 import { ref } from 'vue-demi'
 import { makePromise } from '@internal/test-utils'
 import type { ValidationBehaviorInfo } from 'validierung'
-import type { SpyInstanceFn } from 'vitest'
+import type { Mock } from 'vitest'
 
 import { useValidation } from '../../src/useValidation'
 import { ValidationError } from '../../src/validationError'
@@ -59,13 +59,13 @@ describe.each([
 ])('$note', ({ debounce }) => {
   type MakeRuleResult = {
     tuple: any
-    vbf: SpyInstanceFn<ValidationBehaviorInfo[], boolean>
-    rule: SpyInstanceFn
+    vbf: Mock<ValidationBehaviorInfo[], boolean>
+    rule: Mock
   }
 
   const makeRule = (
-    vbf: SpyInstanceFn<ValidationBehaviorInfo[], boolean>,
-    rule: SpyInstanceFn | { key: string; rule?: SpyInstanceFn }
+    vbf: Mock<ValidationBehaviorInfo[], boolean>,
+    rule: Mock | { key: string; rule?: Mock }
   ): MakeRuleResult => {
     return {
       tuple: debounce ? [vbf, rule, 50] : [vbf, rule],

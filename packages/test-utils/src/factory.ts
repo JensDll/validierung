@@ -1,5 +1,5 @@
 import type { Tuple } from '@internal/shared'
-import type { SpyInstanceFn } from 'vitest'
+import type { Mock } from 'vitest'
 
 export const makePromise = <T = undefined>(
   timeout: number,
@@ -27,7 +27,7 @@ type MakeMockOptions = {
 export function makeMocks<N extends number>(
   amount: N,
   { mockReturn, timeout, increasing, mode }: MakeMockOptions | undefined = {}
-): Tuple<SpyInstanceFn, N> {
+): Tuple<Mock, N> {
   mockReturn ??= () => undefined
   increasing ??= 0
   mode ??= 'resolve'

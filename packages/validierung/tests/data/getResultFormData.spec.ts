@@ -1,5 +1,5 @@
 import { vue2Reactive } from '@internal/shared'
-import type { SpyInstanceFn } from 'vitest'
+import type { Mock } from 'vitest'
 
 import {
   getResultFormData,
@@ -50,10 +50,7 @@ test('should only keep the $value properties', () => {
 })
 
 describe('predicate', () => {
-  type MockPredicate = SpyInstanceFn<
-    ValidateFieldsPredicateParameter[],
-    boolean
-  >
+  type MockPredicate = Mock<ValidateFieldsPredicateParameter[], boolean>
 
   test('should be called for every key', () => {
     const formData = setup({

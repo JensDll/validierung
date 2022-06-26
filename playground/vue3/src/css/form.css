@@ -81,7 +81,7 @@
   textarea:focus,
   select:focus,
   .custom-file-input:focus-within {
-    border-color: theme('colors.border.form.highlight' / 1);
+    border-color: theme('colors.border.form.highlight');
     box-shadow: 0 0 0 4px theme('colors.border.form.highlight' / 0.12);
   }
 }

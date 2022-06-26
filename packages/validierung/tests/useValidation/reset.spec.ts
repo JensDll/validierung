@@ -2,7 +2,7 @@ import { nextTick } from 'vue-demi'
 
 import { useValidation } from '../../src/useValidation'
 import type { Field, TransformFormData } from '../../src/data/types'
-import type { SpyInstanceFn } from 'vitest'
+import type { Mock } from 'vitest'
 
 type FormData = {
   a: Field<string>
@@ -53,7 +53,7 @@ function setup() {
 
 const changeFormValues = async (
   form: TransformFormData<FormData>,
-  rule: SpyInstanceFn
+  rule: Mock
 ) => {
   form.a.$value = 'x'
   form.bs.$value[0] = -1
