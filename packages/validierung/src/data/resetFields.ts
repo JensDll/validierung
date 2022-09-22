@@ -1,7 +1,8 @@
 import * as nShared from '@internal/shared'
 import type { AnyObject } from '@internal/shared'
-import type { Form } from '../form'
-import { isTransformedField } from './types'
+
+import { isTransformedField } from '~validierung/data/types'
+import type { Form } from '~validierung/form'
 
 export function resetFields(
   form: Form,

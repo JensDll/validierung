@@ -1,8 +1,8 @@
+import type { Mock } from 'vitest'
 import { nextTick } from 'vue-demi'
 
-import { useValidation } from '../../src/useValidation'
-import type { Field, TransformFormData } from '../../src/data/types'
-import type { Mock } from 'vitest'
+import type { Field, TransformFormData } from '~validierung/data/types'
+import { useValidation } from '~validierung/useValidation'
 
 type FormData = {
   a: Field<string>

@@ -1,0 +1,7 @@
+[
+  {
+    "file": "index.ts",
+    "types": ["esm", "cjs", "iife", "dts"],
+    "dependencies": ["shared"]
+  }
+]

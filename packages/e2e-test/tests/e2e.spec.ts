@@ -1,10 +1,10 @@
-import path from 'node:path'
 import cp from 'node:child_process'
+import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { isVue2 } from 'vue-demi'
 import { setupPuppeteer } from '@internal/test-utils'
-import type * as Validierung from 'validierung'
+import type * as Validierung from '@internal/validierung'
+import { isVue2 } from 'vue-demi'
 
 interface ExtendedWindow extends Window {
   Validierung: typeof Validierung

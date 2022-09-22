@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 
-import SignupForm from '~/pages/SignupForm.vue'
 import DynamicForm from '~/pages/DynamicForm.vue'
 import Miscellaneous from '~/pages/Miscellaneous.vue'
+import SignupForm from '~/pages/SignupForm.vue'
 
 const routes: RouteRecordRaw[] = [
   {

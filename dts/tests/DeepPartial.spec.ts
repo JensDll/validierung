@@ -1,6 +1,5 @@
-import { expectType } from 'tsd'
-
 import type { DeepPartial } from '@internal/shared'
+import { expectType } from 'tsd'
 
 expectType<{
   a?: {

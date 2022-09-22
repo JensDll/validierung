@@ -108,9 +108,10 @@ async function handleSubmit() {
             placeholder="Alice, Bob, or Oscar"
           />
           <div
-            class="i-loading absolute right-3"
+            class="i-custom-loading text-border-form-highlight absolute right-3"
+            :class="{ '!text-text-error': form.name.$hasError }"
             v-show="form.name.$validating"
-          />
+          ></div>
         </div>
         <FormErrors :errors="form.name.$errors"></FormErrors>
       </div>

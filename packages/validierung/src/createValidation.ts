@@ -1,8 +1,8 @@
-import { validationConfig } from './validationConfig'
 import type {
   ValidationBehaviorFunction,
   ValidationBehaviorString
-} from './validationBehavior'
+} from '~validierung/validationBehavior'
+import { validationConfig } from '~validierung/validationConfig'
 
 type Configuration = {
   defaultValidationBehavior: ValidationBehaviorString

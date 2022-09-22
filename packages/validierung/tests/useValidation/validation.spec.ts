@@ -1,11 +1,11 @@
-import { ref } from 'vue-demi'
 import { makePromise } from '@internal/test-utils'
-import type { ValidationBehaviorInfo } from 'validierung'
 import type { Mock } from 'vitest'
+import { ref } from 'vue-demi'
 
-import { useValidation } from '../../src/useValidation'
-import { ValidationError } from '../../src/validationError'
-import { unpackRule } from '../../src/rules'
+import { unpackRule } from '~validierung/rules'
+import { useValidation } from '~validierung/useValidation'
+import type { ValidationBehaviorInfo } from '~validierung/validationBehavior'
+import { ValidationError } from '~validierung/validationError'
 
 test('should prioritize last rule call', async () => {
   const promise = new Promise<void>(resolve => {

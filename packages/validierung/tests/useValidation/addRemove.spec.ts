@@ -1,7 +1,7 @@
 import { watch, nextTick } from 'vue-demi'
 
-import { useValidation } from '../../src/useValidation'
-import type { Field } from '../../src/data/types'
+import type { Field } from '~validierung/data/types'
+import { useValidation } from '~validierung/useValidation'
 
 type FormData = {
   a?: Field<string>

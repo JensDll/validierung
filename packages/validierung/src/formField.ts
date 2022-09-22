@@ -1,3 +1,5 @@
+import * as nShared from '@internal/shared'
+import type { LinkedList, AnyFunction, Debounced } from '@internal/shared'
 import {
   computed,
   ref,
@@ -10,11 +12,9 @@ import {
   type ComputedRef
 } from 'vue-demi'
 
-import type { Form } from './form'
-import type { ValidationBehaviorFunction } from './validationBehavior'
-import { unpackRule, type RuleInformation } from './rules'
-import * as nShared from '@internal/shared'
-import type { LinkedList, AnyFunction, Debounced } from '@internal/shared'
+import type { Form } from '~validierung/form'
+import { unpackRule, type RuleInformation } from '~validierung/rules'
+import type { ValidationBehaviorFunction } from '~validierung/validationBehavior'
 
 export type ValidatorReturn = Promise<void> | void
 export type Validator = (

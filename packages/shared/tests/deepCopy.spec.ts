@@ -1,4 +1,4 @@
-import { deepCopy } from '../src/deepCopy'
+import { deepCopy } from '~shared/deepCopy'
 
 test('should copy nested object and leave no reference', () => {
   const original = {

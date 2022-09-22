@@ -1,6 +1,6 @@
 import { reactive, isReactive, watch, nextTick } from 'vue-demi'
 
-import { set } from '../src/set'
+import { set } from '~shared/set'
 
 test('should do nothing if the path is empty', () => {
   const obj = { a: 1 }

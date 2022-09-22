@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "baseUrl": "./",
-    "outDir": "dist",
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "Node",
@@ -9,6 +8,7 @@
     "preserveValueImports": true,
     "importsNotUsedAsValues": "error",
     "allowJs": false,
+    "checkJs": false,
     "strict": true,
     "jsx": "preserve",
     "sourceMap": true,
@@ -16,15 +16,19 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "lib": ["ESNext", "DOM", "DOM.Iterable", "ScriptHost"],
-    "types": ["vite/client", "vitest/globals", "node"],
+    "types": ["vitest/globals", "node"],
     "paths": {
       "@internal/shared": ["packages/shared/src"],
       "@internal/test-utils": ["packages/test-utils/src"],
-      "validierung": ["packages/validierung/src"]
+      "@internal/validierung": ["packages/validierung/src"],
+      "~shared/*": ["packages/shared/src/*"],
+      "~test-utils/*": ["packages/test-utils/src/*"],
+      "~validierung/*": ["packages/validierung/src/*"]
     }
   },
   "include": [
     "*.ts",
+    "dts",
     "scripts",
     "test-dts",
     "packages/*/src",

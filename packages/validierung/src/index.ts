@@ -1,8 +1,11 @@
-export { useValidation, type UseValidation } from './useValidation'
+export { useValidation, type UseValidation } from '~validierung/useValidation'
 
-export { createValidation, type Validation } from './createValidation'
+export {
+  createValidation,
+  type Validation
+} from '~validierung/createValidation'
 
-export { ValidationError } from './validationError'
+export { ValidationError } from '~validierung/validationError'
 
 export type {
   Field,
@@ -13,14 +16,14 @@ export type {
   ValidateOptions,
   ValidateFieldsPredicateParameter,
   ValidateFieldsPredicate
-} from './data'
+} from '~validierung/data'
 
 export type {
   SimpleRule,
   KeyedRule,
   FieldSimpleRule,
   FieldKeyedRule
-} from './rules'
+} from '~validierung/rules'
 
 export type {
   ValidationBehaviorFunctions,
@@ -28,7 +31,7 @@ export type {
   ValidationBehaviorFunction,
   ValidationBehaviorString,
   ValidationBehaviorInfo
-} from './validationBehavior'
+} from '~validierung/validationBehavior'
 
 export type {
   DeepPartial,

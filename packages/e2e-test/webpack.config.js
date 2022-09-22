@@ -1,6 +1,6 @@
 const path = require('path')
 
-module.exports = (_, argv) => {
+module.exports = (env, argv) => {
   const isProd = argv.mode === 'production'
 
   return {

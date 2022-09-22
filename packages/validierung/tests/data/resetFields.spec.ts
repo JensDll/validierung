@@ -1,8 +1,8 @@
 import { vue2Reactive } from '@internal/shared'
 
-import { resetFields } from '../../src/data/resetFields'
-import { transformFormData } from '../../src/data/transformFormData'
-import { Form } from '../../src/form'
+import { resetFields } from '~validierung/data/resetFields'
+import { transformFormData } from '~validierung/data/transformFormData'
+import { Form } from '~validierung/form'
 
 vi.mock('../../src/form')
 

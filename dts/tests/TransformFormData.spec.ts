@@ -1,6 +1,5 @@
-import { expectType } from 'tsd'
-
 import type { MaybeRef } from '@internal/shared'
+import { expectType } from 'tsd'
 import type { TransformFormData, TransformedField, Field } from 'validierung'
 
 // With basic object

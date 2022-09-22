@@ -1,4 +1,4 @@
-import type { AnyObject, Awaitable } from './types'
+import type { AnyObject, Awaitable } from '~shared/types'
 
 export const isDefined = <T>(value: T | null | undefined): value is T =>
   value !== null && value !== undefined

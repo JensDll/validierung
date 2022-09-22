@@ -1,20 +1,26 @@
-export { deepCopy } from './deepCopy'
+export { deepCopy } from '~shared/deepCopy'
 
-export { path } from './path'
+export { path } from '~shared/path'
 
-export { set } from './set'
+export { set } from '~shared/set'
 
-export { uid } from './uid'
+export { uid } from '~shared/uid'
 
-export { vue2Reactive } from './vue2Reactive'
+export { vue2Reactive } from '~shared/vue2Reactive'
 
-export { debounce, type Debounced } from './debounce'
+export { debounce, type Debounced } from '~shared/debounce'
 
-export { LinkedList } from './linkedList'
+export { LinkedList } from '~shared/linkedList'
 
-export { PromiseCancel } from './promiseCancel'
+export { PromiseCancel } from '~shared/promiseCancel'
 
-export { isArray, isDefined, isObject, isRecord, isPromise } from './typeGuards'
+export {
+  isArray,
+  isDefined,
+  isObject,
+  isRecord,
+  isPromise
+} from '~shared/typeGuards'
 
 export type {
   MaybeRef,
@@ -25,4 +31,4 @@ export type {
   Optional,
   ExcludePrimitives,
   DeepPartial
-} from './types'
+} from '~shared/types'

@@ -1,5 +1,6 @@
 import { makePromise } from '@internal/test-utils'
-import { PromiseCancel } from '../src/promiseCancel'
+
+import { PromiseCancel } from '~shared/promiseCancel'
 
 let promiseCancel: PromiseCancel<string>
 

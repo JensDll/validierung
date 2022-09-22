@@ -1,5 +1,6 @@
 import { makePromise } from '@internal/test-utils'
-import { debounce } from '../src/debounce'
+
+import { debounce } from '~shared/debounce'
 
 test('should debounce the function call', async () => {
   const target = vi.fn()
