@@ -20,9 +20,9 @@
     "postinstall": "husky install && vue-demi-switch 3 vue3"
   },
   "type": "module",
-  "types": "test-dts/index.d.ts",
+  "types": "dts/global.d.ts",
   "tsd": {
-    "directory": "test-dts"
+    "directory": "dts/tests"
   },
   "dependencies": {
     "@esbuild-kit/esm-loader": "2.4.2",
