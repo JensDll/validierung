@@ -1,5 +1,5 @@
-import { isObject, isArray } from './typeGuards'
-import type { AnyObject } from './types'
+import { isObject, isArray } from '~shared/typeGuards'
+import type { AnyObject } from '~shared/types'
 
 function deepCopyImpl(toCopy: AnyObject, copy: AnyObject) {
   for (const [key, value] of Object.entries(toCopy)) {

@@ -1,7 +1,7 @@
 import type {
   ValidationBehaviorFunction,
   ValidationBehaviorString
-} from './validationBehavior'
+} from '~validierung/validationBehavior'
 
 export class ValidationConfig {
   defaultValidationBehavior: ValidationBehaviorString | null = null

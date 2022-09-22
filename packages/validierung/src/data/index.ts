@@ -1,14 +1,14 @@
-export { disposeForm } from './disposeForm'
+export { disposeForm } from '~validierung/data/disposeForm'
 
 export {
   getResultFormData,
   type ValidateFieldsPredicate,
   type ValidateFieldsPredicateParameter
-} from './getResultFormData'
+} from '~validierung/data/getResultFormData'
 
-export { resetFields } from './resetFields'
+export { resetFields } from '~validierung/data/resetFields'
 
-export { transformFormData } from './transformFormData'
+export { transformFormData } from '~validierung/data/transformFormData'
 
 export {
   isField,
@@ -19,4 +19,4 @@ export {
   type TransformFormData,
   type TransformedField,
   type ValidateOptions
-} from './types'
+} from '~validierung/data/types'

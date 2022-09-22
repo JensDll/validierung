@@ -1,6 +1,6 @@
 import { reactive, isVue2, ref, computed } from 'vue-demi'
 
-import { vue2Reactive } from '../src/vue2Reactive'
+import { vue2Reactive } from '~shared/vue2Reactive'
 
 vi.mock('vue-demi', async () => {
   const vueDemi = await vi.importActual<typeof import('vue-demi')>('vue-demi')

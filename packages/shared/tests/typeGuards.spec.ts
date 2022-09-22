@@ -1,4 +1,4 @@
-import { isArray, isDefined, isObject, isRecord } from '../src/typeGuards'
+import { isArray, isDefined, isObject, isRecord } from '~shared/typeGuards'
 
 describe('isDefined', () => {
   test('null -> false', () => {

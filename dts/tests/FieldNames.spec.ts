@@ -1,5 +1,4 @@
 import { expectType } from 'tsd'
-
 import type { FieldNames, Field } from 'validierung'
 
 expectType<'a' | 'c' | 'e'>(

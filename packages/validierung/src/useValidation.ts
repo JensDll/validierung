@@ -1,9 +1,7 @@
-import { isVue2, isVue3, del, type Ref, type ComputedRef } from 'vue-demi'
-
 import * as nShared from '@internal/shared'
 import type { DeepIndex, DeepPartial } from '@internal/shared'
-import { ValidationError } from './validationError'
-import { Form } from './form'
+import { isVue2, isVue3, del, type Ref, type ComputedRef } from 'vue-demi'
+
 import {
   disposeForm,
   getResultFormData,
@@ -13,7 +11,9 @@ import {
   type ResultFormData,
   type TransformFormData,
   type ValidateFieldsPredicate
-} from './data'
+} from '~validierung/data'
+import { Form } from '~validierung/form'
+import { ValidationError } from '~validierung/validationError'
 
 /**
  * Vue composition function for form validation.

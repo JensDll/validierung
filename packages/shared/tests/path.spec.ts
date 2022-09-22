@@ -1,4 +1,4 @@
-import { path } from '../src/path'
+import { path } from '~shared/path'
 
 let obj: {
   a: number

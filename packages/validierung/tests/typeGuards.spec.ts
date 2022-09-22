@@ -1,5 +1,5 @@
-import { isSimpleRule } from '../src/rules'
-import { isField, isTransformedField } from '../src/data'
+import { isField, isTransformedField } from '~validierung/data'
+import { isSimpleRule } from '~validierung/rules'
 
 describe('isField', () => {
   test('field -> true', () => {

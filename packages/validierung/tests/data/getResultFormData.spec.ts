@@ -7,8 +7,8 @@ import {
   type ResultFormData,
   type TransformFormData,
   type ValidateFieldsPredicateParameter
-} from '../../src/data'
-import { Form } from '../../src/form'
+} from '~validierung/data'
+import { Form } from '~validierung/form'
 
 function setup<T extends object>(formData: T): TransformFormData<T> {
   transformFormData(new Form(), formData)

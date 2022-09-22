@@ -1,8 +1,8 @@
-import { unref } from 'vue-demi'
-
 import * as nShared from '@internal/shared'
 import type { AnyObject } from '@internal/shared'
-import { isTransformedField } from './types'
+import { unref } from 'vue-demi'
+
+import { isTransformedField } from '~validierung/data/types'
 
 function getResultFormDataImpl(
   formData: AnyObject,

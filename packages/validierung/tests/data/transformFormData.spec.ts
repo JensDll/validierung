@@ -1,14 +1,14 @@
 import { vue2Reactive } from '@internal/shared'
 
+import { createValidation } from '~validierung/createValidation'
 import {
   transformFormData,
   mapFieldRules
-} from '../../src/data/transformFormData'
-import { createValidation } from '../../src/createValidation'
-import { Form } from '../../src/form'
-import type { RuleInformation } from '../../src/rules'
+} from '~validierung/data/transformFormData'
+import { Form } from '~validierung/form'
+import type { RuleInformation } from '~validierung/rules'
 
-vi.mock('../../src/validationConfig')
+vi.mock('~validierung/validationConfig')
 
 test('should transform every field', () => {
   const form = new Form()

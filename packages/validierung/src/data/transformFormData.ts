@@ -1,11 +1,15 @@
-import type { ComputedRef, Ref } from 'vue-demi'
-
 import * as nShared from '@internal/shared'
 import type { AnyObject } from '@internal/shared'
-import type { FieldRule, RuleInformation } from '../rules'
-import { validationConfig } from '../validationConfig'
-import type { Form } from '../form'
-import { isField, type Field, type TransformedField } from './types'
+import type { ComputedRef, Ref } from 'vue-demi'
+
+import {
+  isField,
+  type Field,
+  type TransformedField
+} from '~validierung/data/types'
+import type { Form } from '~validierung/form'
+import type { FieldRule, RuleInformation } from '~validierung/rules'
+import { validationConfig } from '~validierung/validationConfig'
 
 export function mapFieldRules(
   fieldRules: FieldRule<unknown>[]

@@ -4,11 +4,11 @@ import {
   disposeForm,
   transformFormData,
   type TransformFormData
-} from '../../src/data'
-import { Form } from '../../src/form'
-import { FormField } from '../../src/formField'
+} from '~validierung/data'
+import { Form } from '~validierung/form'
+import { FormField } from '~validierung/formField'
 
-vi.mock('../../src/form')
+vi.mock('~validierung/form')
 
 function setup<T extends object>(
   formData: T,

@@ -3,7 +3,7 @@ import type { UnwrapRef } from 'vue-demi'
 import type {
   ValidationBehavior,
   ValidationBehaviorFunction
-} from './validationBehavior'
+} from '~validierung/validationBehavior'
 
 export const isSimpleRule = (
   rule: SimpleRule | RuleWithKey
