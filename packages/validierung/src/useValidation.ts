@@ -200,11 +200,10 @@ export type UseValidation<FormData extends object> = {
    */
   resetFields(formData?: DeepPartial<ResultFormData<FormData>>): void
   /**
-   * Adds a new property to the form data.
-   * Fields with a `$value` property are transformed.
+   * Adds a new value to the form data.
    *
-   * @param path - A path of `string` and `numbers`
-   * @param value - The value to add at the specified path
+   * @param path - A path for the new value
+   * @param value - The value to add
    */
   add<Keys extends readonly (string | number)[]>(
     path: readonly [...Keys],
@@ -213,9 +212,9 @@ export type UseValidation<FormData extends object> = {
       : DeepIndex<FormData, Keys>
   ): void
   /**
-   * Removes a property from the form data.
+   * Removes a value from the form data.
    *
-   * @param path - A path of `string` and `numbers` to the property to remove
+   * @param path - A path to the value to remove
    */
   remove(path: (string | number)[]): void
 }
