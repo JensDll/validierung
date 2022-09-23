@@ -30,6 +30,6 @@ export function set(
   if (isVue3) {
     obj[keys[keys.length - 1]] = value
   } else {
-    vueSet(obj, keys[keys.length - 1], value)
+    vueSet(obj, keys[keys.length - 1] as any, value)
   }
 }

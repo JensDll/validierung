@@ -51,7 +51,7 @@ const plugin = {
     dts: alias({
       entries: [
         {
-          find: /^~@internal\/(.+)/,
+          find: /^@internal\/(.+)/,
           replacement: path.resolve(rootDir, 'packages/$1/dist/index.d.ts')
         }
       ]
