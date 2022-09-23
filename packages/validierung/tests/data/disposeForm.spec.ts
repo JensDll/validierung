@@ -1,4 +1,4 @@
-import { vue2Reactive } from '@internal/shared'
+import { reactive } from 'vue-demi'
 
 import {
   disposeForm,
@@ -15,7 +15,7 @@ function setup<T extends object>(
   form: Form
 ): TransformFormData<T> {
   transformFormData(form, formData)
-  return vue2Reactive(formData) as any
+  return reactive(formData) as any
 }
 
 test('should dispose every field', () => {
@@ -66,7 +66,7 @@ test('should dispose every field', () => {
   expect(form.dispose).toBeCalledTimes(0)
   expect(form.keyedMap.size).toBe(1)
   expect(form.simpleMap.size).toBe(5)
-  expect(form.reactiveFieldMap.size).toBe(5)
+  expect(Object.keys(form.reactiveErrors).length).toBe(5)
 
   expect(keyedEntry.modelValues.map(r => r.value)).toStrictEqual([3, 4, 6])
   expect(keyedEntry.fields).toStrictEqual(
@@ -78,7 +78,7 @@ test('should dispose every field', () => {
   expect(form.dispose).toBeCalledTimes(5)
   expect(form.simpleMap.size).toBe(0)
   expect(form.keyedMap.size).toBe(0)
-  expect(form.reactiveFieldMap.size).toBe(0)
+  expect(Object.keys(form.reactiveErrors).length).toBe(0)
 })
 
 test('should dispose a subset', () => {
@@ -138,12 +138,12 @@ test('should dispose a subset', () => {
   expect(form.dispose).toBeCalledTimes(3)
   expect(form.simpleMap.size).toBe(2)
   expect(form.keyedMap.size).toBe(1)
-  expect(form.reactiveFieldMap.size).toBe(2)
+  expect(Object.keys(form.reactiveErrors).length).toBe(2)
 
   disposeForm(form, formData)
 
   expect(form.dispose).toBeCalledTimes(5)
   expect(form.simpleMap.size).toBe(0)
   expect(form.keyedMap.size).toBe(0)
-  expect(form.reactiveFieldMap.size).toBe(0)
+  expect(Object.keys(form.reactiveErrors).length).toBe(0)
 })

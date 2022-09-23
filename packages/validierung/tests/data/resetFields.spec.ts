@@ -1,4 +1,4 @@
-import { vue2Reactive } from '@internal/shared'
+import { reactive } from 'vue-demi'
 
 import { resetFields } from '~validierung/data/resetFields'
 import { transformFormData } from '~validierung/data/transformFormData'
@@ -36,7 +36,7 @@ test('should reset fields to passed values and not trigger validation', async ()
   }
 
   transformFormData(form, formData)
-  formData = vue2Reactive(formData)
+  formData = reactive(formData)
 
   resetFields(
     form,

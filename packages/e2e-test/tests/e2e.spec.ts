@@ -24,11 +24,6 @@ describe('iife', () => {
       await page().addScriptTag({
         path: require.resolve('vue2/dist/vue.min.js')
       })
-      await page().addScriptTag({
-        path: require.resolve(
-          '@vue/composition-api/dist/vue-composition-api.prod.js'
-        )
-      })
     } else {
       await page().addScriptTag({
         path: require.resolve('vue3/dist/vue.global.prod.js')

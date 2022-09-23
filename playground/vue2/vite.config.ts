@@ -1,7 +1,7 @@
 import path from 'node:path'
 import url from 'node:url'
 
-import Vue from '@vitejs/plugin-vue'
+import Vue from '@vitejs/plugin-vue2'
 import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 

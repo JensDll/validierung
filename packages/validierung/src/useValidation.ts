@@ -1,6 +1,13 @@
 import * as nShared from '@internal/shared'
 import type { DeepIndex, DeepPartial } from '@internal/shared'
-import { isVue2, isVue3, del, type Ref, type ComputedRef } from 'vue-demi'
+import {
+  isVue2,
+  isVue3,
+  del,
+  reactive,
+  type Ref,
+  type ComputedRef
+} from 'vue-demi'
 
 import {
   disposeForm,
@@ -49,7 +56,7 @@ export function useValidation<FormData extends object>(
 
   transformFormData(form, formData)
 
-  const transformedFormData: any = nShared.vue2Reactive(formData)
+  const transformedFormData: any = reactive(formData)
 
   return {
     form: transformedFormData,
@@ -96,7 +103,7 @@ export function useValidation<FormData extends object>(
         const valueAtPath = nShared.path(path, transformedFormData)
 
         if (isVue2) {
-          transformedValue = nShared.vue2Reactive(transformedValue)
+          transformedValue = reactive(transformedValue)
         }
 
         if (Array.isArray(valueAtPath)) {
@@ -187,14 +194,14 @@ export type UseValidation<FormData extends object> = {
   }): Promise<ResultFormData<FormData>>
   /**
    * Reset all fields to their default value or pass an object to set specific values.
-   * It will not create any new fields not present in the form data initially.
+   * It will not create new fields not present in the form data initially.
    *
    * @param formData - Form data to set specific values. It has the same structure as the object passed to `useValidation`
    */
   resetFields(formData?: DeepPartial<ResultFormData<FormData>>): void
   /**
    * Adds a new property to the form data.
-   * Fields with a `$value` are transformed.
+   * Fields with a `$value` property are transformed.
    *
    * @param path - A path of `string` and `numbers`
    * @param value - The value to add at the specified path

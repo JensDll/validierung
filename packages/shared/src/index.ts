@@ -6,8 +6,6 @@ export { set } from '~shared/set'
 
 export { uid } from '~shared/uid'
 
-export { vue2Reactive } from '~shared/vue2Reactive'
-
 export { debounce, type Debounced } from '~shared/debounce'
 
 export { LinkedList } from '~shared/linkedList'
