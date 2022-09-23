@@ -18,13 +18,9 @@
     "vue-demi": "*"
   },
   "peerDependencies": {
-    "@vue/composition-api": "1.x",
-    "vue": "2.x || 3.x"
+    "vue": "2.7.x || 3.x"
   },
   "peerDependenciesMeta": {
-    "@vue/composition-api": {
-      "optional": true
-    },
     "vue": {
       "optional": true
     }

@@ -1,5 +1,5 @@
-import { vue2Reactive } from '@internal/shared'
 import type { Mock } from 'vitest'
+import { ref } from 'vue-demi'
 
 import {
   getResultFormData,
@@ -12,7 +12,7 @@ import { Form } from '~validierung/form'
 
 function setup<T extends object>(formData: T): TransformFormData<T> {
   transformFormData(new Form(), formData)
-  return vue2Reactive(formData) as any
+  return ref(formData).value as any
 }
 
 test('should only keep the $value properties', () => {

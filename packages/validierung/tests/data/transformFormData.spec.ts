@@ -1,4 +1,4 @@
-import { vue2Reactive } from '@internal/shared'
+import { reactive } from 'vue-demi'
 
 import { createValidation } from '~validierung/createValidation'
 import {
@@ -40,7 +40,7 @@ test('should transform every field', () => {
   }
 
   transformFormData(form, formData)
-  formData = vue2Reactive(formData)
+  formData = reactive(formData)
 
   expect(formData).toStrictEqual({
     a: {

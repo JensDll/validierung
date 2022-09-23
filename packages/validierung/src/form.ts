@@ -1,4 +1,13 @@
-import { computed, ref, shallowReactive, type Ref } from 'vue-demi'
+import {
+  computed,
+  del,
+  isVue3,
+  ref,
+  set,
+  shallowReactive,
+  type ComputedRef,
+  type Ref
+} from 'vue-demi'
 
 import { FormField, type ValidatorReturn } from '~validierung/formField'
 import { unpackRule, type RuleInformation } from '~validierung/rules'
@@ -18,21 +27,15 @@ export class Form {
   simpleMap: Map<number, SimpleEntry> = new Map()
   keyedMap: Map<string, KeyedEntry> = new Map()
 
-  reactiveFieldMap: Map<number, FormField> = shallowReactive(new Map())
+  reactiveErrors: Record<number, ComputedRef<string[]>> = shallowReactive({})
 
   rulesValidating = ref(0)
   submitting = ref(false)
   validating = computed(() => this.rulesValidating.value > 0)
   hasError = computed(() => this.errors.value.length > 0)
-  errors = computed(() => {
-    const errors: string[] = []
-
-    for (const field of this.reactiveFieldMap.values()) {
-      errors.push(...field.errors.value)
-    }
-
-    return errors
-  })
+  errors = computed(() =>
+    Object.values(this.reactiveErrors).flatMap(e => e.value)
+  )
 
   registerField(
     uid: number,
@@ -87,7 +90,9 @@ export class Form {
     }
 
     this.simpleMap.set(uid, simpleEntry)
-    this.reactiveFieldMap.set(uid, field)
+    isVue3
+      ? (this.reactiveErrors[uid] = field.errors)
+      : set(this.reactiveErrors, uid, field.errors)
 
     return field
   }
@@ -122,7 +127,7 @@ export class Form {
     }
 
     this.simpleMap.delete(uid)
-    this.reactiveFieldMap.delete(uid)
+    isVue3 ? delete this.reactiveErrors[uid] : del(this.reactiveErrors, uid)
   }
 
   resetFields(): void {
