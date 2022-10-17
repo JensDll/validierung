@@ -16,6 +16,4 @@ npm install validierung
 
 [**:arrow_right: Documentation**](https://github.com/JensDll/validierung/wiki/Documentation)
 
-[**:arrow_right: Vue 2 Example**](https://stackblitz.com/github/JensDll/validierung/tree/main/playground/vue2?file=src%2Fmain.ts)
-
 [**:arrow_right: Vue 3 Example**](https://stackblitz.com/github/JensDll/validierung/tree/main/playground/vue3?file=src%2Fmain.ts)
