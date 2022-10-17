@@ -9,8 +9,6 @@ const require = createRequire(import.meta.url)
 
 export function resolveExtensions(extensions: string[]): ResolverFunction {
   return async function (source) {
-    source = path.normalize(source)
-
     const isDirectory = await fs.pathExists(source)
 
     if (isDirectory) {
@@ -28,7 +26,7 @@ export function resolveExtensions(extensions: string[]): ResolverFunction {
   }
 }
 
-const VUE_DEMI_IIFE = fs.readFileSync(
+const VUE_DEMI_IIFE = await fs.readFile(
   require.resolve('vue-demi/lib/index.iife.js'),
   'utf-8'
 )
