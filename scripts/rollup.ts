@@ -1,8 +1,11 @@
+import { createRequire } from 'node:module'
 import path from 'node:path'
 
 import type { ResolverFunction } from '@rollup/plugin-alias'
 import fs from 'fs-extra'
 import type { Plugin } from 'rollup'
+
+const require = createRequire(import.meta.url)
 
 export function resolveExtensions(extensions: string[]): ResolverFunction {
   return async function (source) {

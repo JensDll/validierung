@@ -4,7 +4,7 @@ import { run } from './utils'
 
 const basePath = 'packages/validierung'
 
-await run('rollup', ['--config'])
+await run('rollup', ['--config', '--configPlugin', 'esbuild'])
 
 console.log()
 console.log('Formatting declaration files ...')
@@ -12,7 +12,7 @@ await run('pnpm', [
   'exec',
   'prettier',
   '--write',
-  `packages/**/dist/index.d.ts`
+  'packages/**/dist/index.d.ts'
 ])
 
 console.log()

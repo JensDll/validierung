@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "build": "node --loader @esbuild-kit/esm-loader scripts/build.ts",
-    "dev": "rollup --config --watch",
+    "dev": "rollup --config --watch --configPlugin esbuild",
     "dev:2": "pnpm run --filter \"vue2-playground\" dev:local",
     "dev:3": "pnpm run --filter \"vue3-playground\" dev:local ",
     "test": "pnpm run test:2-run && pnpm run test:3-run",
@@ -23,40 +23,42 @@
     "directory": "dts/tests"
   },
   "dependencies": {
-    "@esbuild-kit/esm-loader": "2.4.2",
+    "@esbuild-kit/esm-loader": "2.5.0",
     "@internal/shared": "workspace:*",
     "@internal/test-utils": "workspace:*",
-    "@rollup/plugin-alias": "3.1.9",
-    "@rollup/plugin-node-resolve": "14.1.0",
-    "@rollup/plugin-replace": "4.0.0",
+    "@rollup/plugin-alias": "4.0.0",
+    "@rollup/plugin-node-resolve": "15.0.0",
+    "@rollup/plugin-replace": "5.0.0",
     "@types/fs-extra": "9.0.13",
-    "@types/node": "18.7.18",
-    "@typescript-eslint/eslint-plugin": "5.38.0",
-    "@typescript-eslint/parser": "5.38.0",
+    "@types/node": "18.11.0",
+    "@typescript-eslint/eslint-plugin": "5.40.0",
+    "@typescript-eslint/parser": "5.40.0",
     "c8": "7.12.0",
-    "esbuild": "0.15.9",
-    "esbuild-register": "3.3.3",
-    "eslint": "8.23.1",
+    "esbuild": "0.15.11",
+    "eslint": "8.25.0",
     "eslint-plugin-import": "2.26.0",
     "execa": "6.1.0",
     "fs-extra": "10.1.0",
     "husky": "8.0.1",
-    "jsdom": "20.0.0",
+    "jsdom": "20.0.1",
     "prettier": "2.7.1",
     "prettier-plugin-tailwindcss": "0.1.13",
-    "puppeteer": "18.0.5",
-    "rollup": "2.79.1",
-    "rollup-plugin-dts": "4.2.2",
+    "puppeteer": "19.0.0",
+    "rollup": "3.2.2",
+    "rollup-plugin-dts": "5.0.0",
     "rollup-plugin-esbuild": "4.10.1",
     "tsd": "0.24.1",
-    "typescript": "4.8.3",
+    "typescript": "4.8.4",
     "validierung": "workspace:*",
-    "vitest": "0.23.4",
+    "vitest": "0.24.3",
     "vue2": "npm:vue@v2-latest",
     "vue3": "npm:vue@latest"
   },
   "pnpm": {
     "peerDependencyRules": {
+      "allowAny": [
+        "rollup"
+      ],
       "ignoreMissing": [
         "vue"
       ]
