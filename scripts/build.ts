@@ -1,8 +1,8 @@
 import fs from 'fs-extra'
 
-import { run } from './utils'
+import { rootDir, run } from './utils'
 
-const basePath = 'packages/validierung'
+const base = `${rootDir}/packages/validierung`
 
 await run('rollup', ['--config', '--configPlugin', 'esbuild'])
 
@@ -20,9 +20,9 @@ console.log('Copying relevant files to publish folder ...')
 await Promise.all([
   fs.copy('LICENSE', 'publish/LICENSE'),
   fs.copy('README.md', 'publish/README.md'),
-  fs.copy(`${basePath}/package.json`, 'publish/package.json'),
-  fs.copy(`${basePath}/index.cjs`, 'publish/index.cjs'),
-  fs.copy(`${basePath}/dist`, 'publish/dist', {
+  fs.copy(`${base}/package.json`, 'publish/package.json'),
+  fs.copy(`${base}/index.cjs`, 'publish/index.cjs'),
+  fs.copy(`${base}/dist`, 'publish/dist', {
     filter(path) {
       // Do not copy the cache folder
       return !/cache$/.test(path)

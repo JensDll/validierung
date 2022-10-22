@@ -138,9 +138,7 @@ export class Form {
 
   getField(uid: number): FormField | undefined {
     const simpleEntry = this.simpleMap.get(uid)
-    if (simpleEntry) {
-      return simpleEntry.field
-    }
+    return simpleEntry?.field
   }
 
   private *collectValidatorResultsForKeys(
@@ -152,10 +150,11 @@ export class Form {
     for (const key of keys) {
       const { fields, modelValues } = this.keyedMap.get(key)!
 
-      if (
-        !this.isEveryOtherFieldTouched(field, fields) ||
-        !field.shouldValidateForKey(key, force, submit)
-      ) {
+      const isEveryOtherFieldTouchedAndShouldValidate =
+        this.isEveryOtherFieldTouched(field, fields) &&
+        field.shouldValidateForKey(key, force, submit)
+
+      if (!isEveryOtherFieldTouchedAndShouldValidate) {
         return
       }
 

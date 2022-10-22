@@ -1,13 +1,16 @@
 import { createRequire } from 'node:module'
 import path from 'node:path'
 
+import alias from '@rollup/plugin-alias'
 import type { ResolverFunction } from '@rollup/plugin-alias'
 import fs from 'fs-extra'
 import type { Plugin } from 'rollup'
 
+import { rootDir } from './utils'
+
 const require = createRequire(import.meta.url)
 
-export function resolveExtensions(extensions: string[]): ResolverFunction {
+function resolveExtensions(extensions: string[]): ResolverFunction {
   return async function (source) {
     const isDirectory = await fs.pathExists(source)
 
@@ -37,3 +40,13 @@ export const injectVueDemi: Plugin = {
     return `${VUE_DEMI_IIFE};\n;${code}`
   }
 }
+
+export const resolveAliases = alias({
+  customResolver: resolveExtensions(['.ts']),
+  entries: [
+    {
+      find: /^~(.+?)\/(.+)/,
+      replacement: path.resolve(rootDir, 'packages/$1/src/$2')
+    }
+  ]
+})

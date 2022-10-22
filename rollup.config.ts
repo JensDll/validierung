@@ -1,5 +1,4 @@
 import path from 'node:path'
-import { fileURLToPath } from 'node:url'
 
 import alias from '@rollup/plugin-alias'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
@@ -8,13 +7,12 @@ import type { ExternalOption, InputPluginOption, RollupOptions } from 'rollup'
 import dts from 'rollup-plugin-dts'
 import esbuild, { minify } from 'rollup-plugin-esbuild'
 
-import { injectVueDemi, resolveExtensions } from './scripts/rollup'
+import { injectVueDemi, resolveAliases } from './scripts/rollup'
+import { rootDir } from './scripts/utils'
 
 interface RollupOptionsWithPlugins extends RollupOptions {
   plugins: InputPluginOption[]
 }
-
-const rootDir = fileURLToPath(new URL('.', import.meta.url))
 
 const plugin = {
   dts: dts(),
@@ -193,17 +191,7 @@ const configs: RollupOptionsWithPlugins[] = [
 ]
 
 configs.forEach(config => {
-  config.plugins.unshift(
-    alias({
-      customResolver: resolveExtensions(['.ts']),
-      entries: [
-        {
-          find: /^~(.+?)\/(.+)/,
-          replacement: path.resolve(rootDir, 'packages/$1/src/$2')
-        }
-      ]
-    })
-  )
+  config.plugins.unshift(resolveAliases)
 
   if (config.external) {
     if (!Array.isArray(config.external)) {

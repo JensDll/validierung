@@ -89,7 +89,7 @@ export class FormField {
       const [rule, key] = unpackRule(info.rule)
 
       if (!rule) {
-        if (key && this.keyedValidators.get(key) === undefined) {
+        if (key && !this.keyedValidators.has(key)) {
           this.keyedValidators.set(key, [])
         }
 
