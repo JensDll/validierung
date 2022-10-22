@@ -313,25 +313,36 @@ export class FormField {
     })
   }
 
-  private setError(ruleNumber: any, error: unknown) {
+  private setError(ruleNumber: number, error: unknown) {
     const isString = typeof error === 'string'
     const isSymbol = typeof error === 'symbol'
 
-    if (isString || isSymbol) {
-      if (isVue3) {
-        isString && (this.rawErrors.value[ruleNumber] = error)
-        this.hasErrors.value[ruleNumber] = true
-      } else {
-        isString && set(this.rawErrors.value, ruleNumber, error)
-        set(this.hasErrors.value, ruleNumber, true)
-      }
-      throw error
-    }
-
     if (isVue3) {
+      if (isString) {
+        this.rawErrors.value[ruleNumber] = error
+        this.hasErrors.value[ruleNumber] = true
+        throw error
+      }
+
+      if (isSymbol) {
+        this.hasErrors.value[ruleNumber] = true
+        throw error
+      }
+
       this.rawErrors.value[ruleNumber] = null
       this.hasErrors.value[ruleNumber] = false
     } else {
+      if (isString) {
+        set(this.rawErrors.value, ruleNumber, error)
+        set(this.hasErrors.value, ruleNumber, true)
+        throw error
+      }
+
+      if (isSymbol) {
+        set(this.hasErrors.value, ruleNumber, true)
+        throw error
+      }
+
       set(this.rawErrors.value, ruleNumber, null)
       set(this.hasErrors.value, ruleNumber, false)
     }
