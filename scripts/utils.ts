@@ -1,5 +1,6 @@
-import { type Options, execa } from 'execa'
 import { fileURLToPath } from 'node:url'
+
+import { type Options, execa } from 'execa'
 
 export function run(
   file: string,
