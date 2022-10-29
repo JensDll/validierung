@@ -23,6 +23,7 @@ jobs:
         with:
           node-version: 16
           cache: 'pnpm'
+          cache-dependency-path: '**/pnpm-lock.yaml'
 
       - name: Installing dependencies
         run: pnpm install --frozen-lockfile
@@ -49,9 +50,13 @@ jobs:
         with:
           node-version: 16
           cache: 'pnpm'
+          cache-dependency-path: '**/pnpm-lock.yaml'
 
       - name: Installing dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Run puppeteer postinstall
+        run: node ./node_modules/puppeteer/install.js
 
       - name: Building the project
         run: pnpm run build
@@ -75,6 +80,7 @@ jobs:
         with:
           node-version: 16
           cache: 'pnpm'
+          cache-dependency-path: '**/pnpm-lock.yaml'
 
       - name: Installing dependencies
         run: pnpm install --frozen-lockfile
@@ -101,6 +107,7 @@ jobs:
         with:
           node-version: 16
           cache: 'pnpm'
+          cache-dependency-path: '**/pnpm-lock.yaml'
 
       - name: Installing dependencies
         run: pnpm install --frozen-lockfile
