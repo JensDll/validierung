@@ -28,6 +28,9 @@ jobs:
       - name: Installing dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Running puppeteer postinstall
+        run: node ./node_modules/puppeteer/install.js
+
       - name: Building the project
         run: pnpm run build
 
@@ -55,7 +58,7 @@ jobs:
       - name: Installing dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Run puppeteer postinstall
+      - name: Running puppeteer postinstall
         run: node ./node_modules/puppeteer/install.js
 
       - name: Building the project
