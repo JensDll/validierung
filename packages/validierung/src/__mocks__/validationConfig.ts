@@ -1,11 +1,9 @@
-const { ValidationConfig: ActualValidationConfig } = await vi.importActual(
-  '../validationConfig'
+const { ValidationConfig: ActualValidationConfig } = await vi.importActual<any>(
+  '~validierung/validationConfig'
 )
 
-export const ValidationConfig = vi.fn(() => {
-  class MockValidationConfig extends ActualValidationConfig {}
+class MockValidationConfig extends ActualValidationConfig {}
 
-  return new MockValidationConfig()
-})
+export const ValidationConfig = vi.fn(() => new MockValidationConfig())
 
 export const validationConfig = new ValidationConfig()
