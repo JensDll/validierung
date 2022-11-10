@@ -16,7 +16,7 @@ export function mapFieldRules(
 ): RuleInformation[] {
   const defaultVbf = validationConfig.getDefaultVbf()
 
-  // @ts-expect-error
+  // @ts-expect-error TypeScript is confused because of the __DEV__ branch at the end
   return fieldRules.map<RuleInformation>(fieldRule => {
     if (typeof fieldRule === 'function') {
       return {
@@ -25,41 +25,43 @@ export function mapFieldRules(
       }
     }
 
-    if (Array.isArray(fieldRule)) {
-      const [first, second, third] = fieldRule
-
-      if (typeof second === 'number') {
-        return {
-          vbf: defaultVbf,
-          rule: first as any,
-          debounce: second
-        }
-      }
-
-      if (typeof first === 'function') {
-        return {
-          vbf: first,
-          rule: second,
-          debounce: third
-        }
-      }
-
-      const vbf = validationConfig.vbfMap.get(first as any)
-
-      if (vbf !== undefined) {
-        return { vbf, rule: second, debounce: third }
-      } else if (__DEV__) {
-        throw new Error(
-          `[validierung] Validation behavior with name '${first}' does not exist. Valid values are: "${[
-            ...validationConfig.vbfMap.keys()
-          ].join(', ')}"`
-        )
-      }
-    } else {
+    if (!nShared.isArray(fieldRule)) {
       return {
         vbf: defaultVbf,
         rule: fieldRule
       }
+    }
+
+    const [first, second, third] = fieldRule
+
+    if (typeof second === 'number') {
+      return {
+        vbf: defaultVbf,
+        rule: first as any,
+        debounce: second
+      }
+    }
+
+    if (typeof first === 'function') {
+      return {
+        vbf: first,
+        rule: second,
+        debounce: third
+      }
+    }
+
+    const vbf = validationConfig.vbfMap.get(first as never)
+
+    if (vbf !== undefined) {
+      return { vbf, rule: second, debounce: third }
+    }
+
+    if (__DEV__) {
+      throw new Error(
+        `[validierung] Validation behavior with name '${first}' does not exist. Valid values are: "${[
+          ...validationConfig.vbfMap.keys()
+        ].join(', ')}"`
+      )
     }
   })
 }
