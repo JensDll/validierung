@@ -4,8 +4,6 @@ import { createValidation } from '~validierung/createValidation'
 import { useValidation } from '~validierung/useValidation'
 import type { ValidationBehaviorInfo } from '~validierung/validationBehavior'
 
-vi.mock('../../src/validationConfig')
-
 const consoleWarnMock = vi.spyOn(console, 'warn')
 
 test('when touched', async () => {

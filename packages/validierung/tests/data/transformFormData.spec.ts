@@ -8,8 +8,6 @@ import {
 import { Form } from '~validierung/form'
 import type { RuleInformation } from '~validierung/rules'
 
-vi.mock('~validierung/validationConfig')
-
 test('should transform every field', () => {
   const form = new Form()
   let formData = {
