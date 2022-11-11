@@ -2,7 +2,8 @@
 import { useValidation, ValidationError, type Field } from 'validierung'
 import { useRoute } from 'vue-router'
 
-import { stringify, rules } from '~/domain'
+import { stringify } from '~/common/stringify'
+import { email, equal, min } from '~/common/rules'
 
 type FormData = {
   name: Field<string>
@@ -48,17 +49,17 @@ const {
   },
   email: {
     $value: '',
-    $rules: [rules.email('Please use a valid email address')]
+    $rules: [email('Please use a valid email address')]
   },
   password: {
     $value: '',
     $rules: [
-      rules.min(8)('Password has to be longer than 8 characters'),
+      min(8)('Password has to be longer than 8 characters'),
       [
         'lazy',
         {
           key: 'pw',
-          rule: rules.equal('Passwords do not match')
+          rule: equal('Passwords do not match')
         }
       ]
     ]
@@ -66,12 +67,12 @@ const {
   confirmPassword: {
     $value: '',
     $rules: [
-      rules.min(8)('Password has to be longer than 8 characters'),
+      min(8)('Password has to be longer than 8 characters'),
       [
         'lazy',
         {
           key: 'pw',
-          rule: rules.equal('Passwords do not match')
+          rule: equal('Passwords do not match')
         }
       ]
     ]
@@ -99,10 +100,12 @@ async function handleSubmit() {
     <section class="space-y-2">
       <div>
         <label for="name">Name</label>
-        <div class="relative flex items-center">
+        <div
+          class="relative flex items-center"
+          :class="{ error: form.name.$hasError }"
+        >
           <input
             id="name"
-            :class="{ error: form.name.$hasError }"
             type="text"
             v-model="form.name.$value"
             placeholder="Alice, Bob, or Oscar"
@@ -115,33 +118,30 @@ async function handleSubmit() {
         </div>
         <FormErrors :errors="form.name.$errors"></FormErrors>
       </div>
-      <div>
+      <div :class="{ error: form.email.$hasError }">
         <label for="email">Email</label>
         <input
           id="email"
-          :class="{ error: form.email.$hasError }"
           type="email"
           v-model="form.email.$value"
           @blur="form.email.$validate()"
         />
         <FormErrors :errors="form.email.$errors"></FormErrors>
       </div>
-      <div>
+      <div :class="{ error: form.password.$hasError }">
         <label for="password">Password</label>
         <input
           id="password"
-          :class="{ error: form.password.$hasError }"
           type="password"
           v-model="form.password.$value"
           @blur="form.password.$validate()"
         />
         <FormErrors :errors="form.password.$errors"></FormErrors>
       </div>
-      <div>
+      <div :class="{ error: form.confirmPassword.$hasError }">
         <label for="confirm-password">Confirm password</label>
         <input
           id="confirm-password"
-          :class="{ error: form.confirmPassword.$hasError }"
           type="password"
           v-model="form.confirmPassword.$value"
           @blur="form.confirmPassword.$validate()"
@@ -151,7 +151,7 @@ async function handleSubmit() {
     </section>
     <div>
       <button class="mt-10" type="submit">Signup</button>
-      <button type="button" class="ml-2" @click="resetFields()">Reset</button>
+      <button type="button" class="ml-3" @click="resetFields()">Reset</button>
     </div>
   </FormProvider>
 </template>

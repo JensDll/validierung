@@ -32,7 +32,7 @@ defineProps({
       </form>
     </section>
     <section>
-      <PreFormData :validation="validation" />
+      <FormPreFormData :validation="validation" />
     </section>
   </div>
 </template>

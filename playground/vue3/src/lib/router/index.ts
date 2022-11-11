@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 
-import DynamicForm from '~/pages/DynamicForm.vue'
-import Miscellaneous from '~/pages/Miscellaneous.vue'
-import SignupForm from '~/pages/SignupForm.vue'
+import DynamicView from '~/features/dynamic/routes/DynamicView.vue'
+import MiscellaneousView from '~/features/miscellaneous/routes/MiscellaneousView.vue'
+import SignupView from '~/features/signup/routes/SignupView.vue'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -12,7 +12,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/signup',
     name: 'signup',
-    component: SignupForm,
+    component: SignupView,
     meta: {
       title: 'Signup'
     }
@@ -20,7 +20,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/dynamic',
     name: 'dynamic',
-    component: DynamicForm,
+    component: DynamicView,
     meta: {
       title: 'Dynamic'
     }
@@ -28,7 +28,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/miscellaneous',
     name: 'miscellaneous',
-    component: Miscellaneous,
+    component: MiscellaneousView,
     meta: {
       title: 'Miscellaneous'
     }

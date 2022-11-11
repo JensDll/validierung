@@ -2,7 +2,8 @@
 import { useValidation, ValidationError, type Field } from 'validierung'
 import { useRoute } from 'vue-router'
 
-import { rules, stringify } from '~/domain'
+import { stringify } from '~/common/stringify'
+import { required } from '~/common/rules'
 
 const route = useRoute()
 
@@ -30,7 +31,7 @@ const {
 } = useValidation<FormData>({
   a: {
     $value: '',
-    $rules: [rules.required('A is required')]
+    $rules: [required('A is required')]
   },
   outer: []
 })
@@ -42,7 +43,7 @@ function addOuter() {
   add(['outer'], {
     b: {
       $value: '',
-      $rules: [rules.required('B is required')]
+      $rules: [required('B is required')]
     },
     inner: []
   })
@@ -56,11 +57,11 @@ function addInner(outerIdx: number, c = '', d: number | undefined = undefined) {
   add(['outer', outerIdx, 'inner'], {
     c: {
       $value: c,
-      $rules: [rules.required('C is required')]
+      $rules: [required('C is required')]
     },
     d: {
       $value: d as never,
-      $rules: [rules.required('D is required')]
+      $rules: [required('D is required')]
     }
   })
 }
@@ -147,7 +148,7 @@ async function handleSubmit() {
     </section>
     <div>
       <button class="mt-10" type="submit">Submit</button>
-      <button type="button" class="ml-2" @click="resetFields()">Reset</button>
+      <button type="button" class="ml-3" @click="resetFields()">Reset</button>
     </div>
   </FormProvider>
 </template>

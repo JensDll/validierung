@@ -9,7 +9,7 @@ const routes = router
 </script>
 
 <template>
-  <div class="prose lg:prose-lg mx-auto w-full">
+  <div class="mx-auto w-full max-w-2xl">
     <header class="mb-12 py-6">
       <nav class="container space-x-4">
         <RouterLink
@@ -26,5 +26,3 @@ const routes = router
     </main>
   </div>
 </template>
-
-<style></style>

@@ -1,6 +1,6 @@
 @layer base {
   label {
-    @apply mb-1 block font-medium;
+    @apply mb-1 block cursor-pointer font-medium;
   }
 
   textarea {
@@ -14,7 +14,7 @@
   }
 
   [type='radio'] {
-    @apply border-border-form-base bg-bg-form-base text-border-form-highlight;
+    @apply border-border-form bg-fill-form text-border-form-highlight;
   }
 
   [type='text'],
@@ -33,34 +33,17 @@
   [type='radio'] [multiple],
   textarea,
   select {
-    @apply border-border-form-base bg-bg-form-base w-full rounded-md border;
-    line-height: inherit;
+    @apply border-border-form bg-fill-form w-full rounded-md border;
   }
 
   .custom-file-input {
-    @apply border-border-form-base bg-bg-form-base rounded-md border-2 border-dashed;
+    @apply border-border-form bg-fill-form rounded-md border-2 border-dashed;
   }
 
-  [type='text'].error,
-  [type='email'].error,
-  [type='url'].error,
-  [type='password'].error,
-  [type='number'].error,
-  [type='date'].error,
-  [type='datetime-local'].error,
-  [type='month'].error,
-  [type='search'].error,
-  [type='tel'].error,
-  [type='time'].error,
-  [type='week'].error,
-  [type='checkbox'].error,
-  [type='radio'].error,
-  [type='radio'] [multiple].error,
-  textarea.error,
-  select.error,
-  .custom-file-input.error {
-    --color-border-form-base: theme('colors.rgb.red.300');
-    --color-border-form-highlight: var(--color-text-error);
+  .error {
+    --highlight: var(--error);
+    --border-form: theme('colors.rgb.red.300');
+    --border-form-highlight: var(--error);
   }
 
   [type='text']:focus,
@@ -81,7 +64,7 @@
   textarea:focus,
   select:focus,
   .custom-file-input:focus-within {
-    border-color: theme('colors.border.form.highlight');
-    box-shadow: 0 0 0 4px theme('colors.border.form.highlight' / 0.12);
+    border-color: theme('colors.border-form-highlight');
+    box-shadow: 0 0 0 4px theme('colors.border-form-highlight' / 0.12);
   }
 }

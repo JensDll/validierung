@@ -7,9 +7,9 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    FormErrors: typeof import('./../src/components/FormErrors.vue')['default']
-    FormProvider: typeof import('./../src/components/FormProvider.vue')['default']
-    PreFormData: typeof import('./../src/components/PreFormData.vue')['default']
+    FormErrors: typeof import('./../src/components/form/FormErrors.vue')['default']
+    FormPreFormData: typeof import('./../src/components/form/FormPreFormData.vue')['default']
+    FormProvider: typeof import('./../src/components/form/FormProvider.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

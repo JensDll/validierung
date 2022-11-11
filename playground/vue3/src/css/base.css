@@ -1,22 +1,39 @@
 @layer base {
   html {
-    @apply prose-slate;
-
-    --color-text-error: theme('colors.rgb.red.500');
-
-    --color-fill: theme('colors.rgb.gray.50');
-    --color-form-fill: theme('colors.rgb.white');
-
-    --color-border-base: theme('colors.rgb.gray.200');
-    --color-border-form-base: theme('colors.rgb.gray.300');
-    --color-border-form-highlight: theme('colors.rgb.emerald.500');
+    @apply prose theme-light max-w-none;
+    --max-w-container: theme('maxWidth.5xl');
+    --spacing-container: theme('spacing.5');
   }
 
   body {
-    @apply bg-bg-base text-text-base font-sans;
+    @apply bg-fill font-sans;
   }
 
-  button {
-    @apply relative inline-flex rounded border-2 border-blue-600 !bg-blue-600 px-4 py-1 font-medium text-white outline-none outline-offset-[2.5px] hover:border-blue-500 hover:!bg-blue-500;
+  button[type='submit'] {
+    @apply rounded border-2 border-blue-600 bg-blue-600 px-4 py-1 font-medium text-white outline-none outline-offset-[2.5px] hover:border-blue-500 hover:bg-blue-500 focus:outline-blue-500;
+  }
+
+  button[type='button'] {
+    @apply rounded border-2 border-gray-300 bg-gray-100 px-4 py-1 font-medium outline-none outline-offset-[2.5px]  hover:bg-gray-50 focus:outline-gray-500;
+  }
+
+  @screen md {
+    html {
+      --spacing-container: theme('spacing.8');
+    }
+  }
+
+  @screen lg {
+    html {
+      @apply prose-lg;
+    }
+  }
+
+  html :where(ul):not(:where([class~='app-markdown'] *)) {
+    @apply m-0 list-none p-0;
+  }
+
+  html :where(ul > li):not(:where([class~='app-markdown'] *)) {
+    @apply m-0 p-0;
   }
 }

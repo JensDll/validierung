@@ -2,7 +2,8 @@
 import { useValidation, ValidationError, type Field } from 'validierung'
 import { useRoute } from 'vue-router'
 
-import { stringify, compare } from '~/domain'
+import { compareDate } from '~/common/compare'
+import { stringify } from '~/common/stringify'
 
 const route = useRoute()
 
@@ -74,7 +75,7 @@ const {
               return
             }
 
-            if (compare.date(startDate, endDate) > 0) {
+            if (compareDate(startDate, endDate) > 0) {
               return 'Please select a later combination'
             }
           }
@@ -100,7 +101,7 @@ const {
               return
             }
 
-            if (compare.date(startDate, endDate) === 0 && startTime > endTime) {
+            if (compareDate(startDate, endDate) === 0 && startTime > endTime) {
               return 'Please select a later combination'
             }
           }
@@ -177,8 +178,8 @@ async function handleSubmit() {
       />
     </section>
     <div>
-      <button class="mt-10" type="submit">Submit</button>
-      <button type="button" class="ml-2" @click="resetFields()">Reset</button>
+      <button class="mt-8" type="submit">Submit</button>
+      <button type="button" class="ml-3" @click="resetFields()">Reset</button>
     </div>
   </FormProvider>
 </template>
@@ -199,7 +200,7 @@ async function handleSubmit() {
 
 @screen xl {
   .datetime-range {
-    grid-template-columns: 1.5fr 1fr auto 1.5fr 1fr;
+    grid-template-columns: 1.75fr 1fr auto 1.75fr 1fr;
     grid-template-areas:
       'start-label start-label . end-label end-label'
       'start-date start-time hyphen end-date end-time'

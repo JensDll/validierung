@@ -1,24 +1,21 @@
 const Forms = require('@tailwindcss/forms')
 const Typography = require('@tailwindcss/typography')
 const { Icons } = require('tailwindcss-plugin-icons')
-const defaultTheme = require('tailwindcss/defaultTheme')
 
-const { colors } = require('./tailwind/colors')
-const { Utilities } = require('./tailwind/utilities')
+const { Common } = require('./tailwind/common')
+const { theme } = require('./tailwind/theme')
+const { Themes } = require('./tailwind/themes')
 
 /**
  * @type {import('tailwindcss').Config}
  */
 module.exports = {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
-  theme: {
-    colors,
-    fontFamily: {
-      sans: [...defaultTheme.fontFamily.sans]
-    },
-    extend: {}
-  },
+  darkMode: 'class',
+  theme,
   plugins: [
+    Typography(),
+    Forms(),
     Icons(({ theme }) => ({
       heroiconsOutline: {
         icons: {
@@ -57,8 +54,7 @@ module.exports = {
           'https://gist.githubusercontent.com/JensDll/4e59cf6005f585581975941a94bc1d88/raw/0e70bdac81224add27d8f0576ab15406709e5938/icons.json'
       }
     })),
-    Typography(),
-    Forms(),
-    Utilities()
+    Common(),
+    Themes()
   ]
 }

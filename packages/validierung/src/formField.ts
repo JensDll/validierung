@@ -140,9 +140,9 @@ export class FormField {
             skipShouldValidate ||
             this.shouldValidate(ruleNumber, force, submit)
           ) {
-            debounceInvokedTimes++
-            this.rulesValidating.value++
-            this.form.rulesValidating.value++
+            ++debounceInvokedTimes
+            ++this.rulesValidating.value
+            ++this.form.rulesValidating.value
 
             return new Promise(resolve => {
               debounceResolve?.()
@@ -227,11 +227,10 @@ export class FormField {
         this.setError(ruleNumber, error)
       } else {
         // This branch is reached in one of two cases:
-        // 1. While this rule is validating, the same async rule was invoked again.
-        // 2. While this rule is validating, the field was reset.
-        //
+        //  1. While this rule was validated, the same async rule was invoked again.
+        //  2. While this rule was validated, the field was reset.
         // In both cases, no error is to be set, but the promise should still reject
-        // if the rule returns a string or symbol.
+        // if the rule returns an error value.
         if (typeof error === 'string' || typeof error === 'symbol') {
           throw error
         }

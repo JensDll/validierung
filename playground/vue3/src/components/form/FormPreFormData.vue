@@ -2,7 +2,7 @@
 import { type PropType, type UnwrapRef, computed } from 'vue'
 import type { UseValidation } from 'validierung'
 
-import { stringify } from '~/domain'
+import { stringify } from '~/common/stringify'
 
 const props = defineProps({
   validation: {

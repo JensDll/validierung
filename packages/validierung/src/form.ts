@@ -158,22 +158,26 @@ export class Form {
         return
       }
 
-      for (let i = 0; i < fields.length; ++i) {
-        const keyedValidators = fields[i].keyedValidators.get(key)!
+      for (let fieldIdx = 0; fieldIdx < fields.length; ++fieldIdx) {
+        const keyedValidators = fields[fieldIdx].keyedValidators.get(key)!
 
-        for (let j = 0; j < keyedValidators.length; ++j) {
+        for (
+          let keyedValidatorIdx = 0;
+          keyedValidatorIdx < keyedValidators.length;
+          ++keyedValidatorIdx
+        ) {
           yield submit
-            ? keyedValidators[j].validatorNotDebounced(
+            ? keyedValidators[keyedValidatorIdx].validatorNotDebounced(
                 force,
                 submit,
                 modelValues,
-                fields[j] === field
+                fields[keyedValidatorIdx] === field
               )
-            : keyedValidators[j].validator(
+            : keyedValidators[keyedValidatorIdx].validator(
                 force,
                 submit,
                 modelValues,
-                fields[j] === field
+                fields[keyedValidatorIdx] === field
               )
         }
       }
@@ -193,11 +197,15 @@ export class Form {
       }
 
       for (const [key, { fields, modelValues }] of this.keyedMap.entries()) {
-        for (let i = 0; i < fields.length; ++i) {
-          const keyedValidators = fields[i].keyedValidators.get(key)!
+        for (let fieldIdx = 0; fieldIdx < fields.length; ++fieldIdx) {
+          const keyedValidators = fields[fieldIdx].keyedValidators.get(key)!
 
-          for (let j = 0; j < keyedValidators.length; ++j) {
-            yield keyedValidators[j].validatorNotDebounced(
+          for (
+            let keyedValidatorIdx = 0;
+            keyedValidatorIdx < keyedValidators.length;
+            ++keyedValidatorIdx
+          ) {
+            yield keyedValidators[keyedValidatorIdx].validatorNotDebounced(
               false,
               true,
               modelValues
@@ -205,33 +213,39 @@ export class Form {
           }
         }
       }
-    } else if (names.length > 0) {
-      const uniqueNames = new Set(names)
-      const validatedKeys = new Set<string>()
 
-      for (const { field } of this.simpleMap.values()) {
-        if (uniqueNames.has(field.name)) {
-          field.touched.value = true
-        }
+      return
+    }
+
+    if (names.length === 0) {
+      return
+    }
+
+    const uniqueNames = new Set(names)
+    const validatedKeys = new Set<string>()
+
+    for (const { field } of this.simpleMap.values()) {
+      if (uniqueNames.has(field.name)) {
+        field.touched.value = true
+      }
+    }
+
+    for (const { field } of this.simpleMap.values()) {
+      if (!uniqueNames.has(field.name)) {
+        continue
       }
 
-      for (const { field } of this.simpleMap.values()) {
-        if (!uniqueNames.has(field.name)) {
+      for (let i = 0; i < field.simpleValidators.length; ++i) {
+        yield field.simpleValidators[i].validatorNotDebounced(false, true)
+      }
+
+      for (const key of field.keyedValidators.keys()) {
+        if (validatedKeys.has(key)) {
           continue
         }
 
-        for (let i = 0; i < field.simpleValidators.length; ++i) {
-          yield field.simpleValidators[i].validatorNotDebounced(false, true)
-        }
-
-        for (const key of field.keyedValidators.keys()) {
-          if (validatedKeys.has(key)) {
-            continue
-          }
-
-          validatedKeys.add(key)
-          yield* this.collectValidatorResultsForKeys(field, false, true, [key])
-        }
+        validatedKeys.add(key)
+        yield* this.collectValidatorResultsForKeys(field, false, true, [key])
       }
     }
   }
