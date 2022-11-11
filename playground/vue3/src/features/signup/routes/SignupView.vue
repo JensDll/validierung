@@ -112,7 +112,6 @@ async function handleSubmit() {
           />
           <div
             class="i-custom-loading text-border-form-highlight absolute right-3"
-            :class="{ '!text-text-error': form.name.$hasError }"
             v-show="form.name.$validating"
           ></div>
         </div>
