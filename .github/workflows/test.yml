@@ -1,4 +1,4 @@
-name: Code quality
+name: Test
 
 on:
   pull_request:
@@ -7,7 +7,10 @@ on:
       - main
 
 jobs:
-  test-vue-2:
+  vue-2:
+    strategy:
+      matrix:
+        node: [16, 18]
     runs-on: ubuntu-latest
     steps:
       - name: Checking out the repository
@@ -18,18 +21,14 @@ jobs:
         with:
           version: 7.x.x
 
-      - name: Using node version 16
+      - name: Using node version ${{ matrix.node }}
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: ${{ matrix.node }}
           cache: 'pnpm'
-          cache-dependency-path: '**/pnpm-lock.yaml'
 
       - name: Installing dependencies
         run: pnpm install --frozen-lockfile
-
-      - name: Running puppeteer postinstall
-        run: node ./node_modules/puppeteer/install.js
 
       - name: Building the project
         run: pnpm run build
@@ -37,7 +36,10 @@ jobs:
       - name: Running tests
         run: pnpm run test:2-run
 
-  test-vue-3:
+  vue-3:
+    strategy:
+      matrix:
+        node: [16, 18]
     runs-on: ubuntu-latest
     steps:
       - name: Checking out the repository
@@ -48,18 +50,14 @@ jobs:
         with:
           version: 7.x.x
 
-      - name: Using node version 16
+      - name: Using node version ${{ matrix.node }}
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: ${{ matrix.node }}
           cache: 'pnpm'
-          cache-dependency-path: '**/pnpm-lock.yaml'
 
       - name: Installing dependencies
         run: pnpm install --frozen-lockfile
-
-      - name: Running puppeteer postinstall
-        run: node ./node_modules/puppeteer/install.js
 
       - name: Building the project
         run: pnpm run build
@@ -67,7 +65,10 @@ jobs:
       - name: Running tests
         run: pnpm run test:3-run
 
-  test-dts:
+  dts:
+    strategy:
+      matrix:
+        node: [16, 18]
     runs-on: ubuntu-latest
     steps:
       - name: Checking out the repository
@@ -78,12 +79,11 @@ jobs:
         with:
           version: 7.x.x
 
-      - name: Using node version 16
+      - name: Using node version ${{ matrix.node }}
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: ${{ matrix.node }}
           cache: 'pnpm'
-          cache-dependency-path: '**/pnpm-lock.yaml'
 
       - name: Installing dependencies
         run: pnpm install --frozen-lockfile
@@ -93,30 +93,3 @@ jobs:
 
       - name: Running tests
         run: pnpm run test:dts-only
-
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checking out the repository
-        uses: actions/checkout@v3
-
-      - name: Using pnpm version 7.x.x
-        uses: pnpm/action-setup@v2.2.4
-        with:
-          version: 7.x.x
-
-      - name: Using node version 16
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'pnpm'
-          cache-dependency-path: '**/pnpm-lock.yaml'
-
-      - name: Installing dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Building the project
-        run: pnpm run build
-
-      - name: Running lint
-        run: pnpm run lint

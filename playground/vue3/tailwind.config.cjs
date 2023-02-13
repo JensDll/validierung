@@ -2,9 +2,9 @@ const Forms = require('@tailwindcss/forms')
 const Typography = require('@tailwindcss/typography')
 const { Icons } = require('tailwindcss-plugin-icons')
 
-const { Common } = require('./tailwind/common')
-const { theme } = require('./tailwind/theme')
-const { Themes } = require('./tailwind/themes')
+const { Common } = require('./src/styles/tailwind/common')
+const { theme } = require('./src/styles/tailwind/theme')
+const { Themes } = require('./src/styles/tailwind/themes')
 
 /**
  * @type {import('tailwindcss').Config}
@@ -17,7 +17,7 @@ module.exports = {
     Typography(),
     Forms(),
     Icons(({ theme }) => ({
-      heroiconsOutline: {
+      heroicons: {
         icons: {
           'plus-circle': {
             color: theme('colors.green.600'),
@@ -34,9 +34,8 @@ module.exports = {
             }
           }
         },
-        scale: 1.5,
-        location:
-          'https://esm.sh/@iconify-json/heroicons-outline@1.1.4/icons.json'
+        includeAll: true,
+        scale: iconName => (iconName.endsWith('-20-solid') ? 1.25 : 1.5)
       },
       custom: {
         icons: {

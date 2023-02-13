@@ -1,9 +1,9 @@
 import { createApp } from 'vue'
 
+import '~/styles/main.css'
 import App from './App.vue'
 import { router } from '~/lib/router'
 import { validierung } from '~/lib/validierung'
-import '~/main.css'
 
 const app = createApp(App)
 

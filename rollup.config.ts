@@ -7,7 +7,7 @@ import type { ExternalOption, InputPluginOption, RollupOptions } from 'rollup'
 import dts from 'rollup-plugin-dts'
 import esbuild, { minify } from 'rollup-plugin-esbuild'
 
-import { injectVueDemi, resolveAliases } from './scripts/rollup'
+import { injectVueDemi, tsPathAliasPlugin } from './scripts/rollup'
 import { rootDir } from './scripts/utils'
 
 interface RollupOptionsWithPlugins extends RollupOptions {
@@ -105,7 +105,7 @@ const validierung: RollupOptionsWithPlugins[] = [
       manualChunks: {
         'internal/shared': ['@internal/shared']
       },
-      interop: 'compat',
+      interop: 'default',
       entryFileNames: '[name].cjs',
       chunkFileNames: '[name].cjs'
     },
@@ -119,7 +119,7 @@ const validierung: RollupOptionsWithPlugins[] = [
       manualChunks: {
         'internal/shared': ['@internal/shared']
       },
-      interop: 'compat',
+      interop: 'default',
       entryFileNames: '[name].min.cjs',
       chunkFileNames: '[name].min.cjs',
       plugins: [plugin.minify]
@@ -191,7 +191,7 @@ const configs: RollupOptionsWithPlugins[] = [
 ]
 
 configs.forEach(config => {
-  config.plugins.unshift(resolveAliases)
+  config.plugins.unshift(tsPathAliasPlugin)
 
   if (config.external) {
     if (!Array.isArray(config.external)) {

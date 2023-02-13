@@ -10,7 +10,9 @@ const routes = router
 
 <template>
   <div class="mx-auto w-full max-w-2xl">
-    <header class="mb-12 py-6">
+    <header
+      class="bg-fill supports-backdrop-blur:bg-fill/80 sticky top-0 z-50 mb-12 py-6 backdrop-blur"
+    >
       <nav class="container space-x-4">
         <RouterLink
           v-for="route in routes"
