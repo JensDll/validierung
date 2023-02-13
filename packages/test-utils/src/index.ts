@@ -1,1 +1,1 @@
-export { makePromise, makeMocks } from '~test-utils/factory'
+export { makePromise } from '~test-utils/factory'
