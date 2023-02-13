@@ -26,13 +26,6 @@
       "~validierung/*": ["packages/validierung/src/*"]
     }
   },
-  "include": [
-    "*.ts",
-    "dts",
-    "scripts",
-    "test-dts",
-    "packages/*/src",
-    "packages/*/tests"
-  ],
+  "include": ["*.ts", "dts", "scripts", "packages/*/src", "packages/*/tests"],
   "exclude": ["**/dist/**", "playground"]
 }
