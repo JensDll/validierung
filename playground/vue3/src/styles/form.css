@@ -40,12 +40,6 @@
     @apply border-border-form bg-fill-form rounded-md border-2 border-dashed;
   }
 
-  .error {
-    --highlight: var(--error);
-    --border-form: theme('colors.rgb.red.300');
-    --border-form-highlight: var(--error);
-  }
-
   [type='text']:focus,
   [type='email']:focus,
   [type='url']:focus,
@@ -66,5 +60,11 @@
   .custom-file-input:focus-within {
     border-color: theme('colors.border-form-highlight');
     box-shadow: 0 0 0 4px theme('colors.border-form-highlight' / 0.12);
+  }
+
+  .error {
+    --highlight: var(--error);
+    --border-form: theme('colors.rgb.red.300');
+    --border-form-highlight: var(--error);
   }
 }

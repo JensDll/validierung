@@ -111,7 +111,7 @@ async function handleSubmit() {
             placeholder="Alice, Bob, or Oscar"
           />
           <div
-            class="i-custom-loading text-border-form-highlight absolute right-3"
+            class="i-custom-loading text-border-form-highlight firefox-border-animation-fix absolute right-3"
             v-show="form.name.$validating"
           ></div>
         </div>

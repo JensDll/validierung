@@ -1,8 +1,7 @@
 import { createRequire } from 'node:module'
 import path from 'node:path'
 
-import alias from '@rollup/plugin-alias'
-import type { ResolverFunction } from '@rollup/plugin-alias'
+import alias, { type Alias, type ResolverFunction } from '@rollup/plugin-alias'
 import fs from 'fs-extra'
 import type { Plugin } from 'rollup'
 
@@ -12,22 +11,33 @@ const require = createRequire(import.meta.url)
 
 function resolveExtensions(extensions: string[]): ResolverFunction {
   return async function (source) {
-    const isDirectory = await fs.pathExists(source)
-
-    if (isDirectory) {
+    try {
+      await fs.access(source, fs.constants.O_DIRECTORY)
       source = path.join(source, 'index')
-    }
+    } catch {}
 
-    for (const extension of extensions) {
-      try {
+    try {
+      for (const extension of extensions) {
         const moduleInfo = await this.load({ id: source + extension })
         return moduleInfo.id
-      } catch (e) {}
-    }
+      }
+    } catch {}
 
     return null
   }
 }
+
+export type AliasWithoutResolver = Omit<Alias, 'customResolver'>
+
+export const tsPathAlias: AliasWithoutResolver = {
+  find: /^~(.+?)\/(.+)/,
+  replacement: path.resolve(rootDir, 'packages/$1/src/$2')
+}
+
+export const tsPathAliasPlugin = alias({
+  customResolver: resolveExtensions(['.ts']),
+  entries: [tsPathAlias]
+})
 
 const VUE_DEMI_IIFE = await fs.readFile(
   require.resolve('vue-demi/lib/index.iife.js'),
@@ -40,13 +50,3 @@ export const injectVueDemi: Plugin = {
     return `${VUE_DEMI_IIFE};\n;${code}`
   }
 }
-
-export const resolveAliases = alias({
-  customResolver: resolveExtensions(['.ts']),
-  entries: [
-    {
-      find: /^~(.+?)\/(.+)/,
-      replacement: path.resolve(rootDir, 'packages/$1/src/$2')
-    }
-  ]
-})

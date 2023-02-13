@@ -9,8 +9,7 @@ function deepCopyImpl(toCopy: AnyObject, copy: AnyObject) {
       !(value instanceof FileList) &&
       !(value instanceof Date) &&
       !(value instanceof Map) &&
-      !(value instanceof Set) &&
-      !(value instanceof ArrayBuffer)
+      !(value instanceof Set)
     ) {
       copy[key] = isArray(value) ? [] : {}
       deepCopyImpl(value, copy[key])

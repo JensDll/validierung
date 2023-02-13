@@ -209,12 +209,12 @@ async function handleSubmit() {
 }
 
 .i-plus {
-  @apply i-heroicons-outline-plus-circle;
+  @apply i-heroicons-plus-circle;
   grid-area: plus;
 }
 
 .i-minus {
-  @apply i-heroicons-outline-minus-circle;
+  @apply i-heroicons-minus-circle;
   grid-area: minus;
   justify-self: end;
 }

@@ -7,7 +7,7 @@ on:
       - main
 
 jobs:
-  test-vue-2:
+  testing-vue-2:
     runs-on: ubuntu-latest
     steps:
       - name: Checking out the repository
@@ -21,15 +21,12 @@ jobs:
       - name: Using node version 16
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
           cache: 'pnpm'
           cache-dependency-path: '**/pnpm-lock.yaml'
 
       - name: Installing dependencies
         run: pnpm install --frozen-lockfile
-
-      - name: Running puppeteer postinstall
-        run: node ./node_modules/puppeteer/install.js
 
       - name: Building the project
         run: pnpm run build
@@ -37,7 +34,7 @@ jobs:
       - name: Running tests
         run: pnpm run test:2-run
 
-  test-vue-3:
+  testing-vue-3:
     runs-on: ubuntu-latest
     steps:
       - name: Checking out the repository
@@ -51,15 +48,12 @@ jobs:
       - name: Using node version 16
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
           cache: 'pnpm'
           cache-dependency-path: '**/pnpm-lock.yaml'
 
       - name: Installing dependencies
         run: pnpm install --frozen-lockfile
-
-      - name: Running puppeteer postinstall
-        run: node ./node_modules/puppeteer/install.js
 
       - name: Building the project
         run: pnpm run build
@@ -67,7 +61,7 @@ jobs:
       - name: Running tests
         run: pnpm run test:3-run
 
-  test-dts:
+  testing-dts:
     runs-on: ubuntu-latest
     steps:
       - name: Checking out the repository
@@ -81,7 +75,7 @@ jobs:
       - name: Using node version 16
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
           cache: 'pnpm'
           cache-dependency-path: '**/pnpm-lock.yaml'
 
@@ -94,7 +88,7 @@ jobs:
       - name: Running tests
         run: pnpm run test:dts-only
 
-  lint:
+  linting:
     runs-on: ubuntu-latest
     steps:
       - name: Checking out the repository
@@ -108,7 +102,7 @@ jobs:
       - name: Using node version 16
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
           cache: 'pnpm'
           cache-dependency-path: '**/pnpm-lock.yaml'
 

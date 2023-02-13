@@ -2,7 +2,7 @@ const plugin = require('tailwindcss/plugin')
 
 module.exports.Common = function () {
   return plugin(
-    ({ addUtilities, matchUtilities, theme, addBase }) => {
+    ({ addUtilities, matchUtilities, addVariant, theme, addBase }) => {
       addBase({
         '.container': {
           width: '100%',
@@ -28,11 +28,11 @@ module.exports.Common = function () {
       })
 
       addUtilities({
-        '.firefox-border-animation-bug-fix': {
-          border: '0.01px solid rgba(0, 0, 0, 0)',
+        '.firefox-border-animation-fix': {
+          border: '0.05px solid rgba(0, 0, 0, 0)',
           backgroundClip: 'padding-box'
         },
-        '.safari-fix-overflow': {
+        '.safari-overflow-fix': {
           maskImage: 'radial-gradient(white, black)'
         }
       })
@@ -44,6 +44,11 @@ module.exports.Common = function () {
           }
         }
       })
+
+      addVariant(
+        'supports-backdrop-blur',
+        '@supports (backdrop-filter: blur(4px))'
+      )
     },
     {
       corePlugins: {

@@ -9,12 +9,16 @@
     @apply bg-fill font-sans;
   }
 
+  button {
+    @apply rounded px-4 py-2 font-medium outline-offset-2 focus:outline focus:outline-2;
+  }
+
   button[type='submit'] {
-    @apply rounded border-2 border-blue-600 bg-blue-600 px-4 py-1 font-medium text-white outline-none outline-offset-[2.5px] hover:border-blue-500 hover:bg-blue-500 focus:outline-blue-500;
+    @apply bg-blue-600 text-white hover:bg-blue-500 focus:outline-blue-500;
   }
 
   button[type='button'] {
-    @apply rounded border-2 border-gray-300 bg-gray-100 px-4 py-1 font-medium outline-none outline-offset-[2.5px]  hover:bg-gray-50 focus:outline-gray-500;
+    @apply bg-fill-form border hover:bg-gray-100 focus:outline-gray-300  dark:hover:bg-gray-700/60 dark:focus:outline-gray-500;
   }
 
   @screen md {
