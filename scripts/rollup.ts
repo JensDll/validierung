@@ -1,8 +1,8 @@
+import fs from 'node:fs/promises'
 import { createRequire } from 'node:module'
 import path from 'node:path'
 
 import alias, { type Alias, type ResolverFunction } from '@rollup/plugin-alias'
-import fs from 'fs-extra'
 import type { Plugin } from 'rollup'
 
 import { rootDir } from './utils'
@@ -12,8 +12,11 @@ const require = createRequire(import.meta.url)
 function resolveExtensions(extensions: string[]): ResolverFunction {
   return async function (source) {
     try {
-      await fs.access(source, fs.constants.O_DIRECTORY)
-      source = path.join(source, 'index')
+      const stats = await fs.lstat(source)
+
+      if (stats.isDirectory()) {
+        source = path.join(source, 'index')
+      }
     } catch {}
 
     try {
